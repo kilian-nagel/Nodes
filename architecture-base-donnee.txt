@@ -1,0 +1,40 @@
+a stocker
+- users
+- messages
+- posts
+
+users
+- uid
+- nom string
+- picture string ( url )
+- friends string[] ( references of users uid )
+- messages object[] ( references to messages that the user sent )
+
+messages 
+- content string
+- source tring ( reference of user id )
+- destination string ( reference of user id )
+- time date
+
+posts
+- content string
+- category string
+- source string ( reference of user id )
+- time date
+
+
+Actions sur la base de données
+
+PUT
+nouvel utilisateur
+nouveau post
+nouveau message
+
+GET 
+feed 
+conversations / messages
+profil d'une personne
+
+UPDATE 
+changer nom
+chager pfp
