@@ -1,9 +1,11 @@
-import connection from "./connection";
-const mongoose = require("mongoose");
+import type { NextApiRequest, NextApiResponse } from 'next'
+import connectDb from './connection';
+const user = require("../../models/users");
 
-connection();
-
-export async function getUser(username:String){
-    await mongoose.find
-    return {};
+export default async function getUser(  req: NextApiRequest,
+    res: NextApiResponse){
+    connectDb();
+    console.log("hi");
+    const data = await user.find({});
+    res.status(200).json({success:true,data:data});
 }

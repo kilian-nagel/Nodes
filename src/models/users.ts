@@ -7,8 +7,8 @@ export const user = new Schema({
     uid:String,
     name:String,
     picture:String,
-    friends:Object[],
-    message:Object[],
+    friends:[Object],
+    message:[Object],
 })
 
-export const user_model = new Model("user",user);
+module.exports = mongoose.models.user || mongoose.model("user",user);
