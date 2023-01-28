@@ -1,14 +1,13 @@
-import { Model } from "mongoose";
-
 const mongoose = require("mongoose");
-const {Schema ,model} = mongoose;
+const {Schema,model} = mongoose;
 
-export const user = new Schema({
+export const userSchema = new Schema({
     uid:String,
-    name:String,
+    username:String,
     picture:String,
     friends:[Object],
-    message:[Object],
+    messages:[Object],
+    posts:[Object]
 })
 
-module.exports = mongoose.models.user || mongoose.model("user",user);
+module.exports = mongoose.models.users || model("users",userSchema);

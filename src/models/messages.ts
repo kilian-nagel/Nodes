@@ -1,11 +1,11 @@
-import { user } from "./users";
+import { userSchema } from "./users";
 const mongoose = require("mongoose");
-const {Schema ,model} = mongoose;
+const {Schema , model } = mongoose;
 
 export const message = new Schema({
     content:String,
-    source:user,
-    destination:user,
+    source:userSchema,
+    destination:userSchema,
     time:Date
 })
 

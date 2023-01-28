@@ -1,12 +1,12 @@
-import { user } from "./users";
+import { userSchema } from "./users";
 const mongoose = require("mongoose");
 const {Schema ,model} = mongoose;
 
 export const post = new Schema({
     content:String,
     category:String,
-    source:user,
+    source:userSchema,
     time:Date
 });
 
-export const post_model = new model("post",post)
+export const post_model = new model("post",post);

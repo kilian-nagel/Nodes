@@ -9,6 +9,6 @@ export default async function connectDb(){
         return ;
     }
 
-    const db = await mongoose.connect(uri);
+    const db = await mongoose.connect(uri,{dbName:"nodes"});
     connection = db.connections[0].readyState;
 };
