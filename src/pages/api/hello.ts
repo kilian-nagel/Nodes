@@ -1,4 +1,4 @@
-import { addUser } from '@/controllers/user';
+import { addUser, modifyUser } from '@/controllers/user';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
@@ -14,11 +14,9 @@ export default function handler(
 
 const user = {
   uid:"0",
-  username:"hi",
-  picture:"",
-  friends:[],
-  messages:[],
+  username:"a",
+  picture:"flower.jpg",
+  friends:[{a:"a"}],
+  messages:[{a:"a"}],
   posts:[]
 }
-
-addUser(user);

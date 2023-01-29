@@ -9,4 +9,4 @@ export const post = new Schema({
     time:Date
 });
 
-export const post_model = new model("post",post);
+export const postModel = new model("post",post);

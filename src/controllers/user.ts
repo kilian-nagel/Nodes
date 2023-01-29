@@ -1,7 +1,7 @@
 import connectDb from './connection';
 const userModel = require("../models/users");
 
-interface userSchema {
+export interface userSchema {
     uid:string,
     username:string,
     picture:string,
@@ -12,28 +12,31 @@ interface userSchema {
 
 connectDb();
 
-export async function getUser(username=""){
+export async function getUser(username:string){
     let data:Array<Object>;
-    if(username!==""){
-        data = await userModel.find({username:username})
-    } else {
-        data = await userModel.find({});
-    }
+    data = await userModel.find({username:username})
+    console.log(data);
     return data;
+}
+
+export async function modifyUser(userUpdated:userSchema){
+    let user = await(getUser(userUpdated.uid));
+    await userModel.update({uid:userUpdated.uid},{$set:{username:userUpdated.username,picture:userUpdated.picture,friends:userUpdated.friends,messages:userUpdated.messages,posts:userUpdated.posts}});
 }
 
 export async function addUser(user:userSchema){
     let result = await (await getUser(user.username)).length;
+    console.log(result);
     if(result === 0){
-        const user = new userModel({
-            uid:"0",
-            username:"hi",
-            picture:"",
-            friends:[],
-            messages:[],
-            posts:[]
+        const userM = new userModel({
+            uid:user.uid,
+            username:user.username,
+            picture:user.picture,
+            friends:user.friends,
+            messages:user.messages,
+            posts:user.posts
         });
-        user.save();
+        userM.save();
     }else {
         throw "User already exists";    
     }
