@@ -1,0 +1,12 @@
+
+:root {
+    --spacing-sm:1rem;
+    --spacing-md:2.5rem;
+    --spacing-lg:3.5rem;
+
+    --fs-sm:1rem;
+    --fs-md:25px;
+    --fs-lg:2rem;
+    --fs-xl:39px;
+    --fs-xxl:3rem;
+}

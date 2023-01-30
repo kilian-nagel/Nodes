@@ -1,0 +1,27 @@
+
+#homepage {
+    display: flex;
+}
+
+#homepage .title {
+    padding:var(--spacing-md) 0 var(--spacing-sm) 0;
+}
+
+#homepage .text {
+    line-height: 140%;
+}
+
+#homepage .buttons {
+    display: flex;
+    padding:var(--spacing-sm);
+    gap:var(--spacing-sm);
+}
+
+#homepage .btn {
+    background-color: black;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 8px;
+    padding:0.25rem 0.5rem;
+    color:white;
+}
