@@ -1,12 +1,31 @@
 
 :root {
     --spacing-sm:1rem;
+    --spacing-xsm:2rem;
     --spacing-md:2.5rem;
     --spacing-lg:3.5rem;
 
-    --fs-sm:1rem;
+    --fs-sm:1.125rem;
     --fs-md:25px;
     --fs-lg:2rem;
     --fs-xl:39px;
     --fs-xxl:3rem;
+
+    --gray:#888888;
+    --dove-gray:#666666;
+}
+
+@media (max-width:780px){
+    :root{
+        --spacing-xsm:1.5rem;
+        --spacing-lg:2.75rem;
+        
+        --fs-xxl:2.5rem;
+    }
+}
+
+@media (max-width:576px){
+    :root{
+        --fs-sm:1rem;
+    }
 }

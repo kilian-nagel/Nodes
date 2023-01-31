@@ -1,27 +1,35 @@
 
 #homepage {
     display: flex;
+    max-width: 1250px;
+    padding:0 var(--spacing-md);
+    margin: var(--spacing-lg) auto 0 auto;  
+    justify-content: space-between;
+    align-items: center;
+}
+
+#homepage .content {
+    max-width: 640px;
 }
 
 #homepage .title {
-    padding:var(--spacing-md) 0 var(--spacing-sm) 0;
+    font-size: var(--fs-xxl);
+    padding-bottom: var(--spacing-sm);
 }
 
 #homepage .text {
     line-height: 140%;
+    padding-bottom: var(--spacing-sm);
+    font-size:var(--fs-sm);
 }
 
 #homepage .buttons {
     display: flex;
-    padding:var(--spacing-sm);
     gap:var(--spacing-sm);
 }
 
-#homepage .btn {
-    background-color: black;
-    font-weight: 700;
-    font-size: 16px;
-    border-radius: 8px;
-    padding:0.25rem 0.5rem;
-    color:white;
+@media (max-width:780px){
+    #homepage .preview {
+        display: none;
+    }
 }

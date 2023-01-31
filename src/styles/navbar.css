@@ -2,15 +2,30 @@
 #header {
     max-width: 1250px;
     margin:0 auto;
+    padding:var(--spacing-xsm) var(--spacing-md);
 }
 
 #header .nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #header .links {
     display: flex;
     gap:var(--spacing-sm);
     list-style-type: none;
+}
+
+#header a {
+    color:var(--gray);
+}
+
+#header .menu-btn {
+    display: none;
+}
+
+@media (max-width:576px) {
+    #header .links {display: none;}
+    #header .menu-btn {display: block;}
 }
