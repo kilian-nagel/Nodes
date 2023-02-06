@@ -5,27 +5,36 @@
     --spacing-md:2.5rem;
     --spacing-lg:3.5rem;
 
-    --fs-sm:1.125rem;
-    --fs-md:25px;
+    --fs-sm:1rem;
+    --fs-md:2rem;
     --fs-lg:2rem;
-    --fs-xl:39px;
+    --fs-xl:2.5rem;
     --fs-xxl:3rem;
 
     --gray:#888888;
     --dove-gray:#666666;
+    --lynx-white:#f7f7f8;
+    --broad-daylight:#bed4ff;
+    --blue-atoll:#00AEE5;
+    --bottom-of-my-heart:#CC0078;
+    --bunny-tail:#FFE5F4;
 }
 
 @media (max-width:780px){
     :root{
         --spacing-xsm:1.5rem;
-        --spacing-lg:2.75rem;
+        --spacing-lg:2.5rem;
         
+        --fs-xl:2rem;
         --fs-xxl:2.5rem;
     }
 }
 
 @media (max-width:576px){
     :root{
+        --fs-xl:1.75rem;
+        --spacing-md:1.5rem;
+
         --fs-sm:1rem;
     }
 }
