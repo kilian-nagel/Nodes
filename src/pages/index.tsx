@@ -76,37 +76,3 @@ export default function Home() {
     </>
   )
 }
-
-{/*<section id="homepage">
-          <div className="content">
-            <h1 className="title">Nodes - Social Network</h1>
-            <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, incidunt aperiam consectetur provident tenetur pariatur.</p>
-            <div className="buttons">
-              <button className="btn-default cta">Sign up</button>
-              <button className="link-default cta">Login</button>
-            </div>
-          </div>
-          <div className="preview">
-            <img width={400} src="./home.svg" alt="image d'un réseau social" />
-          </div>
-        </section>
-        <section id="share" className='section'>
-          <div className="content">
-            <h2 className="title">Share your memories</h2>
-            <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, officiis similique fuga error eos quisquam non quam distinctio sapiente veritatis ullam deleniti repudiandae sit molestias blanditiis porro iste unde tenetur!</p>
-          </div>
-          <div className="preview">
-            <img width={400} src="./share-300.jpg"  alt="image de personnes" srcSet='./share-400.jpg 400w ./share-300.jpg 300w'
-            />
-          </div>
-        </section>
-        <section id="connect" className='section'>
-          <div className="content">
-            <h2 className="title">Connect with your friends</h2>
-            <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, officiis similique fuga error eos quisquam non quam distinctio sapiente veritatis ullam deleniti repudiandae sit molestias blanditiis porro iste unde tenetur!</p>
-          </div>
-          <div className="preview">
-            <img width={400} src="./connect.png"  alt="image de personnes" srcSet='./share-400.jpg 400w ./share-300.jpg 300w'
-            />
-          </div>
-</section>*/}
