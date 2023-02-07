@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBarsStaggered, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Footer from '@/components/footer';
 
 library.add(faBarsStaggered);
 const inter = Inter({ subsets: ['latin'] })
@@ -73,6 +73,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Footer></Footer>
     </>
   )
 }
