@@ -3,3 +3,7 @@
     padding:0;
     box-sizing: border-box;
 }
+
+body {
+    font-family:'__Inter_9c9965', '__Inter_Fallback_9c9965'
+}
