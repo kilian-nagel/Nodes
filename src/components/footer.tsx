@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-function Footer() {
+const Footer:React.FunctionComponent = () => {
     return ( 
         <footer id="footer">
             <div className="links">

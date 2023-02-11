@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 
-function Navbar() {
+const Navbar:React.FunctionComponent = () => {
     return (
         <header id="header" className='header'>
             <nav className='nav'>
@@ -18,7 +18,7 @@ function Navbar() {
                             <Link href="" className="link">contact</Link>
                         </li>
                     </ul>
-                    <button className='btn-default'>sign up</button>
+                    <Link href="/home" className='btn-default'>sign up</Link>
                 </div>
             </nav>
         </header>
