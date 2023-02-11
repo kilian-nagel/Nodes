@@ -2,9 +2,15 @@ import Link from 'next/link';
 import * as React from 'react';
 import { Component } from 'react';
 
-function ProfilePicture(pictureUrl:string){
+interface props {
+    pictureUrl:string
+}
+
+const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     return (
-        <img src={pictureUrl} alt="image de profile" />
+        <div className="profile-picture">
+            <img src={pictureUrl} alt="profile picture" />
+        </div>
     )
 }
 
