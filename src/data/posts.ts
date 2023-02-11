@@ -3,7 +3,14 @@ interface obj<T>{
     [index:string]:T
 }
 
-export const posts:obj<object> = {
+interface post{
+    category:string,
+    content:string,
+    source:string,
+    time:string
+}
+
+export const posts:obj<post> = {
     "0":{
         category:"",
         content:"Hello i'm a new user",
