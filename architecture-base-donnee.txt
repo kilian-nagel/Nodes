@@ -9,6 +9,7 @@ users
 - picture string ( url )
 - friends string[] ( references of users uid )
 - messages object[] ( references to messages that the user sent )
+- posts object[] ( references to posts that the user uploaded )
 
 messages 
 - content string
