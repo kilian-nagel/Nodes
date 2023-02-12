@@ -13,7 +13,6 @@ function Home() {
             <main>
                 <Feed></Feed>
             </main>
-            <Footer></Footer>
         </div>
     );
 }
