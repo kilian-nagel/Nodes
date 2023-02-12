@@ -4,6 +4,7 @@ import { Inter } from '@next/font/google'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBarsStaggered, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Footer from '@/components/footer';
+import Link from 'next/link';
 
 library.add(faBarsStaggered);
 const inter = Inter({ subsets: ['latin'] })
@@ -24,8 +25,8 @@ export default function Home() {
               <h1 className="title">Join our awesome community</h1>
               <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, incidunt aperiam consectetur provident tenetur pariatur.</p>
               <div className="buttons">
-                <button className="btn-default cta">Sign up</button>
-                <button className="link-default cta">Login</button>
+                <Link href="" className="btn-default cta">Sign up</Link>
+                <Link href="/api/auth/login" className="link-default cta">Login</Link>
               </div>
             </div>
             <div className="preview">
