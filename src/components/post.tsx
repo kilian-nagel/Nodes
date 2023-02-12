@@ -12,8 +12,12 @@ interface props {
 }
 
 const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,category}) =>{
+    const style = {
+        display:"flex",
+        gap:"0.5rem"
+    }
     return (
-        <div className="post">
+        <div className="post" style={style}>
             <ProfilePicture pictureUrl={pictureUrl}/>
             <div className="content">
                 <ProfileInfo username={username}/>
