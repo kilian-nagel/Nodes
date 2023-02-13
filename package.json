@@ -23,6 +23,8 @@
     "dotenv": "^16.0.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
+    "fs": "^0.0.1-security",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^4.13.0",
     "mongoose": "^6.9.0",
     "next": "13.1.5",
