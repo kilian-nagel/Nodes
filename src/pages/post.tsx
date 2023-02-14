@@ -3,7 +3,11 @@ import * as React from 'react';
 import { Component } from 'react';
 
 import PostHeader from '@/components/postHeader';
-import TextBox from '@/components/textBox';
+import TextBox, { addPostToDatabase } from '@/components/textBox';
+
+function handleClickOnPostBtn(){
+    addPostToDatabase();
+}
 
 function Post() {
     return ( 
