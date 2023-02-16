@@ -3,7 +3,11 @@ import Link from 'next/link';
 import * as React from 'react';
 import { Component } from 'react';
 
-const PostHeader:React.FunctionComponent = () => {
+interface props {
+    handleClick:()=>void
+}
+
+const PostHeader:React.FunctionComponent<props> = ({handleClick}) => {
     const style = {
         display:"flex",
         maxWidth:"1250px",
@@ -17,7 +21,7 @@ const PostHeader:React.FunctionComponent = () => {
     return ( 
         <header id="postHeader" className='flex-spaceBetween-center' style={style}>
             <Link href="../" style={BackButtonstyle} className="back-btn">back</Link>
-            <Link href="./home" className='btn-default'>send</Link>
+            <Link href="./home" className='btn-default'  onClick={handleClick}>send</Link>
         </header>
     );
 }
