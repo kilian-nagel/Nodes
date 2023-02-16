@@ -96,3 +96,15 @@
         margin:0 auto;
     }
 }
+
+#skip-link {
+    position: absolute;
+    z-index: 9999;
+    left:-999rem;
+}
+
+#skip-link:focus , #skip-link:active {
+    left:0rem;
+    background-color: white;
+    color:red;
+}
