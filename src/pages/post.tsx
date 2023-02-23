@@ -1,7 +1,4 @@
 
-import * as React from 'react';
-import { Component } from 'react';
-
 import PostHeader from '@/components/postHeader';
 import TextBox, { addPostToDatabase } from '@/components/textBox';
 
@@ -13,7 +10,7 @@ function Post() {
     return ( 
         <div id="home">
             <main>
-                <PostHeader/>
+                <PostHeader handleClick={handleClickOnPostBtn}/>
                 <TextBox/>
             </main>
         </div>

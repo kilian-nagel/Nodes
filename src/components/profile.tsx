@@ -1,6 +1,4 @@
-import Link from 'next/link';
-import * as React from 'react';
-import { Component } from 'react';
+
 import ProfileInfo from './profileInfo';
 import ProfilePicture from './profilePicture';
 

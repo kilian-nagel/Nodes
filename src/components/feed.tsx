@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState , useEffect } from 'react';
 import {posts} from "../data/posts";
 import {users} from "../data/users";
-import Navbar from './navbar';
 import Post from './post';
 import {user} from "../interfaces/user";
 import { postData } from '@/interfaces/post';
@@ -39,8 +38,8 @@ const Feed:React.FunctionComponent = ()=>{
 
     return ( 
         <div id="feed" style={style}>
-            {posts.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} pictureUrl={post.pictureUrl}/>)}
-            <Link href="./post" style={buttonStyle} className="newPost-btn">
+            {posts.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} key={i} pictureUrl={post.pictureUrl}/>)}
+            <Link href="./post" style={buttonStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
                 +
             </Link>
         </div>

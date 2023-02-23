@@ -1,8 +1,4 @@
 
-import * as React from 'react';
-import { Component } from 'react';
-
-import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
 import Feed from '@/components/feed';
 

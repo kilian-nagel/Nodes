@@ -1,6 +1,5 @@
 import { addPost } from '@/controllers/posts';
 import { userSchema } from '@/controllers/user';
-import * as React from 'react';
 
 interface post {
     content:string,
@@ -9,7 +8,7 @@ interface post {
     time:string
 }
 
-export function addPostToDatabase(){
+export const addPostToDatabase = ()=>{
     let postCategory = "main"; // Temporary
     let postContent = parsePostContent(getPostContent());
     let post = createNewPost(postContent,postCategory);

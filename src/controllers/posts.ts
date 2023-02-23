@@ -1,7 +1,6 @@
 import { userSchema } from './user';
 import connectDb from './connection';
 import { postModel } from '@/models/posts';
-import { getHeapCodeStatistics } from 'v8';
 
 interface postSchema  {
     content:string,

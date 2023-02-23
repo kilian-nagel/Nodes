@@ -1,6 +1,3 @@
-import Link from 'next/link';
-import * as React from 'react';
-import { Component } from 'react';
 
 interface Props {
     username:string

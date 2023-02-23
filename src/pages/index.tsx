@@ -1,10 +1,12 @@
 import Navbar from '@/components/navbar'
+import SkipLinks from '@/components/skipLinks'
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBarsStaggered, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faBarsStaggered } from '@fortawesome/free-solid-svg-icons';
 import Footer from '@/components/footer';
 import Link from 'next/link';
+import Image from 'next/image'
 
 library.add(faBarsStaggered);
 const inter = Inter({ subsets: ['latin'] })
@@ -18,6 +20,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className={inter.className}>
+        <SkipLinks path="#home"></SkipLinks>
         <Navbar></Navbar>
         <section id="home">
           <div className="inner">
@@ -25,12 +28,12 @@ export default function Home() {
               <h1 className="title">Join our awesome community</h1>
               <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, incidunt aperiam consectetur provident tenetur pariatur.</p>
               <div className="buttons">
-                <Link href="" className="btn-default cta">Sign up</Link>
-                <Link href="/api/auth/login" className="link-default cta">Login</Link>
+                <Link href="" className="btn-default cta" aria-label='go to registration page' title='go to registration page'>Sign up</Link>
+                <Link href="/api/auth/login" className="link-default cta" aria-label='go to registration page' title='go to registration page'>Login</Link>
               </div>
             </div>
             <div className="preview">
-              <img width={325} src="./home.jpg" alt="image d'un réseau social" />
+              <Image width={325} height={406.25} src={"/home.jpg"} alt="" role="presentation"/>
             </div>
           </div>
         </section>

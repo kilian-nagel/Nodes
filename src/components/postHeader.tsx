@@ -1,7 +1,5 @@
 
 import Link from 'next/link';
-import * as React from 'react';
-import { Component } from 'react';
 
 interface props {
     handleClick:()=>void
@@ -20,8 +18,8 @@ const PostHeader:React.FunctionComponent<props> = ({handleClick}) => {
 
     return ( 
         <header id="postHeader" className='flex-spaceBetween-center' style={style}>
-            <Link href="../" style={BackButtonstyle} className="back-btn">back</Link>
-            <Link href="./home" className='btn-default'  onClick={handleClick}>send</Link>
+            <Link href="../"  style={BackButtonstyle} className="back-btn" aria-label='go back' title='go back'>back</Link>
+            <Link href="./home" className='btn-default'  onClick={handleClick} aria-label='send the post' title='send the post'>send</Link>
         </header>
     );
 }

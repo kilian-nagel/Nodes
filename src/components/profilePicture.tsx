@@ -1,6 +1,3 @@
-import Link from 'next/link';
-import * as React from 'react';
-import { Component } from 'react';
 
 interface props {
     pictureUrl:string
@@ -16,7 +13,7 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     return (
         <div className="profile-picture">
             {
-                pictureUrl ?  <img src={pictureUrl} style={style} alt="profile picture" /> : <div style={style}></div>
+                pictureUrl ?  <img src={pictureUrl} style={style} alt="profile picture" title='profile picture' /> : <div style={style}></div>
             }
         </div>
     )
