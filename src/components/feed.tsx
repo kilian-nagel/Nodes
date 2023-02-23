@@ -37,9 +37,9 @@ const Feed:React.FunctionComponent = ()=>{
     }
 
     return ( 
-        <div id="feed" style={style}>
+        <div id="feed" style={style as React.CSSProperties}>
             {posts.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} key={i} pictureUrl={post.pictureUrl}/>)}
-            <Link href="./post" style={buttonStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
+            <Link href="./post" style={buttonStyle as React.CSSProperties} className="newPost-btn" aria-label='create a new post' title='create a new post'>
                 +
             </Link>
         </div>
