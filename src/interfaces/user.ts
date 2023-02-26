@@ -1,5 +1,5 @@
 
-export interface user{
+export default interface user{
     uid:number,
     username:string,
     picture:string,
