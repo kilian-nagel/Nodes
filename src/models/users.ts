@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {Schema,model} = mongoose;
+const {Schema} = mongoose;
 
 export const userSchema = new Schema({
     uid:String,
@@ -10,4 +10,4 @@ export const userSchema = new Schema({
     posts:[Object]
 })
 
-module.exports = mongoose.models.users || model("users",userSchema);
+export const userModel = mongoose.models.User || mongoose.model('User', userSchema);
