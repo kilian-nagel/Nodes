@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { useState , useEffect } from 'react';
-import {posts} from "../data/posts";
-import {users} from "../data/users";
 import Post from './post';
-import {user} from "../interfaces/user";
+import user from "../interfaces/user";
 import { postData } from '@/interfaces/post';
 import Link from 'next/link';
+import { getPosts } from '@/controllers/posts';
+import { getUser } from '@/controllers/user';
 
-const Feed:React.FunctionComponent = ()=>{
-    let [posts,setPosts] = useState<postData[]>([]);
+interface Props {
+    posts:postData[];
+}
 
-    useEffect(()=>{
-        setPosts(fetchPostsData());
-    },[])
+const Feed:React.FunctionComponent<Props> = ({posts})=>{
 
     const style = {
         display:"flex",
@@ -38,7 +37,7 @@ const Feed:React.FunctionComponent = ()=>{
 
     return ( 
         <div id="feed" style={style as React.CSSProperties}>
-            {posts.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} key={i} pictureUrl={post.pictureUrl}/>)}
+            {posts?.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} key={i} pictureUrl={post.pictureUrl}/>)}
             <Link href="./post" style={buttonStyle as React.CSSProperties} className="newPost-btn" aria-label='create a new post' title='create a new post'>
                 +
             </Link>
@@ -46,20 +45,11 @@ const Feed:React.FunctionComponent = ()=>{
     );
 }
 
-function fetchPostsData(){
-    let postsData:postData[] = [];
-    Object.keys(posts).forEach((_p,i)=>{
-        const post = posts[_p];
-        const user:user = users[post.source];
-        let postData = {
-            postContent:post.content,
-            category:post.category,
-            username:user.username,
-            pictureUrl:user.picture,
-        };
-        postsData.push(postData);
-    });
-    return postsData;
+export async function getServerSideProps(){
+    const posts = await getPosts("");
+    console.log("hi");
+
+    return {props:{posts}}
 }
 
 export default Feed;
