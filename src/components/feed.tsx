@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { useState , useEffect } from 'react';
 import Post from './post';
-import user from "../interfaces/user";
 import { postData } from '@/interfaces/post';
 import Link from 'next/link';
-import { getPosts } from '@/controllers/posts';
-import { getUser } from '@/controllers/user';
 
 interface Props {
     posts:postData[];
