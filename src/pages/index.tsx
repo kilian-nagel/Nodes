@@ -33,7 +33,7 @@ export default function Home() {
               </div>
             </div>
             <div className="preview">
-              <Image width={325} height={406.25} src={"/home.jpg"} alt="" role="presentation"/>
+              <Image width={325} height={406.25} src={"/home.jpg"} alt="image d'un homme" role="presentation"/>
             </div>
           </div>
         </section>
