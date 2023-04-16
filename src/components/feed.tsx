@@ -41,11 +41,4 @@ const Feed:React.FunctionComponent<Props> = ({posts})=>{
     );
 }
 
-export async function getServerSideProps(){
-    const posts = await getPosts("");
-    console.log("hi");
-
-    return {props:{posts}}
-}
-
 export default Feed;
