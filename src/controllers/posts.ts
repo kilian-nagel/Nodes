@@ -1,32 +1,45 @@
-import { userSchema } from './user';
-import connectDb from './connection';
+
+import connectDb from '../lib/dbConnection';
+import mongoose from "mongoose";
 import { postModel } from '@/models/posts';
+import { NextApiRequest, NextApiResponse } from 'next/types';
+import postData from '@/interfaces/post';
 
-interface postSchema  {
-    content:string,
-    category:string,
-    source:userSchema,
-    time:Date
-};
-
-export async function addPost(postToAdd:postSchema){
-    let post = new postModel({
-        content:postToAdd.content,
-        category:postToAdd.category,
-        source:postToAdd.source,
-        time:postToAdd.time
-    })
-    post.save();
+/**
+ * 
+ * @param  {[req:NextApiRequest]} req [ la requête contient un objet json de type postData qui correspond au post que l'on veut ajouter ]
+ * @param  {[res:NextApiResponse]} res
+ * @return {[void]}
+ */
+export async function addPost(req:NextApiRequest,res:NextApiResponse){
+    const postData = JSON.parse(req.body);
+    console.log(postData);
+    try {
+        let post = new postModel({
+            content:postData?.content,
+            category:postData?.category,
+            source:postData?.source,
+            time:postData?.time
+        })
+        post.save();
+    } catch(err){
+        console.error(err);
+    }
 }
-
-export async function getPosts(content:string){
-    let post = await postModel.find({content:content});
-    return post;
-}
-
-export async function getPost(uid:string){
-    let post = await postModel.find({uid:uid});
-    return post;
+/*
+   Parameter : req with body that contains the query.
+*/
+export async function getAllPosts(req:NextApiRequest,res:NextApiResponse):Promise<postData[]>{
+    let query = "";
+    let posts = [];
+    try {
+        posts = await postModel.find({content:query});
+        console.log(posts);
+        return posts.body;
+    } catch(err){
+        console.error(err);
+    }
+    return posts;
 }
 
 connectDb();
