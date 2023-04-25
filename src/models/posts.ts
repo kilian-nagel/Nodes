@@ -1,6 +1,6 @@
-import { userSchema } from "./users";
 const mongoose = require("mongoose");
 const {Schema ,model} = mongoose;
+import { userSchema } from "./users";
 
 export const post = new Schema({
     content:String,
