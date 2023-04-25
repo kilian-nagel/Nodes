@@ -1,7 +1,9 @@
 import mongoose from "mongoose"
+const dotenv = require("dotenv").config();
 
-const MONGODB_URI = process.env.MONGODB_URI
-if (!MONGODB_URI) {
+console.log('in file dbConnection.ts');
+
+if (!process.env.MONGODB_CONNECTION_URI) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env.local'
   )
@@ -14,13 +16,12 @@ if (!MONGODB_URI) {
  */
 
 async function dbConnect() {
+   console.log("in method dbConnet");
   const opts = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true,
-    useCreateIndex: true
   }
-  await mongoose.connect(MONGODB_URI as string, opts as object).then(mongoose => {
+  await mongoose.connect(process.env.MONGODB_CONNECTION_URI as string, opts as object).then(mongoose => {
     return mongoose
   }).catch(e=>{
     console.error(e);
