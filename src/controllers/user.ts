@@ -1,4 +1,7 @@
-import connectDb from './connection';
+import { userSchema } from '@/models/users';
+import user from '../interfaces/user';
+import connectDb from '../lib/dbConnection';
+const mongoose = require("mongoose");
 const userModel = require("../models/users");
 
 export interface userSchema {
@@ -10,34 +13,57 @@ export interface userSchema {
     posts:Object[]
 }
 
-connectDb();
+export async function getUsers(username:string){
+    try {
+        let data:Array<user>;
+        data = await userModel.find({})
+        return data;
+    } catch(err){
+        throw err;
+    }
+}
+
 
 export async function getUser(username:string){
-    let data:Array<Object>;
-    data = await userModel.find({username:username})
-    console.log(data);
-    return data;
+    try {
+        let user:user;
+        user = await userModel.findOne({username:username})
+        return user;
+    } catch (err){
+        throw err;
+    }
 }
 
 export async function modifyUser(userUpdated:userSchema){
-    let user = await(getUser(userUpdated.uid));
-    await userModel.update({uid:userUpdated.uid},{$set:{username:userUpdated.username,picture:userUpdated.picture,friends:userUpdated.friends,messages:userUpdated.messages,posts:userUpdated.posts}});
+    try {
+        let user = await(getUser(userUpdated.uid));
+        await userModel.update({uid:userUpdated.uid},{$set:{username:userUpdated.username,picture:userUpdated.picture,friends:userUpdated.friends,messages:userUpdated.messages,posts:userUpdated.posts}});
+    } catch(err){
+        throw err;
+    }
 }
 
 export async function addUser(user:userSchema){
-    let result = await (await getUser(user.username)).length;
-    console.log(result);
-    if(result === 0){
-        const userM = new userModel({
-            uid:user.uid,
-            username:user.username,
-            picture:user.picture,
-            friends:user.friends,
-            messages:user.messages,
-            posts:user.posts
-        });
-        userM.save();
-    }else {
-        throw "User already exists";    
+    try {
+        let result = await (await getUser(user.username));
+        console.log(result);
+        if(result !== undefined){
+            const userM = new userModel({
+                uid:user.uid,
+                username:user.username,
+                picture:user.picture,
+                friends:user.friends,
+                messages:user.messages,
+                posts:user.posts
+            });
+            userM.save();
+        } else {
+            throw new Error("User already exists");1   
+        }
+    } catch(err){
+        throw err;
     }
 }
+
+
+connectDb();
