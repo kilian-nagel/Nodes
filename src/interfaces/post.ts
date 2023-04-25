@@ -1,7 +1,8 @@
+import { userSchema } from "@/controllers/user"
 
-export interface postData{
-    postContent:string,
+export default interface postData{
+    content:string,
     category:string,
-    username:string,
-    pictureUrl:string
+    source:userSchema
+    time:Date
 }
