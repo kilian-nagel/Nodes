@@ -1,21 +1,23 @@
+import { addPost, getAllPosts } from "@/controllers/posts";
+import { NextApiRequest, NextApiResponse } from "next";
+import NextCors from "nextjs-cors";
 
-export default async function handler(req, res) {
-    // switch the methods
+export default async function handler(req:NextApiRequest, res:NextApiResponse) {
+    await NextCors(req, res, {
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        origin: '*',
+        optionsSuccessStatus: 200,
+     });
+
     switch (req.method) {
         case 'GET': {
-            return getPosts(req, res);
+            getAllPosts(req, res);
+            break;
         }
 
         case 'POST': {
-            return addPost(req, res);
-        }
-
-        case 'PUT': {
-            return updatePost(req, res);
-        }
-
-        case 'DELETE': {
-            return deletePost(req, res);
+            addPost(req,res);
+            break;
         }
     }
 }
