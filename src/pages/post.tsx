@@ -1,12 +1,13 @@
 
 import PostHeader from '@/components/postHeader';
 import TextBox, { addPostToDatabase } from '@/components/textBox';
+import { NextPage } from 'next';
 
 function handleClickOnPostBtn(){
     addPostToDatabase();
 }
 
-function Post() {
+const Post:NextPage = ()=>{
     return ( 
         <div id="home">
             <main>
