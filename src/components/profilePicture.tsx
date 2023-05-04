@@ -1,4 +1,6 @@
 
+import Image from "next/dist/client/image";
+
 interface props {
     pictureUrl:string
 }
@@ -13,7 +15,7 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     return (
         <div className="profile-picture">
             {
-                pictureUrl ?  <img src={pictureUrl} style={style} alt="profile picture" title='profile picture' /> : <div style={style}></div>
+                pictureUrl ?  <Image src={pictureUrl} style={style} alt="profile picture" title='profile picture' /> : <div style={style}></div>
             }
         </div>
     )
