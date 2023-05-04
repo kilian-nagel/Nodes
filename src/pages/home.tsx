@@ -1,9 +1,8 @@
 
 import Navbar from '@/components/navbar';
 import Feed from '@/components/feed';
-import { NextPage } from 'next/types';
 
-const Home: NextPage = ()=>{
+function Home() {
     return ( 
         <div id="home">
             <Navbar></Navbar>
