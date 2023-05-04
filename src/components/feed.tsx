@@ -30,24 +30,34 @@ const Feed:React.FunctionComponent = ()=> {
         margin:"var(--spacing-lg) auto 0 auto"  
     }
 
-    const buttonStyle = {
+    const buttonStyle:CSSProperties = {
         background:"black",
-        position:"absolute",
-        bottom:"2rem",
-        right:"2rem",
         height:"50px",
         width:"50px",
         borderRadius:"50%",
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
         fontSize:"20px",
         color:"white"
     }
 
+    const buttonContainerStyle:CSSProperties = {
+        position:"fixed",
+        bottom:"2rem",
+        right:"2rem",
+    }
+
     return ( 
         <div id="feed" style={style as React.CSSProperties}>
-            {posts?.map((post,i)=><Post postContent={post.postContent} category={post.category} username={post.username} key={i} pictureUrl={post.pictureUrl}/>)}
-            <Link href="./post" style={buttonStyle as React.CSSProperties} className="newPost-btn" aria-label='create a new post' title='create a new post'>
-                +
-            </Link>
+            {
+            posts.map((post,i)=><Post postContent={post.content} category={post.category} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
+            }
+            <div style={buttonContainerStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
+                <Link style={buttonStyle} href="./post">
+                    +
+                </Link>
+            </div>
         </div>
     );
 }
