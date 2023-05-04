@@ -1,6 +1,5 @@
 
 import connectDb from '../lib/dbConnection';
-import mongoose from "mongoose";
 import { postModel } from '@/models/posts';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import postData from '@/interfaces/post';
@@ -22,22 +21,21 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse){
             time:postData?.time
         })
         post.save();
+        res.end();
     } catch(err){
         console.error(err);
     }
 }
-/*
-   Parameter : req with body that contains the query.
-*/
+
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse):Promise<postData[]>{
     let query = "";
-    let posts = [];
+    let posts:postData[] = [];
     try {
-        posts = await postModel.find({content:query});
-        console.log(posts);
-        return posts.body;
+        posts = await postModel.find({}).limit(10);  
+        res.send(posts);
     } catch(err){
         console.error(err);
+        res.end();
     }
     return posts;
 }
