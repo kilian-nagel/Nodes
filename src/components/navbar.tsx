@@ -4,7 +4,7 @@ const Navbar:React.FunctionComponent = () => {
     return (
         <header id="header" className='header'>
             <nav className='nav'>
-                <Link href="/home" className="logo" aria-label='go to homepage' title='go to homepage'>Nodes</Link>
+                <Link href="/" className="logo" aria-label='go to homepage' title='go to homepage'>Nodes</Link>
                 <div className="right">
                     <ul className="links">
                         <li className="item">
