@@ -10,7 +10,7 @@ import postData from '@/interfaces/post';
  * @param  {[res:NextApiResponse]} res
  * @return {[void]}
  */
-export async function addPost(req:NextApiRequest,res:NextApiResponse){
+export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     const postData = JSON.parse(req.body);
     console.log(postData);
     try {
@@ -27,7 +27,7 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse){
     }
 }
 
-export async function getAllPosts(req:NextApiRequest,res:NextApiResponse):Promise<postData[]>{
+export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     let query = "";
     let posts:postData[] = [];
     try {
@@ -37,7 +37,6 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse):Promis
         console.error(err);
         res.end();
     }
-    return posts;
 }
 
 connectDb();
