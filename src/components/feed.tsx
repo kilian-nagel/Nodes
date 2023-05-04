@@ -1,13 +1,24 @@
+import postData from '@/interfaces/post';
+import Link from 'next/link';
 import * as React from 'react';
 import Post from './post';
-import { postData } from '@/interfaces/post';
-import Link from 'next/link';
+import { fetchPosts } from '@/data/posts';
+import { CSSProperties, useEffect, useState } from 'react';
 
-interface Props {
-    posts:postData[];
+interface apiResponse {
+    config:Object,
+    data:postData[]
 }
 
-const Feed:React.FunctionComponent<Props> = ({posts})=>{
+const Feed:React.FunctionComponent = ()=> {
+    const [posts,setPosts] = useState<postData[]>([]);
+
+    useEffect(()=>{
+        fetchPosts("")
+        .then((postData:apiResponse)=>{
+           setPosts(postData.data)
+        });
+    },[]);
 
     const style = {
         display:"flex",
