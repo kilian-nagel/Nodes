@@ -28,7 +28,6 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
 }
 
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
-    let query = "";
     let posts:postData[] = [];
     try {
         posts = await postModel.find({}).limit(10);  
