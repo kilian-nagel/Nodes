@@ -1,31 +1,20 @@
-import { addPost } from '@/controllers/posts';
-import { userSchema } from '@/controllers/user';
-
-interface post {
-    content:string,
-    category:string,
-    source:userSchema,
-    time:string
-}
+import { parsePostContent } from '@/lib/parsing';
 
 export const addPostToDatabase = ()=>{
     let postCategory = "main"; // Temporary
     let postContent = parsePostContent(getPostContent());
-    let post = createNewPost(postContent,postCategory);
+    let post = JSON.stringify(createNewPost(postContent,postCategory));
 
     if(isPostContentValid(postContent)){
-        addPost(post);
+        fetch("/api/posts",{
+            body:post,
+            method:'POST'}
+            );
     }
 }
 
 function isPostContentValid(content:string){
     return content.length > 0 && content.length <= 300;
-}
-
-
-function parsePostContent(content:string){
-    content.trim();
-    return content;
 }
 
 function getPostContent(){
@@ -45,7 +34,7 @@ function createNewPost(content:string,category:string){
             friends:[],
             messages:[],
             posts:[],
-        }, // Temporary.
+        },
         time:new Date(),
     }
 }
@@ -59,9 +48,7 @@ const TextBox:React.FunctionComponent = () => {
 
     return ( 
         <div id="textBox" style={style}>
-            <textarea>
-
-            </textarea>
+            <textarea></textarea>
         </div>
     );
 }
