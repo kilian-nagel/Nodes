@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 interface props {
-    handleClick:()=>void
+    handleClick:Function
 }
 
 const PostHeader:React.FunctionComponent<props> = ({handleClick}) => {
