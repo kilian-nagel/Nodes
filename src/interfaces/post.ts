@@ -1,4 +1,4 @@
-import { userSchema } from "@/controllers/user"
+import { userSchema } from "@/interfaces/user";
 
 export default interface postData{
     content:string,
