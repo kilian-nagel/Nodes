@@ -1,4 +1,4 @@
-import { userSchema } from "@/interfaces/user";
+import userSchema from "@/interfaces/user";
 
 export default interface postSchema {
     uid:string,
