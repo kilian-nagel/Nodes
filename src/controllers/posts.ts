@@ -31,11 +31,23 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
     let posts:postData[] = [];
     try {
         posts = await postModel.find({}).limit(10);  
-        res.send(posts);
+/**
+ * Modify the post that has the uid of the post passed in parameter. It will replace the old post ( the one in the database ) with the one passed in parameter
+ * 
+ * @param req - request that contains the with the updated content.
+ * @param res 
+ */
+export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
+    let postUpdated = req.body.post;
+
+    try {
+        await postModel.replaceOne({uid:postUpdated.uid},postUpdated);
     } catch(err){
         console.error(err);
-        res.end();
+        res.status(500).end();
     }
+
+    res.status(200).end();
 }
 
 connectDb();
