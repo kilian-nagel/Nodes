@@ -1,9 +1,9 @@
 
-export interface userSchema {
-    uid:string,
+export default interface user{
+    uid:number,
     username:string,
     picture:string,
-    friends:Object[],
-    messages:Object[],
-    posts:Object[]
+    friends:string[],
+    messages:string[],
+    posts:string[]
 }
