@@ -24,7 +24,9 @@ function getPostContent(){
 }
 
 function createNewPost(content:string,category:string){
+    // temporary
     return {
+        uid:'1',
         content:content,
         category:category,
         source:{
