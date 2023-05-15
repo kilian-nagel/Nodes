@@ -37,57 +37,57 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
     }
 }
 
-export async function getUsers(username:string){
+/**
+ * Get all the users that match the specified query
+ * 
+ * @param req - request made from the client-side, contains the query
+ * @param res
+ */
+export async function getUsers(req:NextApiRequest,res:NextApiResponse){
     try {
-        let data:Array<user>;
-        data = await userModel.find({})
-        return data;
+        let data:userSchema[] = await getUsersByName(req.body.query);
+        res.status(200).send(data);
+        res.end();
     } catch(err){
-        throw err;
+        res.status(500).end();
+        console.error(err);
     }
 }
 
-
-export async function getUser(username:string){
+/**
+ * Get user that has match exaclty the query
+ * 
+ * @param req - request made from the client-side,contains the query
+ * @param res
+ */
+export async function getUser(req:NextApiRequest,res:NextApiResponse){
     try {
-        let user:user;
-        user = await userModel.findOne({username:username})
-        return user;
+        let user:userSchema;
+        user = await getUserByName(req.body.name);
+        res.status(200).send(user);
+        res.end();
     } catch (err){
-        throw err;
+        console.error(err);
+        res.status(500).end();
     }
 }
 
-export async function modifyUser(userUpdated:userSchema){
+/**
+ * Modify the user that has the same uid as the user passed in parameter. The old user ( the one present in the database ) will be replaced with the user passed in parameter.
+ * 
+ * @param req - request made from the client-side, contains the user updated.
+ * @param res
+ */
+export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
+    const userUpdated = req.body.user;
+
     try {
-        let user = await(getUser(userUpdated.uid));
-        await userModel.update({uid:userUpdated.uid},{$set:{username:userUpdated.username,picture:userUpdated.picture,friends:userUpdated.friends,messages:userUpdated.messages,posts:userUpdated.posts}});
-    } catch(err){
-        throw err;
+        await userModel.replaceOne({uid:userUpdated.uid},userUpdated);
+    }catch(err){
+        console.error(err);
+        res.status(500).end();
     }
+    res.status(200).end();
 }
-
-export async function addUser(user:userSchema){
-    try {
-        let result = await (await getUser(user.username));
-        console.log(result);
-        if(result !== undefined){
-            const userM = new userModel({
-                uid:user.uid,
-                username:user.username,
-                picture:user.picture,
-                friends:user.friends,
-                messages:user.messages,
-                posts:user.posts
-            });
-            userM.save();
-        } else {
-            throw new Error("User already exists");1   
-        }
-    } catch(err){
-        throw err;
-    }
-}
-
 
 connectDb();
