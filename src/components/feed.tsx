@@ -2,7 +2,7 @@ import postData from '@/interfaces/post';
 import Link from 'next/link';
 import * as React from 'react';
 import Post from './post';
-import { fetchPosts } from '@/data/posts';
+import { fetchPosts } from '@/lib/posts';
 import { CSSProperties, useEffect, useState } from 'react';
 
 interface apiResponse {
