@@ -1,7 +1,7 @@
 import { userSchema } from '@/models/users';
 import user from '../interfaces/user';
 import connectDb from '../lib/dbConnection';
-const mongoose = require("mongoose");
+import userSchema from '@/interfaces/user';
 const userModel = require("../models/users");
 
 export interface userSchema {
