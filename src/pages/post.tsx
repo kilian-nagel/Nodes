@@ -1,6 +1,6 @@
 
-import PostHeader from '@/components/postHeader';
-import TextBox, { addPostToDatabase } from '@/components/textBox';
+import PostHeader from '@/components/postCreator/postCreatorHeader';
+import TextBox, { addPostToDatabase } from '@/components/postCreator/postCreator';
 import { NextPage } from 'next';
 
 function handleClickOnPostBtn(){
