@@ -1,6 +1,6 @@
 
-import ProfileInfo from './profileInfo';
-import ProfilePicture from './profilePicture';
+import ProfileInfo from '../profile/profileInfo';
+import ProfilePicture from '../profile/profilePicture';
 
 interface props {
     username:string,
