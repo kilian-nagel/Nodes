@@ -3,7 +3,7 @@ interface Props {
     username:string
 }
  
-const profileInfo: React.FunctionComponent<Props> = ({username}) => {
+const ProfileInfo: React.FunctionComponent<Props> = ({username}) => {
     const style = {
         fontWeight:"700"
     };
@@ -14,4 +14,4 @@ const profileInfo: React.FunctionComponent<Props> = ({username}) => {
     );
 }
 
-export default profileInfo;
+export default ProfileInfo;
