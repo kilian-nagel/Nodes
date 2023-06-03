@@ -13,14 +13,14 @@ import postSchema from '@/interfaces/post';
 export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     const postData:postSchema = await JSON.parse(req.body);
     try {
-        let post = new postModel({
+        let newPost = new postModel({
             uid:postData?.uid,
             content:postData?.content,
             category:postData?.category,
             source:postData?.source,
             time:postData?.time
         })
-        post.save();
+        newPost.save();
         res.status(200).end();
     } catch(err){
         console.error(err);
