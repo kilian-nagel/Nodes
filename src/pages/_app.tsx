@@ -7,6 +7,7 @@ import "../styles/global.css";
 import "../styles/reset.css";
 import "../styles/utility.css";
 import "../styles/footer.css";
+import "../styles/home.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
