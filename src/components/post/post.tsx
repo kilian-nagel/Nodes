@@ -26,7 +26,7 @@ const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,ti
             <div className="content" style={contentStyle}>
                 <PostHeader username={username} date={time}/>
                 <div className="postContent">
-                    {postContent}
+                   <p className="text">{postContent}</p>
                 </div>
             </div>
         </div>
