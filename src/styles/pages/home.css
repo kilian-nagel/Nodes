@@ -1,0 +1,33 @@
+
+#main {
+    display: flex;
+    gap:var(--spacing-md);
+    max-width: 1260px;
+    padding:0 var(--spacing-md);
+    margin:0 auto;
+}
+
+@media screen and (max-width:1200px) {
+    #suggestions {
+        display: none;
+    }
+    #trends {
+        order:2;
+    }
+    #main {
+        order:1;
+        gap:var(--spacing-md);
+    }
+}
+
+@media screen and (max-width:1000px) {
+    #trends {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width:830px) {
+    #trends {
+        display: none;
+    }
+}

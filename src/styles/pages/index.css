@@ -48,6 +48,13 @@
     }
 }
 
+@media screen and (max-width:560px) {
+    #home .inner .buttons {
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 /* partners
 =============== */
 

@@ -1,6 +1,11 @@
 
+
+/* Buttons
+=============== */
+
 .btn-default {
     background-color: black;
+    font-size: var(--fs-md);
     font-weight: 700;
     font-size: 16px;
     border-radius: 8px;
@@ -17,12 +22,36 @@
     color:white;
 }
 
+@media screen and (max-width:560px) {
+    .btn-default {
+        padding: 14px 36px;
+    }
+}
+
+/* Links 
+=============== */
+
 .link-default {
     color: black;
     font-weight: 700;
     font-size: 16px;
     padding:14px 56px;
 }
+
+#skip-link {
+    position: absolute;
+    z-index: 9999;
+    left:-999rem;
+}
+
+#skip-link:focus , #skip-link:active {
+    left:0rem;
+    background-color: white;
+    color:red;
+}
+
+/* Text 
+=============== */
 
 .title {
     font-size: var(--fs-xxl);
@@ -34,14 +63,23 @@
     padding-bottom: var(--spacing-sm);
 }
 
+.subtitle-2 {
+    font-size: var(--fs-md);
+    padding-bottom: var(--spacing-sm);
+}
+
 .text {
-    line-height: 140%;
+    font-size: var(--fs-sm);
     color:rgba(0,0,0,0.75); 
+    line-height: 140%;
 }
 
 .text-light {
     color:var(--gray);
 }
+
+/* Containers , sections
+=============== */
 
 .section {
     display: flex;
@@ -58,6 +96,24 @@
     margin: var(--spacing-lg) auto 0 auto;  
     gap:var(--spacing-md);
 }
+
+@media (max-width:1250px) {
+    .section {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .section .content {
+        order:1;
+        max-width: 640px;
+    }
+    .section .content , .section .preview {
+        margin:0 auto;
+    }
+}
+
+/* Flexbox
+=============== */
 
 .flex-spaceBetween-center {
     display: flex;
@@ -76,35 +132,13 @@
     align-items: center;
 }
 
+.flex-start-start-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .flex-spaceBetween-center {
     display: flex;
     justify-content:space-between;
     align-items: center;
-}
-
-@media (max-width:1250px) {
-    .section {
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .section .content {
-        order:1;
-        max-width: 640px;
-    }
-    .section .content , .section .preview {
-        margin:0 auto;
-    }
-}
-
-#skip-link {
-    position: absolute;
-    z-index: 9999;
-    left:-999rem;
-}
-
-#skip-link:focus , #skip-link:active {
-    left:0rem;
-    background-color: white;
-    color:red;
 }
