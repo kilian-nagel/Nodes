@@ -21,13 +21,10 @@ const Feed:React.FunctionComponent = ()=> {
     },[]);
 
     const style = {
-        display:"flex",
-        alignItems:"flex-start",
-        flexDirection:"column",
         gap:"var(--spacing-sm)",
         maxWidth: "1250px",
-        padding:"0 var(--spacing-md)",
-        margin:"var(--spacing-lg) auto 0 auto"  
+        flex:"1",
+        marginTop:"var(--spacing-md)"
     }
 
     const buttonStyle:CSSProperties = {
@@ -35,9 +32,6 @@ const Feed:React.FunctionComponent = ()=> {
         height:"50px",
         width:"50px",
         borderRadius:"50%",
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
         fontSize:"20px",
         color:"white"
     }
@@ -49,12 +43,12 @@ const Feed:React.FunctionComponent = ()=> {
     }
 
     return ( 
-        <div id="feed" style={style as React.CSSProperties}>
+        <div id="feed" className="flex-start-start-column" style={style as React.CSSProperties}>
             {
             posts.map((post,i)=><Post postContent={post.content} category={post.category} time={post.time} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
             }
             <div style={buttonContainerStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
-                <Link style={buttonStyle} href="./post">
+                <Link className='flex-center-center' style={buttonStyle} href="./post">
                     +
                 </Link>
             </div>
