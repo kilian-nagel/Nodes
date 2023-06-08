@@ -10,15 +10,19 @@ interface apiResponse {
     data:postData[]
 }
 
+const getRecentPosts= async(query:string):Promise<postData[]> => {
+    const posts:postData[] = (await fetchPosts(query)).data;
+    return posts;
+}
+
 const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postData[]>([]);
 
     useEffect(()=>{
-        fetchPosts("")
-        .then((postData:apiResponse)=>{
-           setPosts(postData.data)
-        });
-    },[]);
+        (async ()=>{
+            setPosts(await getRecentPosts(""));
+        })();
+    },[])
 
     const style = {
         gap:"var(--spacing-sm)",
@@ -45,7 +49,7 @@ const Feed:React.FunctionComponent = ()=> {
     return ( 
         <div id="feed" className="flex-start-start-column" style={style as React.CSSProperties}>
             {
-            posts.map((post,i)=><Post postContent={post.content} category={post.category} time={post.time} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
+                posts.map((post,i)=><Post postContent={post.content} category={post.category} time={post.time} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
             }
             <div style={buttonContainerStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
                 <Link className='flex-center-center' style={buttonStyle} href="./post">
