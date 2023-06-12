@@ -2,6 +2,9 @@
 import PostHeader from '@/components/postCreator/postCreatorHeader';
 import TextBox, { addPostToDatabase } from '@/components/postCreator/postCreator';
 import { NextPage } from 'next';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Suspense } from 'react';
+import { MoonLoader } from 'react-spinners';
 
 function handleClickOnPostBtn(){
     addPostToDatabase();
@@ -11,8 +14,12 @@ const Post:NextPage = ()=>{
     return ( 
         <div id="home">
             <main>
-                <PostHeader handleClick={handleClickOnPostBtn}/>
-                <TextBox/>
+                <ErrorBoundary fallback={<div>Could not load the page.</div>}>
+                    <Suspense fallback={<MoonLoader/>}>
+                        <TextBox/>
+                        <PostHeader handleClick={handleClickOnPostBtn}/>
+                    </Suspense>
+                </ErrorBoundary>
             </main>
         </div>
     );
