@@ -20,7 +20,10 @@ const Feed:React.FunctionComponent = ()=> {
 
     useEffect(()=>{
         (async ()=>{
-            setPosts(await getRecentPosts(""));
+            setPosts(await getRecentPosts("")
+            .catch(()=>{
+                throw new Error("Failed to fetch posts.");
+            }));
         })();
     },[])
 
