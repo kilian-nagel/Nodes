@@ -3,6 +3,7 @@ import connectDb from '../lib/dbConnection';
 import { postModel } from '@/models/posts';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import postSchema from '@/interfaces/post';
+import { error } from 'console';
 
 /**
  * Add a new post to the database
@@ -20,10 +21,16 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
             source:postData?.source,
             time:postData?.time
         })
-        newPost.save();
+        await newPost.save().catch((err:Error)=>{
+            throw new addPostError(err.message);
+        });
         res.status(200).end();
-    } catch(err){
-        console.error(err);
+    } catch(err:unknown){
+        if(err instanceof postError){
+            handlePostsErrors(err);
+        }else{
+            console.error(err);
+        }
         res.status(500).end();
     }
 }
@@ -37,11 +44,17 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     let posts:postSchema[] = [];
     try {
-        posts = await postModel.find({}).limit(10);  
+        posts = await postModel.find({}).limit(10).catch((err:Error)=>{
+            throw new getPostError(err.message);
+        })  
         res.status(200).send(posts);
         res.end();
-    } catch(err){
-        console.error(err);
+    } catch(err:unknown){
+        if(err instanceof postError){
+            handlePostsErrors(err);
+        }else if(err instanceof Error){
+            console.error("Unknwon error : "+err.message);
+        }
         res.status(500).end();
     }
 }
@@ -54,15 +67,20 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
  */
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
     let postUpdated = req.body.post;
-
     try {
-        await postModel.replaceOne({uid:postUpdated.uid},postUpdated);
-    } catch(err){
+        await postModel.replaceOne({uid:postUpdated.uid},postUpdated).catch((err:Error)=>{
+            throw new modifyPostError(err.message);
+        });
+        res.status(200).end();
+    } catch(err:unknown){
+        if(err instanceof postError){
+            handlePostsErrors(err);
+        } else if(err instanceof Error) {
+            console.error(err);
+        }
         console.error(err);
         res.status(500).end();
     }
-
-    res.status(200).end();
 }
 
 connectDb();

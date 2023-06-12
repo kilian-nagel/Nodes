@@ -25,14 +25,19 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
                 messages:user.messages,
                 posts:user.posts
             });
-            newUser.save();
+            await newUser.save().catch((err:Error)=>{
+                throw new addUserError(err.message);
+            });
             res.status(201).end();
         } else {
-            console.error("user already exists");
-            res.status(500).end();
+            throw new addUserError("user already exists");
         }
-    } catch(err){
-        console.error(err);
+    } catch(err:unknown){
+        if (err instanceof userError){
+            handleUserErrors(err);
+        } else if ( err instanceof Error ){
+            console.error(err.message);
+        }
         res.status(500).end();
     }
 }
@@ -45,12 +50,18 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
  */
 export async function getUsers(req:NextApiRequest,res:NextApiResponse){
     try {
-        let data:userSchema[] = await getUsersByName(req.body.query);
+        let data:userSchema[] = await getUsersByName(req.body.query).catch((err:Error)=>{
+            throw new getUsersError(err.message);
+        });
         res.status(200).send(data);
         res.end();
-    } catch(err){
+    } catch(err:unknown){
+        if (err instanceof userError){
+            handleUserErrors(err);
+        } else if ( err instanceof Error ){
+            console.error(err.message);
+        }
         res.status(500).end();
-        console.error(err);
     }
 }
 
@@ -63,11 +74,17 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
 export async function getUser(req:NextApiRequest,res:NextApiResponse){
     try {
         let user:userSchema;
-        user = await getUserByName(req.body.name);
+        user = await getUserByName(req.body.name).catch((err:Error)=>{
+            throw new getUserError(err.message);
+        });
         res.status(200).send(user);
         res.end();
-    } catch (err){
-        console.error(err);
+    } catch (err:unknown){
+        if (err instanceof userError){
+            handleUserErrors(err);
+        } else if ( err instanceof Error ){
+            console.error(err.message);
+        }
         res.status(500).end();
     }
 }
@@ -80,14 +97,18 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse){
  */
 export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
     const userUpdated = req.body.user;
-
     try {
-        await userModel.replaceOne({uid:userUpdated.uid},userUpdated);
-    }catch(err){
-        console.error(err);
+        await userModel.replaceOne({uid:userUpdated.uid},userUpdated).catch((err:Error)=>{
+            throw new modifyUserError(err.message);
+        });
+    } catch(err:unknown){
+        if (err instanceof userError){
+            handleUserErrors(err);
+        } else if ( err instanceof Error ){
+            console.error(err.message);
+        }
         res.status(500).end();
     }
-    res.status(200).end();
 }
 
 connectDb();
