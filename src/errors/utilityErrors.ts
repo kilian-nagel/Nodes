@@ -1,4 +1,3 @@
-import { log } from "console";
 
 export class dateError extends Error {
     constructor(errorMessage:string){
