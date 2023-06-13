@@ -14,6 +14,9 @@ export class DbConnectionError extends Error {
 
 export function handleUtilityErrors(err:Error){
     if(err instanceof dateError){
-        log("date error : "+err.message);
+        console.error("Date error : "+err.message);
+    }
+    if(err instanceof DbConnectionError){
+        console.error("Database connection error : "+err.message);
     }
 }
