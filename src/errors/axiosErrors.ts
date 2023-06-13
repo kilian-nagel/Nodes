@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-function handleAxiosErrors(error:AxiosError){
+export function handleAxiosErrors(error:AxiosError){
     let errorMessage : string
     errorMessage = "Axios error :\n"
 
