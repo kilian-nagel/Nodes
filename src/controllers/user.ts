@@ -3,6 +3,7 @@ import connectDb from '../lib/dbConnection';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getUserByName, getUsersByName } from '@/data/users';
 import userSchema from '@/interfaces/user';
+import { addUserError, userError, handleUserErrors, getUsersError, getUserError, modifyUserError } from '@/errors/userErrors';
 
 const userModel = require("../models/users");
 
