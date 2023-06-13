@@ -1,4 +1,7 @@
 
+
+import { error } from "console";
+import {dateError} from "../errors/utilityErrors"
 /**
  * return an array which contains all the months of the year
  * 
@@ -28,7 +31,7 @@ export function convertDate(n:number,format:string):number{
         case "days":
             return new Date(n).getTime()/1000/360/24;
         default : 
-            throw new Error("unknown format");
+            throw new dateError("unknown format");
     }
 }
 
@@ -39,9 +42,9 @@ export function dateToString(date:Date):string{
     let text:string = "";
 
     try {
-    date = new Date(date);
-    const dateInMilliseconds:number = date.getTime();
-    const months = getAllMonths();
+        date = new Date(date);
+        const dateInMilliseconds:number = date.getTime();
+        const months = getAllMonths();
 
         const differenceInMinutes:number = convertDate(dateInMilliseconds,"minutes");
         const differenceInHours:number = convertDate(dateInMilliseconds,"hours");
@@ -51,7 +54,9 @@ export function dateToString(date:Date):string{
         if(differenceInHours>=1){text=differenceInHours+" h";}
         if(differenceInDays>=1){text=date.getDay()+" "+months[date.getMonth()];}
     }catch(e){
-        console.error(e);
+        if( e instanceof Error ){
+            throw new dateError(e.message);
+        }
         text="";
     }
 
