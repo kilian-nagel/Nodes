@@ -57,6 +57,7 @@ export function dateToString(date:Date):string{
         if( e instanceof Error ){
             throw new dateError(e.message);
         }
+        // On revient à l'état initial s'il y a eu une erreur.
         text="";
     }
 
