@@ -1,6 +1,6 @@
 
 /**
- * return an array of all the months of the year
+ * return an array which contains all the months of the year
  * 
  * @returns an array of months
  */
@@ -9,7 +9,8 @@ export function getAllMonths():string[]{
 }
 
 /**
- * Converts milliseconds to another. Takes a number parameter in milliseconds. Differents formats are : "seconds" , "minutes" , "hours" ,"days".
+ * Converts milliseconds to another. Takes a number parameter in milliseconds. 
+ * Differents formats are : "seconds" , "minutes" , "hours" ,"days".
  * 
  * @param n milliseconds ( date.getTime() )
  * @param format it specifies the kind of format the date should be converted to.
@@ -27,7 +28,7 @@ export function convertDate(n:number,format:string):number{
         case "days":
             return new Date(n).getTime()/1000/360/24;
         default : 
-            throw new Error("incorrect format");
+            throw new Error("unknown format");
     }
 }
 
