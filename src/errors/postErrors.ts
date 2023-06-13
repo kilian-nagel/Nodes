@@ -1,28 +1,28 @@
 
-class postError extends Error {
+export class postError extends Error {
     constructor(errorMessage:string){
         super(errorMessage)
     }
 }
 
-class addPostError extends postError {
+export class addPostError extends postError {
     constructor(errorMessage:string){
         super(errorMessage);
     }
 }
 
-class getPostError extends postError {
+export class getPostError extends postError {
     constructor(errorMessage:string){
         super(errorMessage);
     }
 }
 
-class modifyPostError extends postError {
+export class modifyPostError extends postError {
     constructor(errorMessage:string){
         super(errorMessage);
     }
 }
 
-const handlePostsErrors = (error:postError) => {
+export const handlePostsErrors = (error:postError) => {
     console.error("Post controller error : "+error.message);
 }
