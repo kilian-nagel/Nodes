@@ -36,12 +36,13 @@ export function convertDate(n:number,format:string):number{
  * converts a date to a more human readable format.
  */
 export function dateToString(date:Date):string{
-    date = new Date(date);
-    const dateInMilliseconds:number = date.getTime();
-    const months = getAllMonths();
     let text:string = "";
 
     try {
+    date = new Date(date);
+    const dateInMilliseconds:number = date.getTime();
+    const months = getAllMonths();
+
         const differenceInMinutes:number = convertDate(dateInMilliseconds,"minutes");
         const differenceInHours:number = convertDate(dateInMilliseconds,"hours");
         const differenceInDays:number = convertDate(dateInMilliseconds,"days");
