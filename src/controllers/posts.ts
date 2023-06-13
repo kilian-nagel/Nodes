@@ -3,7 +3,7 @@ import connectDb from '../lib/dbConnection';
 import { postModel } from '@/models/posts';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import postSchema from '@/interfaces/post';
-import { error } from 'console';
+import { addPostError, getPostError, handlePostsErrors, modifyPostError, postError } from '@/errors/postErrors';
 
 /**
  * Add a new post to the database
