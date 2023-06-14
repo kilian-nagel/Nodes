@@ -4,6 +4,7 @@ import { postModel } from '@/models/posts';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import postSchema from '@/interfaces/post';
 import { addPostError, getPostError, handlePostsErrors, modifyPostError, postError } from '@/errors/postErrors';
+import { sanitizeMongoQuery } from '@/data/sanitize';
 
 /**
  * Add a new post to the database
@@ -12,9 +13,10 @@ import { addPostError, getPostError, handlePostsErrors, modifyPostError, postErr
  * @param res
  */
 export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
-    const postData:postSchema = await JSON.parse(req.body);
-    try {
-        let newPost = new postModel({
+    const data = sanitizeMongoQuery(req.body);
+    const postData:postSchema = await JSON.parse(data);
+    try { 
+        const newPost = new postModel({
             uid:postData?.uid,
             content:postData?.content,
             category:postData?.category,
@@ -42,9 +44,8 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
  * @param res - response that contains an array of 10 posts
  */
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
-    let posts:postSchema[] = [];
     try {
-        posts = await postModel.find({}).limit(10).catch((err:Error)=>{
+        const posts = await postModel.find({}).limit(10).catch((err:Error)=>{
             throw new getPostError(err.message);
         })  
         res.status(200).send(posts);
@@ -66,7 +67,7 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
  * @param res 
  */
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
-    let postUpdated = req.body.post;
+    const postUpdated = req.body.post;
     try {
         await postModel.replaceOne({uid:postUpdated.uid},postUpdated).catch((err:Error)=>{
             throw new modifyPostError(err.message);

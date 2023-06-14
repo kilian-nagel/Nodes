@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getUserByName, getUsersByName } from '@/data/users';
 import userSchema from '@/interfaces/user';
 import { addUserError, userError, handleUserErrors, getUsersError, getUserError, modifyUserError } from '@/errors/userErrors';
+import { sanitizeMongoQuery } from '@/data/sanitize';
 
 const userModel = require("../models/users");
 
@@ -16,7 +17,8 @@ const userModel = require("../models/users");
 export async function addUser(req:NextApiRequest,res:NextApiResponse){
     const user:userSchema = req.body;
     try {
-        let userExists:boolean = userModel.exists({name:user.username});
+        const username = sanitizeMongoQuery(user.username)
+        const userExists:boolean = userModel.exists({name:username});
         if(!userExists){
             const newUser = new userModel({
                 uid:user.uid,
@@ -51,7 +53,8 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
  */
 export async function getUsers(req:NextApiRequest,res:NextApiResponse){
     try {
-        let data:userSchema[] = await getUsersByName(req.body.query).catch((err:Error)=>{
+        const query = sanitizeMongoQuery(req.body);
+        const data:userSchema[] = await getUsersByName(query).catch((err:Error)=>{
             throw new getUsersError(err.message);
         });
         res.status(200).send(data);
@@ -74,8 +77,9 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  */
 export async function getUser(req:NextApiRequest,res:NextApiResponse){
     try {
+        const username = sanitizeMongoQuery(req.body.username);
         let user:userSchema;
-        user = await getUserByName(req.body.name).catch((err:Error)=>{
+        user = await getUserByName(username).catch((err:Error)=>{
             throw new getUserError(err.message);
         });
         res.status(200).send(user);
@@ -98,8 +102,9 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse){
  */
 export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
     const userUpdated = req.body.user;
+    const uid = sanitizeMongoQuery(userUpdated.uid);
     try {
-        await userModel.replaceOne({uid:userUpdated.uid},userUpdated).catch((err:Error)=>{
+        await userModel.replaceOne({uid:uid},userUpdated).catch((err:Error)=>{
             throw new modifyUserError(err.message);
         });
     } catch(err:unknown){
