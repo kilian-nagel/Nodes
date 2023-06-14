@@ -1,9 +1,11 @@
+import { sanitizeInput } from '@/data/sanitize';
 import { parsePostContent } from '@/lib/parsing';
 
 export const addPostToDatabase = ()=>{
-    let postCategory = "main"; // Temporary
-    let postContent = parsePostContent(getPostContent());
-    let post = JSON.stringify(createNewPost(postContent,postCategory));
+    const postCategory = "main"; // Temporary
+    let postContent = sanitizeInput(getPostContent());
+    postContent = parsePostContent(postContent);
+    const post = JSON.stringify(createNewPost(postContent,postCategory));
 
     if(isPostContentValid(postContent)){
         fetch("/api/posts",{
