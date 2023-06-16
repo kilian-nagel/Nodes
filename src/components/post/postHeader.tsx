@@ -1,4 +1,5 @@
 import ProfileInfo from "../profile/profileInfo";
+import DropdownMenu from "./DropdownMenu";
 import PostInfo from "./postInfo";
 
 interface props {
@@ -7,6 +8,17 @@ interface props {
 }
 
 const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
+
+    const options = [
+        {
+            label:"modify post",
+            url:"/modifyPost"
+        },
+        {
+            label:"bookmark",
+            url:"/bookmark"
+        }
+    ]
     
     return (
     <div className="profile-header flex-spaceBetween-center">
@@ -15,7 +27,7 @@ const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
             <PostInfo date={date}></PostInfo>
         </div>
         <div className="right">
-            <p>...</p>
+            <DropdownMenu options={options}></DropdownMenu>
         </div>
     </div>
     );
