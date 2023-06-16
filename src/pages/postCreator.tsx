@@ -16,8 +16,8 @@ const Post:NextPage = ()=>{
             <main>
                 <ErrorBoundary fallback={<div>Could not load the page.</div>}>
                     <Suspense fallback={<MoonLoader/>}>
-                        <TextBox/>
                         <PostHeader handleClick={handleClickOnPostBtn}/>
+                        <TextBox/>
                     </Suspense>
                 </ErrorBoundary>
             </main>
