@@ -7,7 +7,7 @@ interface apiResponse {
   data:postData[]
 }
 
-export const fetchPosts = async (query:string):Promise<apiResponse|undefined>=> {
+export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
   try {
     const posts = await axios.get<any, apiResponse>(`/api/posts?query=${query}`);
     return posts;

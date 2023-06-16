@@ -2,12 +2,12 @@ import postData from '@/interfaces/post';
 import Link from 'next/link';
 import * as React from 'react';
 import Post from './post/post';
-import { fetchPosts } from '@/lib/posts';
+import { getPosts } from '@/data/posts';
 import { CSSProperties, useEffect, useState } from 'react';
 import postSchema from '@/interfaces/post';
 
 const getRecentPosts= async(query:string):Promise<postSchema[]|undefined> => {
-    const posts = await fetchPosts(query);
+    const posts = await getPosts(query);
     return posts?.data;
 }
 
