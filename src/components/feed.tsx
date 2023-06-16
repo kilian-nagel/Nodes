@@ -4,15 +4,11 @@ import * as React from 'react';
 import Post from './post/post';
 import { fetchPosts } from '@/lib/posts';
 import { CSSProperties, useEffect, useState } from 'react';
+import postSchema from '@/interfaces/post';
 
-interface apiResponse {
-    config:Object,
-    data:postData[]
-}
-
-const getRecentPosts= async(query:string):Promise<postData[]> => {
-    const posts:postData[] = (await fetchPosts(query)).data;
-    return posts;
+const getRecentPosts= async(query:string):Promise<postSchema[]|undefined> => {
+    const posts = await fetchPosts(query);
+    return posts?.data;
 }
 
 const Feed:React.FunctionComponent = ()=> {
@@ -20,10 +16,18 @@ const Feed:React.FunctionComponent = ()=> {
 
     useEffect(()=>{
         (async ()=>{
-            setPosts(await getRecentPosts("")
-            .catch(()=>{
-                throw new Error("Failed to fetch posts.");
-            }));
+            try {
+                const posts = await getRecentPosts("");
+                if(posts!=undefined){
+                    setPosts(posts);
+                } else {
+                    throw new Error("Failed to fetch posts")
+                }
+            } catch(err:unknown){
+                if( err instanceof Error ){
+                    throw new Error("Unkwown error : "+err);
+                }
+            }
         })();
     },[])
 
