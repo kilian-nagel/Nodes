@@ -7,6 +7,12 @@ interface apiResponse {
   data:postData[]
 }
 
+/**
+ * Fetch recent posts that contain the query passed in argument
+ * 
+ * @param query 
+ * @returns an array that contains 10 posts.
+ */
 export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
   try {
     const posts = await axios.get<any, apiResponse>(`/api/posts?query=${query}`);
