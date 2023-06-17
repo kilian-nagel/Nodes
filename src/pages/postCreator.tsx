@@ -11,18 +11,16 @@ function handleClickOnPostBtn(){
     addPostToDatabase(getPostContent());
 }
 
-const Post:NextPage = ()=>{
+const Post:NextPage = () => {
     return ( 
-        <div id="home">
-            <main>
-                <ErrorBoundary fallback={<div>Could not load the page.</div>}>
-                    <Suspense fallback={<MoonLoader/>}>
-                        <PostHeader handleClick={handleClickOnPostBtn}/>
-                        <TextBox/>
-                    </Suspense>
-                </ErrorBoundary>
-            </main>
-        </div>
+        <main>
+            <ErrorBoundary fallback={<div>Could not load the page.</div>}>
+                <Suspense fallback={<MoonLoader/>}>
+                    <PostHeader handleClick={handleClickOnPostBtn}/>
+                    <TextBox/>
+                </Suspense>
+            </ErrorBoundary>
+        </main>
     );
 }
 
