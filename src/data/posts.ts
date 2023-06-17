@@ -1,6 +1,10 @@
 import { handleAxiosErrors } from "@/errors/axiosErrors";
 import postData from "@/interfaces/post";
-import axios, { AxiosError } from "axios";
+import { parsePostContent } from "@/lib/parsing";
+import axios from "axios";
+import { sanitizeInput } from "./sanitize";
+import { getPostContent } from "@/components/postCreator/postCreator";
+import { createNewPost, isPostContentValid } from "@/lib/posts";
 
 interface apiResponse {
   config:Object,
@@ -25,3 +29,23 @@ export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
     }
   }
 };
+
+/**
+ * Add a post to the database. This method parses the content of the post and check if it is valid.
+ * If the content is valid then the post is added to the database.
+ * 
+ * @param postContent
+ */
+export const addPostToDatabase = (postContent:string)=>{
+  const postCategory = "main"; // Temporary
+  let postContentSanitized = sanitizeInput(getPostContent());
+  postContentSanitized = parsePostContent(postContent);
+  const post = JSON.stringify(createNewPost(postContentSanitized,postCategory));
+
+  if(isPostContentValid(postContent)){
+      fetch("/api/posts",{
+          body:post,
+          method:'POST'}
+          );
+  }
+}
