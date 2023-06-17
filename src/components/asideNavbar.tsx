@@ -1,7 +1,6 @@
 import Link from "next/link"
 
 export const AsideNavbar:React.FunctionComponent = () => {
-
     const style = {
         width:"300px"
     }

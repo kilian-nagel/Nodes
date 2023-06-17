@@ -20,6 +20,7 @@ const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,ti
     const contentStyle = {
         width:"100%"
     }
+    
     return (
         <div className="post" style={postStyle}>
             <ProfilePicture pictureUrl={pictureUrl}/>

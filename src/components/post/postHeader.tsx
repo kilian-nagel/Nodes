@@ -8,7 +8,6 @@ interface props {
 }
 
 const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
-
     const options = [
         {
             label:"modify post",
