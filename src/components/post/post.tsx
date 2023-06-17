@@ -1,6 +1,4 @@
-
 import PostHeader from './postHeader';
-import ProfileInfo from '../profile/profileInfo';
 import ProfilePicture from '../profile/profilePicture';
 
 interface props {

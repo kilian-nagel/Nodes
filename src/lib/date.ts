@@ -1,6 +1,5 @@
 
 
-import { error } from "console";
 import {dateError} from "../errors/utilityErrors"
 /**
  * return an array which contains all the months of the year
