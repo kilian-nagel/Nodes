@@ -6,29 +6,11 @@ import { getPosts } from '@/data/posts';
 import { CSSProperties, useEffect, useState } from 'react';
 import postSchema from '@/interfaces/post';
 
-const getRecentPosts= async(query:string):Promise<postSchema[]|undefined> => {
-    const posts = await getPosts(query);
-    return posts?.data;
-}
-
 const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postData[]>([]);
 
-    useEffect(()=>{
-        (async ()=>{
-            try {
-                const posts = await getRecentPosts("");
-                if(posts!=undefined){
-                    setPosts(posts);
-                } else {
-                    throw new Error("Failed to fetch posts")
-                }
-            } catch(err:unknown){
-                if( err instanceof Error ){
-                    throw new Error("Unkwown error : "+err);
-                }
-            }
-        })();
+    useEffect(()=>{ 
+        fetchPosts(setPosts);
     },[])
 
     const style = {
@@ -56,7 +38,8 @@ const Feed:React.FunctionComponent = ()=> {
     return ( 
         <div id="feed" className="flex-start-start-column" style={style as React.CSSProperties}>
             {
-                posts.map((post,i)=><Post postContent={post.content} category={post.category} time={post.time} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
+                posts.map((post,i)=><Post postContent={post.content} category={post.category} 
+                time={post.time} username={post.source.username} key={i} pictureUrl={post.source.picture}/>)
             }
             <div style={buttonContainerStyle} className="newPost-btn" aria-label='create a new post' title='create a new post'>
                 <Link className='flex-center-center' style={buttonStyle} href="./postCreator">
@@ -65,6 +48,27 @@ const Feed:React.FunctionComponent = ()=> {
             </div>
         </div>
     );
+}
+
+/**
+ * Fetch recents posts, checks that the posts are not undefined 
+ * then use the setter passed in parameter.
+ * 
+ * @param setPosts 
+ */
+async function fetchPosts(setPosts: (arg: postData[]) => void){
+    try {
+        const posts = await getPosts("");
+        if(posts!=undefined && posts.data != undefined){
+            setPosts(posts.data);
+        } else {
+            throw new Error("Failed to fetch posts")
+        }
+    } catch(err:unknown){
+        if( err instanceof Error ){
+            throw new Error("Unkwown error : "+err.message);
+        }
+    }
 }
 
 export default Feed;
