@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const {Schema ,model} = mongoose;
-import { userSchema } from "./users";
 
 export const post = new Schema({
+    _id:Schema.Types.ObjectId,
     content:String,
     category:String,
-    source:userSchema,
+    source:{type: Schema.Types.ObjectId, ref: 'user'},
     time:Date
 });
 
