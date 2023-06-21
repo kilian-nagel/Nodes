@@ -3,6 +3,7 @@ const {Schema ,model} = mongoose;
 
 export const userSchema = new Schema({
     _id:Schema.Types.ObjectId,
+    sub:String,
     username:String,
     picture:String,
     friends:[{ type: Schema.Types.ObjectId, ref: 'user' }],
