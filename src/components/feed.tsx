@@ -4,7 +4,6 @@ import * as React from 'react';
 import Post from './post/post';
 import { getPosts } from '@/data/posts';
 import { CSSProperties, useEffect, useState } from 'react';
-import postSchema from '@/interfaces/post';
 
 const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postData[]>([]);
@@ -66,7 +65,7 @@ async function fetchPosts(setPosts: (arg: postData[]) => void){
         }
     } catch(err:unknown){
         if( err instanceof Error ){
-            throw new Error("Unkwown error : "+err.message);
+            console.error("Failed to fetch posts");
         }
     }
 }
