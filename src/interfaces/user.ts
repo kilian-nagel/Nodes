@@ -1,9 +1,12 @@
+import messageSchema from "./messages";
+import postSchema from "./post";
 
 export default interface userSchema {
-    uid:string,
+    _id:string,
+    sub:string,
     username:string,
     picture:string,
-    friends:Object[],
-    messages:Object[],
-    posts:Object[]
+    friends:userSchema[],
+    messages:messageSchema[],
+    posts:postSchema[]
 }
