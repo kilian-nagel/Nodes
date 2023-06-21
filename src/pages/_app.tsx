@@ -8,6 +8,8 @@ import "../styles/components/footer.css";
 import "../styles/components/utility.css";
 import "../styles/pages/index.css";
 import "../styles/pages/home.css";
+import "../styles/pages/index.css";
+import "../globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
