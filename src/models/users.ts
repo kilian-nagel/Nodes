@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {Schema} = mongoose;
+const {Schema ,model} = mongoose;
 
 export const userSchema = new Schema({
     _id:Schema.Types.ObjectId,
@@ -10,4 +10,4 @@ export const userSchema = new Schema({
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
 
-export const userModel = mongoose.models.User || mongoose.model('User', userSchema);
+export const userModel = new model("user",userSchema);
