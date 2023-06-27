@@ -18,7 +18,7 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     return (
         <div className="profile-picture" style={style}>
             {
-                 ? <Image loader={imageLoader} src={pictureUrl} width={44} height={44} alt="profile picture" /> : <div style={style}></div>
+                pictureUrl ? <Image loader={imageLoader} src={pictureUrl} width={44} height={44} alt="profile picture" /> : <div style={style}></div>
             }
         </div>
     )
