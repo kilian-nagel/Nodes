@@ -1,8 +1,11 @@
-
-import Image from "next/dist/client/image";
+import Image, { ImageLoader } from "next/image";
 
 interface props {
     pictureUrl:string
+}
+
+const imageLoader : ImageLoader = ({ src, width, quality }) => {
+    return `https://example.com/${src}?w=${width}&q=${quality || 75}`
 }
 
 const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
@@ -13,9 +16,9 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
         height:"50px"
     };
     return (
-        <div className="profile-picture">
+        <div className="profile-picture" style={style}>
             {
-                pictureUrl ?  <Image src={pictureUrl} style={style} alt="profile picture" title='profile picture' /> : <div style={style}></div>
+                 ? <Image loader={imageLoader} src={pictureUrl} width={44} height={44} alt="profile picture" /> : <div style={style}></div>
             }
         </div>
     )
