@@ -1,12 +1,11 @@
 
-import connectDb from '../lib/dbConnection';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserByName, getUsersByName } from '@/data/users';
+import { getUserByGoogleID, getUserByName, getUsersByName } from '@/data/users';
 import userSchema from '@/interfaces/user';
 import { addUserError, userError, handleUserErrors, getUsersError, getUserError, modifyUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-
-const userModel = require("../models/users");
+import userModel, { userDocument } from "@/models/users";
+import dbConnect from '@/lib/dbConnection';
 
 /**
  * Add a new user to the database
