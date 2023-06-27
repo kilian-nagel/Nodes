@@ -41,7 +41,7 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
 export async function getUsers(req:NextApiRequest,res:NextApiResponse){
     try {
         const query = sanitizeMongoQuery(req.body);
-        const data:userSchema[] = await getUsersByName(query).catch((err:Error)=>{
+        const data:userDocument[] = await getUsersByName(query).catch((err:Error)=>{
             throw new getUsersError(err.message);
         });
         res.status(200).send(data);
