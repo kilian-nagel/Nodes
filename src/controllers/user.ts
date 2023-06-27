@@ -17,24 +17,11 @@ const userModel = require("../models/users");
 export async function addUser(req:NextApiRequest,res:NextApiResponse){
     const user:userSchema = req.body;
     try {
-        const username = sanitizeMongoQuery(user.username)
-        const userExists:boolean = userModel.exists({name:username});
-        if(!userExists){
-            const newUser = new userModel({
-                uid:user.uid,
-                username:user.username,
-                picture:user.picture,
-                friends:user.friends,
-                messages:user.messages,
-                posts:user.posts
-            });
-            await newUser.save().catch((err:Error)=>{
-                throw new addUserError(err.message);
-            });
-            res.status(201).end();
-        } else {
-            throw new addUserError("user already exists");
-        }
+        const newUser = new userModel(user);
+        await newUser.save().catch((err:Error)=>{
+            throw new addUserError(err.message);
+        });
+        res.status(201).end();
     } catch(err:unknown){
         if (err instanceof userError){
             handleUserErrors(err);
