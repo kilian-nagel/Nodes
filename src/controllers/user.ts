@@ -64,12 +64,28 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  */
 export async function getUser(req:NextApiRequest,res:NextApiResponse){
     try {
-        const username = sanitizeMongoQuery(req.body.username);
-        let user:userSchema;
-        user = await getUserByName(username).catch((err:Error)=>{
-            throw new getUserError(err.message);
-        });
-        res.status(200).send(user);
+        const queryType = sanitizeMongoQuery(req.body.queryType);
+        let user:userDocument|null = null;
+
+        switch(queryType){
+            case "username":
+                const username = sanitizeMongoQuery(req.body.username);
+                user = await getUserByName(username).catch((err:Error)=>{
+                    throw new getUserError(err.message);
+                });
+                break;
+            case "googleID":
+                const sub = sanitizeMongoQuery(req.body.sub);
+                user = await getUserByGoogleID(sub).catch((err:Error)=>{
+                    throw new getUserError(err.message);
+                });
+                break;
+        }
+        if(user!==null){
+            res.status(200).send(user);
+        } else {
+            res.status(500);
+        }
         res.end();
     } catch (err:unknown){
         if (err instanceof userError){
