@@ -41,8 +41,10 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
     try {
         const posts = await postModel.find({}).limit(10).catch((err:Error)=>{
             throw new getPostError(err.message);
-        })  
-        res.status(200).send(posts);
+        });
+        const populatedPosts = await postModel.populate(posts, { path: "source", model: userModel });
+
+        res.status(200).send(populatedPosts);
         res.end();
     } catch(err:unknown){
         if(err instanceof postError){
