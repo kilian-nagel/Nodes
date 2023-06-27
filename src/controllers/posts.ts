@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next/types';
 import postSchema from '@/interfaces/post';
 import { addPostError, getPostError, handlePostsErrors, modifyPostError, postError } from '@/errors/postErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import mongoose from 'mongoose';
 import postModel from '@/models/posts';
 import userModel from '@/models/users';
 import dbConnect from '@/lib/dbConnection';
