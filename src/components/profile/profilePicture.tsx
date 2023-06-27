@@ -12,8 +12,8 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     const style = {
         borderRadius:"25px",
         background:"var(--orochimaru)",
-        width:"50px",
-        height:"50px"
+        width:"44px",
+        height:"44px"
     };
     return (
         <div className="profile-picture" style={style}>
