@@ -117,4 +117,4 @@ export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
     }
 }
 
-connectDb();
+dbConnect();

@@ -84,4 +84,4 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
     }
 }
 
-connectDb();
+dbConnect();
