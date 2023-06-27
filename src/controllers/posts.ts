@@ -16,13 +16,7 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
     const data = sanitizeMongoQuery(req.body);
     const postData:postSchema = await JSON.parse(data);
     try { 
-        const newPost = new postModel({
-            uid:postData?.uid,
-            content:postData?.content,
-            category:postData?.category,
-            source:postData?.source,
-            time:postData?.time
-        })
+        const newPost = new postModel(postData);
         await newPost.save().catch((err:Error)=>{
             throw new addPostError(err.message);
         });
