@@ -65,7 +65,7 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
     const postUpdated = req.body.post;
     try {
-        await postModel.replaceOne({uid:postUpdated.uid},postUpdated).catch((err:Error)=>{
+            await postModel.replaceOne({_id:postUpdated._id},postUpdated).catch((err:Error)=>{
             throw new modifyPostError(err.message);
         });
         res.status(200).end();
