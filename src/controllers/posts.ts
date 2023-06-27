@@ -11,7 +11,7 @@ import { sanitizeMongoQuery } from '@/data/sanitize';
  * 
  * @param req - request that contains data of the post wich will be added.
  * @param res
- */
+**/
 export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     const data = sanitizeMongoQuery(req.body);
     const postData:postSchema = await JSON.parse(data);
@@ -42,7 +42,7 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
  * 
  * @param req
  * @param res - response that contains an array of 10 posts
- */
+**/
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     try {
         const posts = await postModel.find({}).limit(10).catch((err:Error)=>{
@@ -65,7 +65,7 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
  * 
  * @param req - request that contains the with the updated content.
  * @param res 
- */
+**/
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
     const postUpdated = req.body.post;
     try {
