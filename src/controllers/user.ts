@@ -95,6 +95,28 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse){
 }
 
 /**
+ * Check if a user exists in database according to a queryType and a query.
+ * It will check this way : find({queryType:query})
+ * 
+ * @param req contains the query and the queryType.
+ * @param res 
+ */
+export const doesUserExistsInDatabase = async (req:NextApiRequest,res:NextApiResponse):Promise<void> => {
+    const queryType = sanitizeMongoQuery(req.body.queryType);
+    const query = sanitizeMongoQuery(req.body.query);
+    try {
+        const userExists = userModel.exists({[queryType]:query})
+        res.status(200).send(userExists);
+        res.end();
+    } catch (err:unknown){
+        if(err instanceof Error){
+            console.log(err);
+        }
+        res.status(500).end();
+    }
+}
+
+/**
  * Modify the user that has the same uid as the user passed in parameter. The old user ( the one present in the database ) will be replaced with the user passed in parameter.
  * 
  * @param req - request made from the client-side, contains the user updated.
