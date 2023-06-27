@@ -57,7 +57,7 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
 }
 
 /**
- * Get user that has match exaclty the query
+ * Get user that has the username passed in parameter
  * 
  * @param req - request made from the client-side,contains the query
  * @param res
