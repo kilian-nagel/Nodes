@@ -58,7 +58,7 @@ const Feed:React.FunctionComponent = ()=> {
 async function fetchPosts(setPosts: (arg: postData[]) => void){
     try {
         const posts = await getPosts("");
-        if(posts!=undefined && posts.data != undefined){
+        if(posts!==undefined && posts.data !== undefined){
             setPosts(posts.data);
         } else {
             throw new Error("Failed to fetch posts")
