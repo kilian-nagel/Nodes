@@ -1,7 +1,19 @@
-const mongoose = require("mongoose");
-const {Schema ,model} = mongoose;
+import mongoose, { Document, Schema } from "mongoose";
+import userSchema from "@/interfaces/user";
+import messageSchema from "@/interfaces/messages";
+import postSchema from "@/interfaces/post";
 
-export const userSchema = new Schema({
+export interface userDocument extends Document {
+    _id:string,
+    sub:string,
+    username:string,
+    picture:userSchema,
+    friends:userSchema[],
+    messages:messageSchema[],
+    posts:postSchema[]
+};
+
+const userSchema = new Schema<userDocument>({
     _id:Schema.Types.ObjectId,
     sub:String,
     username:String,
@@ -11,4 +23,5 @@ export const userSchema = new Schema({
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
 
-export const userModel = new model("user",userSchema);
+const userModel = mongoose.model<userDocument>('users', userSchema);   
+export default userModel;

@@ -1,7 +1,15 @@
-const mongoose = require("mongoose");
-const {Schema ,model} = mongoose;
+import userSchema from "@/interfaces/user";
+import mongoose, { Document, Schema } from "mongoose";
 
-export const post = new Schema({
+interface postDocument extends Document {
+    id:string,
+    content:string,
+    category:string,
+    source:userSchema,
+    time:Date
+}
+
+const post = new Schema<postDocument>({
     _id:Schema.Types.ObjectId,
     content:String,
     category:String,
@@ -9,4 +17,5 @@ export const post = new Schema({
     time:Date
 });
 
-export const postModel = new model("post",post);
+const postModel = mongoose.model<postDocument>("post",post);
+export default postModel;

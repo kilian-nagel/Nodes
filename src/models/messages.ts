@@ -1,7 +1,15 @@
-const mongoose = require("mongoose");
-const {Schema , model } = mongoose;
+import mongoose, { Document, Schema } from "mongoose";
+import { userDocument } from "./users";
 
-export const message = new Schema({
+interface messageDocument extends Document {
+    _id:string,
+    content:string,
+    source:userDocument,
+    destination:userDocument,
+    time:Date
+}
+
+const message = new Schema({
     _id:Schema.Types.ObjectId,
     content:String,
     source:{type:Schema.Types.ObjectId,ref:"user"},
@@ -9,4 +17,5 @@ export const message = new Schema({
     time:Date
 })
 
-export const messageModel = new model("message",message);
+const messageModel = mongoose.model<messageDocument>("message",message);
+export default messageModel;
