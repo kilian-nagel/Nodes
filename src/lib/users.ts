@@ -38,11 +38,11 @@ export const getUserByName = async (query:string):Promise<userDocument|null> => 
  * @param query 
  * @returns 
  */
-export const getUserByUid = async (query:string):Promise<userDocument|null> => {
-    const querySanitized = sanitizeMongoQuery(query);
-    const user = await userModel.findOne({uid:querySanitized}).exec();
+export const getUserByUid = async (uid:string):Promise<userDocument|null> => {
+    const uidSanitized = sanitizeMongoQuery(uid);
+    const user = await userModel.findOne({uid:uidSanitized}).exec();
     if(!user){
-      console.error(new Error(`No user with the sub : ${query} found.`))
+      console.error(new Error(`No user with the uid : ${uid} found.`))
     }
     return user;
 }
