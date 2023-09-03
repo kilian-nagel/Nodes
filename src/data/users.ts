@@ -1,27 +1,52 @@
 import userSchema from "@/interfaces/user";
-import { userModel } from "@/models/users";
 import { sanitizeMongoQuery } from "./sanitize";
+import axios, { AxiosError } from "axios";
+import { handleAxiosErrors } from "@/errors/axiosErrors";
+import sanitize from "sanitize-html";
+
+type apiResponse = userSchema | string | undefined | null;
 
 /**
- * Get all users of the database that match the query passed in parameter
- * 
- * @param query
- * @returns 
- */
-export const getUsersByName = async (query:string):Promise<userSchema[]> => {
-    const querySanitized = sanitizeMongoQuery(query);
-    const users = await userModel.find({name:"\\"+querySanitized+"\\"}).exec().orFail(()=>console.error(new Error(`No user has a username that match the query : ${query}.`)));
-    return users;
-}
-
-/**
- * Get the user that has a username equal to the query passed in parameter
+ * Get user wich uid match the uid passed in parameter.
  * 
  * @param query 
+ * @param queryType 
  * @returns 
  */
-export const getUserByName = async (query:string):Promise<userSchema> => {
-    const querySanitized = sanitizeMongoQuery(query);
-    const user = await userModel.findOne({name:querySanitized}).exec().orFail(()=>console.error(new Error(`No user with the username : ${query} found.`)));
-    return user;
+export const getUserInfo = async (uid:string):Promise<apiResponse>=> {
+  try {
+    const userInfo = await axios.get<any, apiResponse>(`/api/users?sub=${uid}`);
+    return userInfo;
+  } catch (err:unknown) {
+    if (axios.isAxiosError(err)) {
+      handleAxiosErrors(err);
+    } else if(err instanceof Error){
+      throw new Error("Unknown error - " + err.message);
+    }
+  }
+};
+
+/**
+ * Ask appropriate controller to add user to db 
+ * 
+ * @param username 
+ * @param sub 
+ */
+export const addUser = async (username:string,sub:string):Promise<void> => {
+  let usernameSanitized = sanitizeMongoQuery(username);
+  usernameSanitized = sanitize(usernameSanitized);
+  let subSanitized = sanitizeMongoQuery(sub);
+  subSanitized = sanitize(subSanitized);
+
+  try {
+    axios.post("/api/users",{username:usernameSanitized,sub:subSanitized}).catch((err:Error)=>{
+      throw new AxiosError(err.message);
+    });
+  } catch(err:unknown){
+    if(err instanceof AxiosError){
+      handleAxiosErrors(err);
+    } else if(err instanceof Error){
+      console.error("Unknown Error "+err.message);
+    }
+  }
 }
