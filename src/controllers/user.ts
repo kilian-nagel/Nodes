@@ -99,9 +99,10 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse){
 
 
 /**
- * Modify the user that has the same uid as the user passed in parameter. The old user ( the one present in the database ) will be replaced with the user passed in parameter.
+ * Modify the user that match the uid. 
+ * The old user ( the one present in the database ) will be replaced with the user passed in parameter.
  * 
- * @param req - request made from the client-side, contains the user updated.
+ * @param req
  * @param res
  */
 export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
