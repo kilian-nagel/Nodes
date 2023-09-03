@@ -10,7 +10,7 @@ import dbConnect from '@/lib/dbConnection';
 /**
  * Add a new user to the database
  * 
- * @param req - request made from the client-side, contains data of the post wich will be added.
+ * @param req
  * @param res
  */
 export async function addUser(req:NextApiRequest,res:NextApiResponse){
@@ -34,7 +34,7 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
 /**
  * Get all the users that match the specified query
  * 
- * @param req - request made from the client-side, contains the query
+ * @param req
  * @param res
  */
 export async function getUsers(req:NextApiRequest,res:NextApiResponse){
@@ -56,9 +56,9 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
 }
 
 /**
- * Get user that has the username passed in parameter
+ * Get user that match the uid
  * 
- * @param req - request made from the client-side,contains the query
+ * @param req
  * @param res
  */
 export async function getUser(req:NextApiRequest,res:NextApiResponse){

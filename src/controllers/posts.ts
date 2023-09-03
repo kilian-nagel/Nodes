@@ -10,7 +10,7 @@ import dbConnect from '@/lib/dbConnection';
 /**
  * Add a new post to the database
  * 
- * @param req - request that contains data of the post wich will be added.
+ * @param req
  * @param res
 **/
 export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
@@ -33,10 +33,10 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
 }
 
 /**
- * Get 10 posts from the database
+ * Get 10 most recents posts from the database
  * 
  * @param req
- * @param res - response that contains an array of 10 posts
+ * @param res
 **/
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     try {
@@ -60,7 +60,7 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
 /**
  * Modify the post that has the uid of the post passed in parameter. It will replace the old post ( the one in the database ) with the one passed in parameter
  * 
- * @param req - request that contains the with the updated content.
+ * @param req
  * @param res 
 **/
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
