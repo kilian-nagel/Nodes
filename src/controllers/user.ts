@@ -61,30 +61,33 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res
  */
-export async function getUser(req:NextApiRequest,res:NextApiResponse){
+export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<userDocument|null|undefined>{
     try {
-        const queryType = sanitizeMongoQuery(req.body.queryType);
         let user:userDocument|null = null;
+        if(req.query.sub === undefined || Array.isArray(req.query.sub)) throw new getUserError("sub parameter undefined");
 
-        switch(queryType){
-            case "username":
-                const username = sanitizeMongoQuery(req.body.username);
-                user = await getUserByName(username).catch((err:Error)=>{
-                    throw new getUserError(err.message);
-                });
-                break;
-            case "googleID":
-                const sub = sanitizeMongoQuery(req.body.sub);
-                user = await getUserByGoogleID(sub).catch((err:Error)=>{
-                    throw new getUserError(err.message);
-                });
-                break;
+        const uid = sanitizeMongoQuery(req.query.sub);
+
+        // Check if user exists
+        const userExistsInDb = await userModel.exists({uid:uid}).catch((err:Error)=>{
+            throw new getUserError(err.message);
+        });
+        if(!userExistsInDb){
+            res.status(200).send("undefined");
+            res.end();
+            return;
         }
-        if(user!==null){
-            res.status(200).send(user);
+
+        // if user exists we fetch its data
+        user = await getUserByUid(uid).catch((err:Error)=>{
+            throw new getUserError(err.message);
+        });
+        if(user===null || user===undefined){
+            throw new getUserError("user undefined");
         } else {
-            res.status(500);
+            res.status(200).send(user);
         }
+
         res.end();
     } catch (err:unknown){
         if (err instanceof userError){
@@ -92,7 +95,9 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse){
         } else if ( err instanceof Error ){
             console.error(err.message);
         }
-        res.status(500).end();
+        res.send(null);
+        res.status(404).end();
+        return;
     }
 }
 
