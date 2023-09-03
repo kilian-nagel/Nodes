@@ -1,6 +1,5 @@
 import { DbConnectionError } from "@/errors/utilityErrors";
 import mongoose from "mongoose"
-const dotenv = require("dotenv").config();
 mongoose.set('strictQuery', true);
 
 if (!process.env.MONGODB_CONNECTION_URI) {
