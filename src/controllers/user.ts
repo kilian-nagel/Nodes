@@ -1,11 +1,11 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserByGoogleID, getUserByName, getUsersByName } from '@/data/users';
 import userSchema from '@/interfaces/user';
 import { addUserError, userError, handleUserErrors, getUsersError, getUserError, modifyUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
 import userModel, { userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
+import { getUserByUid, getUsersByName } from '@/lib/users';
 
 /**
  * Add a new user to the database
