@@ -5,7 +5,7 @@ import postSchema from "@/interfaces/post";
 
 export interface userDocument extends Document {
     _id:string,
-    sub:string,
+    uid:string,
     username:string,
     picture:userSchema,
     friends:userSchema[],
@@ -15,7 +15,7 @@ export interface userDocument extends Document {
 
 const userSchema = new Schema<userDocument>({
     _id:Schema.Types.ObjectId,
-    sub:String,
+    uid:String,
     username:String,
     picture:String,
     friends:[{ type: Schema.Types.ObjectId, ref: 'user' }],
