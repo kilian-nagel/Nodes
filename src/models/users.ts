@@ -8,7 +8,7 @@ export interface userDocument extends Document {
     _id:ObjectId,
     uid:string,
     username:string,
-    picture:userSchema,
+    picture:string,
     friends:userSchema[],
     messages:messageSchema[],
     posts:postSchema[]
