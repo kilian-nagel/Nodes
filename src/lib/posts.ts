@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 
 /**
  * Check if the content of a post complies with the rules.
@@ -15,19 +16,11 @@ export function isPostContentValid(content:string):boolean {
  * @param category 
  */
 export function createNewPost(content:string,category:string){
-    // temporary
     return {
-        uid:'1',
+        _id:new mongoose.Types.ObjectId(),
         content:content,
         category:category,
-        source:{
-            uid:"-1",
-            username:"guest",
-            picture:"",
-            friends:[],
-            messages:[],
-            posts:[],
-        },
+        source:"", // source is set up in the backend.
         time:new Date(),
     }
-  }
+}
