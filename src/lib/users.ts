@@ -1,5 +1,7 @@
 import { sanitizeMongoQuery } from "@/data/sanitize";
+import userSchema from "@/interfaces/user";
 import userModel, { userDocument } from "@/models/users";
+import mongoose from "mongoose";
 
 /**
  * Get all users of the database that match the query passed in parameter
@@ -46,4 +48,33 @@ export const getUserByUid = async (uid:string):Promise<userDocument|undefined> =
       return;
     }
     return user;
+}
+
+/**
+ * Get mongoose ObjectId of the user that match the UID.
+ * 
+ * @param uid 
+ */
+export async function getUserByDbID(uid:string){
+  let data = await getUserByUid(uid);
+  if(data === null || data === undefined) return;
+  let user = data;
+
+  return user._id;
+}
+
+/**
+ * Create a complete user object ready to be added to the database
+ */
+export function createUser(uid:string,username:string):userSchema{
+  const user = {
+    _id:new mongoose.Types.ObjectId(),
+    uid:uid,
+    username:username,
+    picture:"",
+    friends:[],
+    messages:[],
+    posts:[]
+  }
+  return user;
 }
