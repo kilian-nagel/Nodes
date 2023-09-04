@@ -1,10 +1,11 @@
-import userSchema from "@/interfaces/user";
 import { sanitizeMongoQuery } from "./sanitize";
 import axios, { AxiosError } from "axios";
 import { handleAxiosErrors } from "@/errors/axiosErrors";
 import sanitize from "sanitize-html";
 
-type apiResponse = userSchema | string | undefined | null;
+interface userInfoResponse {
+  data:null|string;
+} 
 
 /**
  * Get user wich uid match the uid passed in parameter.
@@ -13,9 +14,10 @@ type apiResponse = userSchema | string | undefined | null;
  * @param queryType 
  * @returns 
  */
-export const getUserInfo = async (uid:string):Promise<apiResponse>=> {
+export const getUserInfo = async (uid:string):Promise<userInfoResponse|undefined>=> {
   try {
-    const userInfo = await axios.get<any, apiResponse>(`/api/users?sub=${uid}`);
+    const userInfo = await axios.get<any, userInfoResponse>(`/api/users?sub=${uid}`);
+    if (userInfo===undefined) return;
     return userInfo;
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
@@ -23,6 +25,7 @@ export const getUserInfo = async (uid:string):Promise<apiResponse>=> {
     } else if(err instanceof Error){
       throw new Error("Unknown error - " + err.message);
     }
+    return;
   }
 };
 
@@ -32,7 +35,7 @@ export const getUserInfo = async (uid:string):Promise<apiResponse>=> {
  * @param username 
  * @param sub 
  */
-export const addUser = async (username:string,sub:string):Promise<void> => {
+export const addUser = async (username:string,sub:string):Promise<boolean> => {
   let usernameSanitized = sanitizeMongoQuery(username);
   usernameSanitized = sanitize(usernameSanitized);
   let subSanitized = sanitizeMongoQuery(sub);
@@ -42,11 +45,13 @@ export const addUser = async (username:string,sub:string):Promise<void> => {
     axios.post("/api/users",{username:usernameSanitized,sub:subSanitized}).catch((err:Error)=>{
       throw new AxiosError(err.message);
     });
+    return true;
   } catch(err:unknown){
     if(err instanceof AxiosError){
       handleAxiosErrors(err);
     } else if(err instanceof Error){
       console.error("Unknown Error "+err.message);
     }
+    return false;
   }
 }
