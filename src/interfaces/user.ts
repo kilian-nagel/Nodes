@@ -2,7 +2,7 @@ import messageSchema from "./messages";
 import postSchema from "./post";
 
 export default interface userSchema {
-    _id:string,
+    _id:ObjectId,
     sub:string,
     username:string,
     picture:string,
