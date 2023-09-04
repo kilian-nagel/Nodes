@@ -1,11 +1,10 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import userSchema from '@/interfaces/user';
 import { addUserError, userError, handleUserErrors, getUsersError, getUserError, modifyUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
 import userModel, { userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
-import { getUserByUid, getUsersByName } from '@/lib/users';
+import { createUser, getUserByUid, getUsersByName } from '@/lib/users';
 
 /**
  * Add a new user to the database
@@ -14,9 +13,20 @@ import { getUserByUid, getUsersByName } from '@/lib/users';
  * @param res
  */
 export async function addUser(req:NextApiRequest,res:NextApiResponse){
-    const user:userSchema = req.body;
+    const uid = sanitizeMongoQuery(req.body.sub);
+    const username = sanitizeMongoQuery(req.body.username); 
     try {
-        const newUser = new userModel(user);
+        const userObject = createUser(uid,username);
+        const newUser = new userModel(userObject);
+
+        // Check if user already exists before adding it to db
+        const userExistsInDb = await userModel.exists({uid:req.body.sub}).catch((err:Error)=>{
+            throw new addUserError(err.message);
+        });
+        if(userExistsInDb!==null){
+            throw new addUserError("User already exists");
+        }
+
         await newUser.save().catch((err:Error)=>{
             throw new addUserError(err.message);
         });
