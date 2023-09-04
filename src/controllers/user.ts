@@ -63,7 +63,7 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  */
 export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<userDocument|null|undefined>{
     try {
-        let user:userDocument|null = null;
+        let user:userDocument|undefined;
         if(req.query.sub === undefined || Array.isArray(req.query.sub)) throw new getUserError("sub parameter undefined");
 
         const uid = sanitizeMongoQuery(req.query.sub);
@@ -72,7 +72,7 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<us
         const userExistsInDb = await userModel.exists({uid:uid}).catch((err:Error)=>{
             throw new getUserError(err.message);
         });
-        if(!userExistsInDb){
+        if(userExistsInDb===null){
             res.status(200).send("undefined");
             res.end();
             return;
