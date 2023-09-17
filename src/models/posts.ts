@@ -1,11 +1,11 @@
-import userSchema from "@/interfaces/user";
+import { ObjectId } from "mongodb";
 import mongoose, { Document, Schema } from "mongoose";
 
 interface postDocument extends Document {
     id:string,
     content:string,
     category:string,
-    source:userSchema,
+    source:ObjectId,
     time:Date
 }
 
