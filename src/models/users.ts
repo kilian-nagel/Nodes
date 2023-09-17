@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import userSchema from "@/interfaces/user";
 import messageSchema from "@/interfaces/messages";
-import postSchema from "@/interfaces/post";
+import {postSchema} from "@/interfaces/post";
 import { ObjectId } from "mongodb";
 
 export interface userDocument extends Document {
