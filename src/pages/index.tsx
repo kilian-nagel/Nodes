@@ -8,10 +8,35 @@ import Footer from '@/components/footer';
 import Link from 'next/link';
 import Image from 'next/image'
 
+import { useState, useEffect } from 'react';
+import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
+import { getUserInfo, addUser} from '@/data/users';
+
 library.add(faBarsStaggered);
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const {user} = useUser();
+  const [userData,setUserData] = useState({});
+  const [style, setStyle] = useState({
+    display: "none",
+  });
+
+  useEffect(()=>{
+    (async ()=> {
+      if (user===null || user===undefined || user.sub === null || user.sub === undefined) return;
+      const userData = await getUserInfo(user.sub);
+
+      if(userData !== undefined && userData !== null && userData.data !== null && userData.data === "undefined"){
+        const nickname = user.nickname ? user.nickname : "guest";
+        const userAdded = await addUser(nickname,user.sub);
+        if (userAdded) await setCurrentUserData(user,setUserData);
+      } else if(userData!==null && userData!==undefined){
+        await setCurrentUserData(user,setUserData);
+      }
+    })();
+  },[user]);
+  
   return (
     <>
       <Head>
@@ -80,4 +105,9 @@ export default function Home() {
       <Footer></Footer>
     </>
   )
+}
+
+async function setCurrentUserData(user:UserProfile,setUserData:(arg0:Object)=>void){
+  if (user.sub===undefined || user.sub===null) return;
+  setUserData(getUserInfo(user.sub));
 }
