@@ -1,4 +1,4 @@
-import postData from '@/interfaces/post';
+import {postSchemaPopulated} from '@/interfaces/post';
 import Link from 'next/link';
 import * as React from 'react';
 import Post from './post/post';
@@ -6,7 +6,7 @@ import { getPosts } from '@/data/posts';
 import { CSSProperties, useEffect, useState } from 'react';
 
 const Feed:React.FunctionComponent = ()=> {
-    const [posts,setPosts] = useState<postData[]>([]);
+    const [posts,setPosts] = useState<postSchemaPopulated[]>([]);
 
     useEffect(()=>{ 
         fetchPosts(setPosts);
@@ -55,7 +55,7 @@ const Feed:React.FunctionComponent = ()=> {
  * 
  * @param setPosts 
  */
-async function fetchPosts(setPosts: (arg: postData[]) => void){
+async function fetchPosts(setPosts: (arg: postSchemaPopulated[]) => void){
     try {
         const posts = await getPosts("");
         if(posts!==undefined && posts.data !== undefined){
