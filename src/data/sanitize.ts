@@ -21,5 +21,6 @@ export function sanitizeInput(input:string):string{
  */
 export function sanitizeMongoQuery(query:string):string{
     const sanitizedQuery = sanitize(query);
+    console.log(sanitizedQuery);
     return sanitizedQuery;
 }
