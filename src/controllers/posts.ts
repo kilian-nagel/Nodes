@@ -1,22 +1,31 @@
 
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import postSchema from '@/interfaces/post';
 import { addPostError, getPostError, handlePostsErrors, modifyPostError, postError } from '@/errors/postErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
 import postModel from '@/models/posts';
 import userModel from '@/models/users';
 import dbConnect from '@/lib/dbConnection';
+import { getUserByUid } from '@/lib/users';
 
 /**
  * Add a new post to the database
  * 
- * @param req
+ * @param req contains post data , and uid of the user wich sent it.
  * @param res
 **/
 export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
-    const data = sanitizeMongoQuery(req.body);
-    const postData:postSchema = await JSON.parse(data);
+    let postDataRaw = await JSON.parse(req.body);
+    let uid = sanitizeMongoQuery(postDataRaw.source);
     try { 
+        // We fetch the id of the user in mongoose db to set up the source of the post correctly.
+        const postData = {...postDataRaw};
+        
+        const sourceUser = await getUserByUid(uid);
+        if(sourceUser===undefined) throw new addPostError("can't find source user");
+        const userObjectId = sourceUser._id;
+
+        postData.source = userObjectId;
+
         const newPost = new postModel(postData);
         await newPost.save().catch((err:Error)=>{
             throw new addPostError(err.message);
