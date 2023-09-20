@@ -1,5 +1,5 @@
 import { handleAxiosErrors } from "@/errors/axiosErrors";
-import postData from "@/interfaces/post";
+import { postSchemaPopulated } from "@/interfaces/post";
 import { parsePostContent } from "@/lib/parsing";
 import axios from "axios";
 import { sanitizeInput } from "./sanitize";
@@ -8,7 +8,7 @@ import { createNewPost, isPostContentValid } from "@/lib/posts";
 
 interface apiResponse {
   config:Object,
-  data:postData[]
+  data:postSchemaPopulated[]
 }
 
 /**
@@ -36,11 +36,11 @@ export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
  * 
  * @param postContent
  */
-export const addPostToDatabase = (postContent:string)=>{
+export const addPostToDatabase = (postContent:string,uid:string)=>{
   const postCategory = "main"; // Temporary
   let postContentSanitized = sanitizeInput(getPostContent());
   postContentSanitized = parsePostContent(postContent);
-  const post = JSON.stringify(createNewPost(postContentSanitized,postCategory));
+  const post = JSON.stringify(createNewPost(postContentSanitized,postCategory,uid));
 
   if(isPostContentValid(postContent)){
       fetch("/api/posts",{
