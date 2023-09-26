@@ -27,6 +27,9 @@ export default function Home() {
       if (user===null || user===undefined || user.sub === null || user.sub === undefined) return;
       const userData = await getUserInfo(user.sub);
 
+      /* Si l'utilisateur avec l'uid actuelle n'existe pas cela signifie qu'il vient de crée son compte.
+         Donc on demande au serveur de créer cet utilisateur.
+      */
       if(userData !== undefined && userData !== null && userData.data !== null && userData.data === "undefined"){
         const nickname = user.nickname ? user.nickname : "guest";
         const userAdded = await addUser(nickname,user.sub);
