@@ -1,11 +1,10 @@
 
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { addPostError, getPostError, handlePostsErrors, modifyPostError, postError } from '@/errors/postErrors';
+import { addPostError, getPostError, handlePostsErrors, postError } from '@/errors/postErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import postModel from '@/models/posts';
-import userModel from '@/models/users';
+import { addPostToDatabase, getRecentPostsFromDatabase, modifyPostFromDatabase } from '@/models/posts';
 import dbConnect from '@/lib/dbConnection';
-import { getUserByUid } from '@/lib/users';
+import { getUserByUid } from '@/models/users';
 
 /**
  * Add a new post to the database
@@ -26,10 +25,7 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
 
         postData.source = userObjectId;
 
-        const newPost = new postModel(postData);
-        await newPost.save().catch((err:Error)=>{
-            throw new addPostError(err.message);
-        });
+        addPostToDatabase(postData);
         res.status(200).end();
     } catch(err:unknown){
         if(err instanceof postError){
@@ -49,10 +45,8 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
 **/
 export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     try {
-        const posts = await postModel.find({}).limit(10).catch((err:Error)=>{
-            throw new getPostError(err.message);
-        });
-        const populatedPosts = await postModel.populate(posts, { path: "source", model: userModel });
+        const populatedPosts = await getRecentPostsFromDatabase();
+        if(populatedPosts === undefined) throw new getPostError("failed to get posts");
 
         res.status(200).send(populatedPosts);
         res.end();
@@ -75,9 +69,7 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
     const postUpdated = req.body.post;
     try {
-            await postModel.replaceOne({_id:postUpdated._id},postUpdated).catch((err:Error)=>{
-            throw new modifyPostError(err.message);
-        });
+        modifyPostFromDatabase(postUpdated);
         res.status(200).end();
     } catch(err:unknown){
         if(err instanceof postError){
