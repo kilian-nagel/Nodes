@@ -5,6 +5,8 @@ import {postSchema} from "@/interfaces/post";
 import { ObjectId } from "mongodb";
 import { sanitizeMongoQuery } from "@/data/sanitize";
 import { addUserError, getUserError, modifyUserError } from "@/errors/userErrors";
+import { getUser } from "@/controllers/user";
+import { postModel } from "./posts";
 
 export interface userDocument extends Document {
     _id:ObjectId,
@@ -25,6 +27,41 @@ const userSchema = new Schema<userDocument>({
     messages:[{ type: Schema.Types.ObjectId, ref: 'message' }],
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
+
+type getUserStrategy  = ()=>userDocument|userDocument[]|undefined;
+
+
+interface IGetUserStrategy {
+    getData(query:string,queryType:string,nbUsers?:number):userDocument|userDocument[]|undefined
+}
+
+async function getUsers(query:string,queryType:string,nbUser:number){
+    const users = await postModel.find({}).limit(10).catch((err:Error)=>{
+        throw new getUserError(err.message);
+    });
+    const populatedUsers = await postModel.populate(users, { path: "posts", model: postModel });
+    return populatedUsers;
+}       
+
+async function getUser(query:string,queryType:string,nbUser?:number){
+    const querySanitized = sanitizeMongoQuery(query);
+    const user = await userModel.findOne({queryType:query}).exec();
+    if(user===null){
+      throw new getUserError(`No user with ${queryType} equal to ${querySanitized} found.`);
+    }
+    return user;
+}
+
+class getUserContext {
+    setStrategy: (strategy: getUserStrategy) => void;
+    getStrategy: () => getUserStrategy;
+    constructor(strategy:getUserStrategy){
+        var _stragy:getUserStrategy = strategy;
+        this.setStrategy = function(strategy:getUserStrategy) { _stragy = strategy; }
+        this.getStrategy = () => {return _stragy;}
+    }
+}
+
 
 /**
  * Get the user that match the uid
