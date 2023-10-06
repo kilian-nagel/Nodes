@@ -28,7 +28,7 @@ const userSchema = new Schema<userDocument>({
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
 
-type getUserStrategy  = ()=>userDocument|userDocument[]|undefined;
+type getUserStrategy  = () => userDocument|userDocument[]|undefined|null;
 
 
 interface IGetUserStrategy {
