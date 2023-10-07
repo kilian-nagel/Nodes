@@ -31,7 +31,7 @@ type getUserStrategy  = () => userDocument|userDocument[]|undefined|null;
 
 
 interface IGetUserStrategy {
-    getData(query:string,queryType:string,nbUsers?:number):userDocument|userDocument[]|undefined
+    getData(query:string,queryType:string,nbUsers?:number):userDocument|userDocument[]|undefined|null
 }
 
 async function getUsers(query:string,queryType:string,nbUser:number){
