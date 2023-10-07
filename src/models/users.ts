@@ -34,21 +34,16 @@ interface IGetUserStrategy {
     getData(query:string,queryType:string,nbUsers?:number):userDocument|userDocument[]|undefined|null
 }
 
-async function getUsers(query:string,queryType:string,nbUser:number){
-    const users = await postModel.find({}).limit(10).catch((err:Error)=>{
-        throw new getUserError(err.message);
-    });
-    const populatedUsers = await postModel.populate(users, { path: "posts", model: postModel });
+async function getUsers(query:string,queryType:string,nbUser:number):Promise<userDocument[]|undefined>{
+    const users = await userModel.find().where(queryType).equals(query).limit(10);
+    const populatedUsers = await userModel.populate(users, { path: "posts", model: postModel });
     return populatedUsers;
 }       
 
-async function getUser(query:string,queryType:string,nbUser?:number){
-    const querySanitized = sanitizeMongoQuery(query);
-    const user = await userModel.findOne({queryType:query}).exec();
-    if(user===null){
-      throw new getUserError(`No user with ${queryType} equal to ${querySanitized} found.`);
-    }
-    return user;
+async function getUser(query:string,queryType:string,nbUser?:number):Promise<userDocument|null|undefined>{
+    const user = await userModel.findOne().where(queryType).equals(query);
+    const populatedUser = await userModel.populate(user,{path:"posts",model: postModel});
+    return populatedUser;
 }
 
 class getUserContext {
