@@ -49,10 +49,22 @@ async function getUser(query:string,queryType:string,nbUser?:number):Promise<use
 class getUserContext {
     setStrategy: (strategy: getUserStrategy) => void;
     getStrategy: () => getUserStrategy;
+    getData: () => undefined|null|userDocument|userDocument[];
     constructor(strategy:getUserStrategy){
-        var _stragy:getUserStrategy = strategy;
-        this.setStrategy = function(strategy:getUserStrategy) { _stragy = strategy; }
-        this.getStrategy = () => {return _stragy;}
+        var _strategy:getUserStrategy = strategy;
+        this.setStrategy = (strategy:getUserStrategy) => { _strategy = strategy; }
+        this.getStrategy = () => {return _strategy;}
+        this.getData = () => {
+            const strategy = this.getStrategy();
+            try {
+                const data = strategy();
+                return data;
+            } catch(err){
+                if( err instanceof Error){
+                    console.error(new getUserError(err.message));
+                }
+            }
+        }
     }
 }
 
