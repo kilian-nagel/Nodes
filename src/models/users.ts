@@ -27,37 +27,54 @@ const userSchema = new Schema<userDocument>({
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
 
-type getUserStrategy  = () => userDocument|userDocument[]|undefined|null;
+type singleUser = userDocument|null|undefined;
+type multipleUsers = userDocument[]|null|undefined;
+type getUserStrategy  = (params:IgetUserStrategyParams) => singleUser|multipleUsers;
 
+interface IgetUserStrategyParams {
+    queryType:string,
+    queryValue:string,
+    nbUsers:number
+};
 
-interface IGetUserStrategy {
-    getData(query:string,queryType:string,nbUsers?:number):userDocument|userDocument[]|undefined|null
+interface A {
+    member: string;
 }
 
-async function getUsers(query:string,queryType:string,nbUser:number):Promise<userDocument[]|undefined>{
-    const users = await userModel.find().where(queryType).equals(query).limit(10);
+export function instanceOfGetUserStrategyParams(params: any): params is IgetUserStrategyParams {
+    return 'queryType' in params && "queryValue" in params && "nbUsers" in params;
+}
+
+
+export interface IGetUserStrategy {
+    getData(params:IgetUserStrategyParams):Promise<singleUser|multipleUsers>
+}
+
+export async function getUsersStrategy(params:IgetUserStrategyParams):Promise<multipleUsers>{
+    const users = await userModel.find().where(params.queryType).equals(params.queryValue).limit(10);
     const populatedUsers = await userModel.populate(users, { path: "posts", model: postModel });
     return populatedUsers;
 }       
 
-async function getUser(query:string,queryType:string,nbUser?:number):Promise<userDocument|null|undefined>{
-    const user = await userModel.findOne().where(queryType).equals(query);
+export async function getUserStrategy(params:IgetUserStrategyParams):Promise<singleUser>{
+    const user = await userModel.findOne().where(params.queryType).equals(params.queryValue);
     const populatedUser = await userModel.populate(user,{path:"posts",model: postModel});
     return populatedUser;
 }
 
-class getUserContext {
+export class getUserContext {
     setStrategy: (strategy: getUserStrategy) => void;
     getStrategy: () => getUserStrategy;
-    getData: () => undefined|null|userDocument|userDocument[];
-    constructor(strategy:getUserStrategy){
-        var _strategy:getUserStrategy = strategy;
+    getData: () => singleUser|multipleUsers;
+    constructor(params:IgetUserStrategyParams){
+        var _params:IgetUserStrategyParams = params;
+        var _strategy:getUserStrategy;
         this.setStrategy = (strategy:getUserStrategy) => { _strategy = strategy; }
         this.getStrategy = () => {return _strategy;}
         this.getData = () => {
             const strategy = this.getStrategy();
             try {
-                const data = strategy();
+                const data = strategy(_params);
                 return data;
             } catch(err){
                 if( err instanceof Error){
