@@ -29,7 +29,7 @@ const userSchema = new Schema<userDocument>({
 
 type singleUser = userDocument|null|undefined;
 type multipleUsers = userDocument[]|null|undefined;
-type getUserStrategy  = (params:IgetUserStrategyParams) => singleUser|multipleUsers;
+type getUserStrategy  = (params:IgetUserStrategyParams) => Promise<singleUser|multipleUsers>;
 
 interface IgetUserStrategyParams {
     queryType:string,
@@ -65,16 +65,16 @@ export async function getUserStrategy(params:IgetUserStrategyParams):Promise<sin
 export class getUserContext {
     setStrategy: (strategy: getUserStrategy) => void;
     getStrategy: () => getUserStrategy;
-    getData: () => singleUser|multipleUsers;
+    getData: () => Promise<singleUser|multipleUsers>;
     constructor(params:IgetUserStrategyParams){
         var _params:IgetUserStrategyParams = params;
         var _strategy:getUserStrategy;
         this.setStrategy = (strategy:getUserStrategy) => { _strategy = strategy; }
         this.getStrategy = () => {return _strategy;}
-        this.getData = () => {
+        this.getData = async () => {
             const strategy = this.getStrategy();
             try {
-                const data = strategy(_params);
+                const data = await strategy(_params);
                 return data;
             } catch(err){
                 if( err instanceof Error){
