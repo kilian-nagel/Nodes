@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userError, handleUserErrors, getUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import userModel, { addUserToDatabase, createUser, getUserByUid, getUsersByName, modifyUserFromDatabase, userDocument } from "@/models/users";
+import userModel, { addUserToDatabase, createUser, getUserByUid, getUserContext, getUserStrategy, getUsersByName, getUsersStrategy, instanceOfGetUserStrategyParams, modifyUserFromDatabase, userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
 
 /**
@@ -37,20 +37,40 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
  * @param res
  */
 export async function getUsers(req:NextApiRequest,res:NextApiResponse){
+    const query = req.query.query;
+    const args = req.query;
+    if(req.query.nbUsers===undefined || req.query.nbUsers===null){
+        throw new getUserError("query not defined.");
+    }
+
+    const params = {queryType:args.queryType,queryValue:args.queryValue,nbUsers:args.nbUsers};
+    if(typeof req.query.query !== "string" || !instanceOfGetUserStrategyParams(params)){
+        throw new getUserError("incorrect query types");
+    }
+
+    const getUserCtx = new getUserContext(params);
     try {
-        if(req.query.query === undefined || Array.isArray(req.query.query)) throw new getUserError("sub parameter incorrect");
-        
-        const query = sanitizeMongoQuery(req.query.query);
-        const users:userDocument[] = await getUsersByName(query);
-        res.status(200).send(users);
-        res.end();
-    } catch(err:unknown){
-        if (err instanceof userError){
-            handleUserErrors(err);
-        } else if ( err instanceof Error ){
-            console.error(err.message);
+        if(query === "user"){
+            getUserCtx.setStrategy(getUserStrategy);
+            const data = getUserCtx.getData();
+            res.send(data);
+            res.end(200);
+            return;
+        } else if(query==="users"){
+            getUserCtx.setStrategy(getUsersStrategy);
+            const data = getUserCtx.getData();
+            res.send(data);
+            res.end(200);
+        } else {
+            res.send("query does not exists");
+            res.end(400);
         }
-        res.status(500).end();
+    } catch(err){
+        if(err instanceof Error){
+            console.error(new getUserError(err.message));
+            res.send("server error");
+            res.end(500);
+        }
     }
 }
 
