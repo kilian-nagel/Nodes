@@ -27,65 +27,6 @@ const userSchema = new Schema<userDocument>({
     posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
 })
 
-type singleUser = userDocument|null|undefined;
-type multipleUsers = userDocument[]|null|undefined;
-type getUserStrategy  = (params:IgetUserStrategyParams) => Promise<singleUser|multipleUsers>;
-
-interface IgetUserStrategyParams {
-    queryType:string,
-    queryValue:string,
-    nbUsers:number
-};
-
-interface A {
-    member: string;
-}
-
-export function instanceOfGetUserStrategyParams(params: any): params is IgetUserStrategyParams {
-    return 'queryType' in params && "queryValue" in params && "nbUsers" in params;
-}
-
-
-export interface IGetUserStrategy {
-    getData(params:IgetUserStrategyParams):Promise<singleUser|multipleUsers>
-}
-
-export async function getUsersStrategy(params:IgetUserStrategyParams):Promise<multipleUsers>{
-    const users = await userModel.find().where(params.queryType).equals(params.queryValue).limit(10);
-    const populatedUsers = await userModel.populate(users, { path: "posts", model: postModel });
-    return populatedUsers;
-}       
-
-export async function getUserStrategy(params:IgetUserStrategyParams):Promise<singleUser>{
-    const user = await userModel.findOne().where(params.queryType).equals(params.queryValue);
-    const populatedUser = await userModel.populate(user,{path:"posts",model: postModel});
-    return populatedUser;
-}
-
-export class getUserContext {
-    setStrategy: (strategy: getUserStrategy) => void;
-    getStrategy: () => getUserStrategy;
-    getData: () => Promise<singleUser|multipleUsers>;
-    constructor(params:IgetUserStrategyParams){
-        var _params:IgetUserStrategyParams = params;
-        var _strategy:getUserStrategy;
-        this.setStrategy = (strategy:getUserStrategy) => { _strategy = strategy; }
-        this.getStrategy = () => {return _strategy;}
-        this.getData = async () => {
-            const strategy = this.getStrategy();
-            try {
-                const data = await strategy(_params);
-                return data;
-            } catch(err){
-                if( err instanceof Error){
-                    console.error(new getUserError(err.message));
-                }
-            }
-        }
-    }
-}
-
-
 /**
  * Get the user that match the uid
  * 
