@@ -9,18 +9,24 @@ const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postSchemaPopulated[]>([]);
 
     useEffect(()=>{ 
+        let flag = true;
         async function fetchPosts():Promise<undefined>{
             const response = await getPosts("");
             if(response && response.data){
-                setPosts(response.data);
+                if(flag){
+                    setPosts(response.data);
+                }
             } else {
                 throw new Error("failed to get recent posts.");
             }
         };
-
+    
         fetchPosts();
 
-    },[])
+        return () => {
+            flag = false;
+        }
+    },[]);
 
     const style = {
         gap:"var(--spacing-sm)",
