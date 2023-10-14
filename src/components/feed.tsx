@@ -9,7 +9,17 @@ const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postSchemaPopulated[]>([]);
 
     useEffect(()=>{ 
-        fetchPosts(setPosts);
+        async function fetchPosts():Promise<undefined>{
+            const response = await getPosts("");
+            if(response && response.data){
+                setPosts(response.data);
+            } else {
+                throw new Error("failed to get recent posts.");
+            }
+        };
+
+        fetchPosts();
+
     },[])
 
     const style = {
@@ -47,27 +57,6 @@ const Feed:React.FunctionComponent = ()=> {
             </div>
         </div>
     );
-}
-
-/**
- * Fetch recents posts, checks that the posts are not undefined 
- * then use the setter passed in parameter.
- * 
- * @param setPosts 
- */
-async function fetchPosts(setPosts: (arg: postSchemaPopulated[]) => void){
-    try {
-        const posts = await getPosts("");
-        if(posts!==undefined && posts.data !== undefined){
-            setPosts(posts.data);
-        } else {
-            throw new Error("Failed to fetch posts")
-        }
-    } catch(err:unknown){
-        if( err instanceof Error ){
-            console.error("Failed to fetch posts");
-        }
-    }
 }
 
 export default Feed;
