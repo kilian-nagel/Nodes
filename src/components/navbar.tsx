@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Profile } from './profile/profile';
-import { useEffect } from 'react';
 
 const Navbar:React.FunctionComponent = () => {
     const { user, error, isLoading } = useUser();
@@ -10,10 +9,6 @@ const Navbar:React.FunctionComponent = () => {
     
     const username = user?.nickname;
     const picture = user?.picture;
-
-    useEffect(()=>{
-        console.log(user);
-    },[user]);
 
     return (
         <header id="header" className='header'>
