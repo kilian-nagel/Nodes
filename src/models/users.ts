@@ -5,7 +5,6 @@ import {postSchema} from "@/interfaces/post";
 import { ObjectId } from "mongodb";
 import { sanitizeMongoQuery } from "@/data/sanitize";
 import { addUserError, getUserError, modifyUserError } from "@/errors/userErrors";
-import { postModel } from "./posts";
 
 export interface userDocument extends Document {
     _id:ObjectId,
