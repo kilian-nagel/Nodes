@@ -53,7 +53,7 @@ export default function Home() {
         <section id="home">
           <div className="inner">
             <div className="content">
-              <h1 className="title">Join our awesome community</h1>
+              <h1 className="title font-bold">Join our awesome community</h1>
               <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, incidunt aperiam consectetur provident tenetur pariatur.</p>
               <div className="buttons">
                 <Link href="" className="btn-default cta" aria-label='go to registration page' title='go to registration page'>Sign up</Link>
@@ -67,7 +67,7 @@ export default function Home() {
         </section>
         <section id="partners">
           <div className="inner">
-            <h2 className='subtitle'>We collaborate with awesome companies</h2>
+            <h2 className='subtitle font-bold'>We collaborate with awesome companies</h2>
             <div className="slide">
               <div className="row">
                 <span className="companies">Google Microsoft Mozilla NextJS Accenture Adobe Amazon Apple Atos&nbsp;</span>
@@ -87,7 +87,7 @@ export default function Home() {
                 <p className="index flex-center-center">01</p>
               </div>
               <div className="content">
-                <h2 className="subtitle">Connect with your friends</h2>
+                <h2 className="subtitle font-bold">Connect with your friends</h2>
                 <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae in sequi aut nisi quibusdam labore aliquid doloremque ratione quam perspiciatis, dignissimos aperiam velit natus consequatur dolore totam, nostrum esse!</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function Home() {
                 <p className="index flex-center-center">02</p>
               </div>
               <div className="content">
-                <h2 className="subtitle">Share your memories</h2>
+                <h2 className="subtitle font-bold">Share your memories</h2>
                 <p className="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur molestiae in sequi aut nisi quibusdam labore aliquid doloremque ratione quam perspiciatis, dignissimos aperiam velit natus consequatur dolore totam, nostrum esse!</p>
               </div>
             </div>

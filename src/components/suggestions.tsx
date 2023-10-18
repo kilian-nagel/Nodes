@@ -7,7 +7,7 @@ export const Suggestions:React.FunctionComponent = () => {
 
     return (
         <div id="suggestions" style={style}>
-            <h2 className="subtitle-2">Suggestions</h2>
+            <h2 className="subtitle-2 font-bold">Suggestions</h2>
         </div>
     )
 }

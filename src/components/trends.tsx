@@ -8,7 +8,7 @@ export const Trends:React.FunctionComponent = () => {
 
     return (
         <div className="trends flex-start-start-column" id="trends" style={style}>
-            <h2 className="subtitle-2">Trends</h2>
+            <h2 className="subtitle-2 font-bold">Trends</h2>
             <div className="trend">
                 <h3>Vacations</h3>
                 <p className="text text-light">20k posts</p>

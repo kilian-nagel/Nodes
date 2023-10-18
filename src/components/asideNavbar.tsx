@@ -21,7 +21,7 @@ export const AsideNavbar:React.FunctionComponent = () => {
         <div style={style}> 
             {
                 user ? <Profile username={username?username:'guest'} pictureUrl={picture?picture:''}/> 
-                : <h1 className="subtitle-2" style={titleStyle}><Link href="/">Nodes</Link></h1>
+                : <h1 className="subtitle-2 font-bold" style={titleStyle}><Link href="/">Nodes</Link></h1>
             }
             <nav className="asideNavbar" id="asideNavbar">
                 <ul>
