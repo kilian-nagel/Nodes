@@ -61,7 +61,7 @@ export default function Home() {
               </div>
             </div>
             <div className="preview">
-              <Image width={325} height={406.25} src={"/home.jpg"} alt="image d'un homme" role="presentation"/>
+              <Image width={325} height={406.25} src={"/home.jpg"} alt="image d'un homme" role="presentation" priority/>
             </div>
           </div>
         </section>
