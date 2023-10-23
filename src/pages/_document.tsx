@@ -5,14 +5,22 @@ import mongoose, { Mongoose } from 'mongoose';
 import userSchema from '@/interfaces/user';
 import { getUserInfo } from '@/data/users';
 
-export const UserDataContext = createContext({});
+export const UserDataContext = createContext<userSchema>({
+  _id:new mongoose.Types.ObjectId(""),
+  uid:"",
+  username:"",
+  picture:"",
+  friends:[],
+  messages:[],
+  posts:[]
+});
 
 export default function Document() {
   const user = useUser();
   const [userData,setUserData] = useState<userSchema>({
-    _id:new mongoose.Types.ObjectId("a"),
-    uid:"a",
-    username:"guest",
+    _id:new mongoose.Types.ObjectId(""),
+    uid:"",
+    username:"",
     picture:"",
     friends:[],
     messages:[],
