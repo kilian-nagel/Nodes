@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import messageSchema from "./messages";
-import {postSchema} from "./post";
+import {postSchema, postSchemaPopulated} from "./post";
 
 export default interface userSchema {
     _id:ObjectId,
@@ -9,5 +9,5 @@ export default interface userSchema {
     picture:string,
     friends:userSchema[],
     messages:messageSchema[],
-    posts:postSchema[]
+    posts:postSchemaPopulated[]
 }
