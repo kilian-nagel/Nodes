@@ -6,10 +6,11 @@ interface props {
     pictureUrl:string,
     postContent:string,
     category:string,
+    postId:string,
     time:Date
 }
 
-const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,time}) =>{
+const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,time,postId}) =>{
     const postStyle = {
         display:"flex",
         gap:"0.5rem",
@@ -23,7 +24,7 @@ const Post:React.FunctionComponent<props> = ({username,pictureUrl,postContent,ti
         <div className="post" style={postStyle}>
             <ProfilePicture pictureUrl={pictureUrl}/>
             <div className="content" style={contentStyle}>
-                <PostHeader username={username} date={time}/>
+                <PostHeader username={username} date={time} postId={postId}/>
                 <div className="postContent">
                    <p className="text">{postContent}</p>
                 </div>

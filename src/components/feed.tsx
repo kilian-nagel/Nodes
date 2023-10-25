@@ -55,7 +55,7 @@ const Feed:React.FunctionComponent = ()=> {
             {
                 posts.map((post)=>{
                     if(post){
-                        return <Post postContent={post.content} category={post.category} 
+                        return <Post postContent={post.content} category={post.category} postId={post._id.toString()}
                         time={post.time} username={post.source.username} key={crypto.randomUUID()} pictureUrl={post.source.picture}/>
                     }
                 })

@@ -1,24 +1,44 @@
+import { useUser } from "@auth0/nextjs-auth0/client";
 import ProfileInfo from "../profile/profileInfo";
 import DropdownMenu from "./DropdownMenu";
 import PostInfo from "./postInfo";
+import { useContext } from "react";
+import { UserDataContext } from "@/pages/_document";
+import userSchema from "@/interfaces/user";
 
 interface props {
+    postId:string,
     username:string,
     date:Date
 }
 
-const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
-    const options = [
+const PostHeader:React.FunctionComponent<props> = ({username,date,postId})=>{
+    const {user} = useUser();
+    const userData = useContext(UserDataContext);
+
+    const ownOptions = [
         {
-            label:"modify post",
-            url:"/modifyPost"
+            label:"delete post",
+            url:"/delete"
         },
+        {   
+            label:"modify post",
+            url:"modify post"
+        }
+    ]
+
+    let generalOptions = [
         {
             label:"bookmark",
             url:"/bookmark"
         }
     ]
-    
+
+    if(userOwnPost(userData,postId)){
+        // Si l'utilisateur a écrit le poste affiché, alors il doit diposer des options/droits de modification et de suppression
+        generalOptions = [...generalOptions,...ownOptions];
+    }
+
     return (
     <div className="profile-header flex-spaceBetween-center">
         <div className="left flex-start-center">
@@ -26,7 +46,7 @@ const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
             <PostInfo date={date}></PostInfo>
         </div>
         <div className="right">
-            <DropdownMenu options={options}></DropdownMenu>
+            <DropdownMenu options={generalOptions}></DropdownMenu>
         </div>
     </div>
     );
