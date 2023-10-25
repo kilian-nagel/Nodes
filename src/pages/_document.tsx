@@ -6,7 +6,7 @@ import userSchema from '@/interfaces/user';
 import { getUserInfo } from '@/data/users';
 
 export const UserDataContext = createContext<userSchema>({
-  _id:new mongoose.Types.ObjectId(""),
+  _id:new mongoose.Types.ObjectId(),
   uid:"",
   username:"",
   picture:"",
@@ -18,7 +18,7 @@ export const UserDataContext = createContext<userSchema>({
 export default function Document() {
   const user = useUser();
   const [userData,setUserData] = useState<userSchema>({
-    _id:new mongoose.Types.ObjectId(""),
+    _id:new mongoose.Types.ObjectId(),
     uid:"",
     username:"",
     picture:"",
