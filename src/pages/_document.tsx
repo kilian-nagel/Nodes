@@ -1,7 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import mongoose, { Mongoose } from 'mongoose';
+import { createContext, useEffect, useState } from 'react';
+import mongoose from 'mongoose';
 import userSchema from '@/interfaces/user';
 import { getUserInfo } from '@/data/users';
 
