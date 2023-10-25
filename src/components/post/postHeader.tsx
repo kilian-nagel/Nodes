@@ -32,4 +32,11 @@ const PostHeader:React.FunctionComponent<props> = ({username,date})=>{
     );
 }
 
+function userOwnPost(user:userSchema,postId:string){
+    for(const post of user.posts){
+        if(post._id.toString() === postId) return true;
+    }
+    return false;
+}
+
 export default PostHeader;
