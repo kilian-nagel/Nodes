@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import messageSchema from "./messages";
-import {postSchema, postSchemaPopulated} from "./post";
+import {postSchemaPopulated} from "./post";
 
 export default interface userSchema {
     _id:ObjectId,
