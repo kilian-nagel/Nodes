@@ -11,7 +11,7 @@ const imageLoader : ImageLoader = ({ src, width, quality }) => {
 const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     const style = {
         borderRadius:"25px",
-        background:"var(--orochimaru)",
+        background:"var(--light-gray)",
         width:"44px",
         height:"44px"
     };
