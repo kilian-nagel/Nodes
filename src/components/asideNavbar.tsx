@@ -9,21 +9,18 @@ export const AsideNavbar:React.FunctionComponent = () => {
     const username = user?.nickname;
     const picture = user?.picture;
 
-    const style = {
-        width:"300px"
-    }
 
     const titleStyle = {
         marginTop:"var(--spacing-md)"
     }
 
     return (
-        <div style={style}> 
+        <div id="asideNavbar"> 
             {
                 user ? <Profile username={username?username:'guest'} pictureUrl={picture?picture:''}/> 
                 : <h1 className="subtitle-2 font-bold" style={titleStyle}><Link href="/">Nodes</Link></h1>
             }
-            <nav className="asideNavbar" id="asideNavbar">
+            <nav className="mt-2">
                 <ul>
                     <li><Link href="/" className="text-light">HOME</Link></li>
                     <li><Link href="/" className="text-light">ABOUT</Link></li>
