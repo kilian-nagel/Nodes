@@ -6,6 +6,12 @@ import { addPostToDatabase, getRecentPostsFromDatabase, modifyPostFromDatabase }
 import dbConnect from '@/lib/dbConnection';
 import { getUserByUid } from '@/models/users';
 
+console.log('the AUTH0_SECRET env var is set: ', process.env.AUTH0_SECRET);
+console.log('the NODE_ENV env var is set: ', process.env.NODE_ENV);
+console.log('the AUTH0_CLIENT_ID env var is set: ', process.env.AUTH0_CLIENT_ID);
+console.log('the AUTH0_CLIENT_SECRET env var is set: ', process.env.AUTH0_CLIENT_SECRET);
+console.log('the AUTH0_BASE_URL env var is set: ', process.env.AUTH0_BASE_URL);
+
 /**
  * Add a new post to the database
  * 
