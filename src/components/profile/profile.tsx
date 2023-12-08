@@ -9,7 +9,7 @@ interface props {
 
 export const Profile:React.FunctionComponent<props> = ({username,pictureUrl}) => {
     return (
-        <div className="profile flex justify-center items-center gap-2">
+        <div className="profile flex items-center gap-2">
             <ProfilePicture pictureUrl={pictureUrl}/>
             <ProfileInfo username={username}/>
         </div>
