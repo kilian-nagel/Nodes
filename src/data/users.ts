@@ -2,10 +2,11 @@ import { sanitizeMongoQuery } from "./sanitize";
 import axios, { AxiosError } from "axios";
 import { handleAxiosErrors } from "@/errors/axiosErrors";
 import sanitize from "sanitize-html";
+import userSchema from "@/interfaces/user";
 
 interface userInfoResponse {
-  data:null|string;
-} 
+  data:null|userSchema;
+}
 
 /**
  * Get user wich uid match the uid passed in parameter.
