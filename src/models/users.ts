@@ -21,9 +21,9 @@ const userSchema = new Schema<userDocument>({
     uid:String,
     username:String,
     picture:String,
-    friends:[{ type: Schema.Types.ObjectId, ref: 'user' }],
+    friends:[{ type: Schema.Types.ObjectId, ref: 'users' }],
     messages:[{ type: Schema.Types.ObjectId, ref: 'message' }],
-    posts:[{ type: Schema.Types.ObjectId, ref: 'post' }],
+    posts:[{ type: Schema.Types.ObjectId, ref: 'posts' }],
 })
 
 /**
