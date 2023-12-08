@@ -7,7 +7,7 @@ import { UserDataContext } from "@/pages/_document";
 import userSchema from "@/interfaces/user";
 
 interface props {
-    postId:string,
+    post:postSchemaPopulated,
     username:string,
     date:Date
 }
