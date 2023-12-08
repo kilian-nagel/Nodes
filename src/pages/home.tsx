@@ -6,10 +6,12 @@ import { Suggestions } from '@/components/suggestions';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
 import { MoonLoader } from 'react-spinners';
+import { MenuNavbar } from '@/components/menuNavbar';
 
 function Home() {
     return ( 
         <div id="home">
+            <MenuNavbar></MenuNavbar>
             <main id='main'>
                 <aside className='left'>
                     <ErrorBoundary fallback={<div>Could not fetch data</div>}>
