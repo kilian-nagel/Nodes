@@ -25,6 +25,7 @@ export const AsideNavbar:React.FunctionComponent = () => {
                     <li><Link href="/" className="text-light">HOME</Link></li>
                     <li><Link href="/" className="text-light">ABOUT</Link></li>
                     <li><Link href="/" className="text-light">MESSAGES</Link></li>
+                    <li><Link href="/api/auth/logout" className="text-light">DISCONNECT</Link></li>
                 </ul>
             </nav>
         </div>
