@@ -122,5 +122,5 @@ export function createUser(uid:string,username:string):userSchema{
     return user;
 }
 
-const userModel = mongoose.model<userDocument>('users', userSchema);   
+const userModel = mongoose.models.users || mongoose.model<userDocument>('users', userSchema);   
 export default userModel;
