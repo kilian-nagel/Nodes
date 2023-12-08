@@ -1,10 +1,16 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
 import ProfileInfo from "../profile/profileInfo";
 import DropdownMenu from "./DropdownMenu";
 import PostInfo from "./postInfo";
-import { useContext } from "react";
-import { UserDataContext } from "@/pages/_document";
+import { createContext, useEffect, useState } from "react";
 import userSchema from "@/interfaces/user";
+import { getUserInfo } from "@/data/users";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import mongoose from "mongoose";
+import { postSchemaPopulated } from "@/interfaces/post";
+import { userOwnPost } from "@/lib/posts";
+import { deletePost } from "@/data/posts";
+
+const l = console.log;
 
 interface props {
     post:postSchemaPopulated,
@@ -12,51 +18,86 @@ interface props {
     date:Date
 }
 
-const PostHeader:React.FunctionComponent<props> = ({username,date,postId})=>{
-    const {user} = useUser();
-    const userData = useContext(UserDataContext);
+const UserDataContext = createContext<userSchema>({
+    _id:new mongoose.Types.ObjectId(),
+    uid:"",
+    username:"",
+    picture:"",
+    friends:[],
+    messages:[],
+    posts:[]
+  });
+
+const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
+    const user = useUser();
+    const [userData,setUserData] = useState<userSchema>({
+      _id:new mongoose.Types.ObjectId(),
+      uid:"",
+      username:"",
+      picture:"",
+      friends:[],
+      messages:[],
+      posts:[]
+    });
+
+    useEffect(()=>{
+        let flag = true;
+        async function fetchUserData(){
+          if(user === undefined || user===null || user.user===null || user.user === undefined || user.user.sub === null || user.user.sub === undefined) return;
+          
+          const userInfo = await getUserInfo(user.user?.sub);
+          if(flag){
+            if(userInfo===undefined) return;
+            if(userInfo.data===null) return;
+            setUserData(userInfo.data);
+            l(userInfo);
+          }   
+        }
+    
+        fetchUserData();
+    
+        return () => {
+          flag = false;
+        }
+    },[user]);
+    
+    let generalOptions = [
+        {label:'bookmark',action:()=>modifyPostWrapper()}
+    ];
 
     const ownOptions = [
-        {
-            label:"delete post",
-            url:"/delete"
-        },
-        {   
-            label:"modify post",
-            url:"modify post"
-        }
+        {label:'modify',action:()=>modifyPostWrapper()},
+        {label:'delete',action:()=>deletePostWrapper(post,userData)}
     ]
 
-    let generalOptions = [
-        {
-            label:"bookmark",
-            url:"/bookmark"
-        }
-    ]
-
-    if(userOwnPost(userData,postId)){
+    if(userOwnPost(post,userData)){
         // Si l'utilisateur a écrit le poste affiché, alors il doit diposer des options/droits de modification et de suppression
         generalOptions = [...generalOptions,...ownOptions];
     }
 
     return (
-    <div className="profile-header flex-spaceBetween-center">
-        <div className="left flex-start-center">
-            <ProfileInfo username={username}/>
-            <PostInfo date={date}></PostInfo>
+    <UserDataContext.Provider value={userData}>
+        <div className="profile-header flex-spaceBetween-center">
+            <div className="left flex-start-center">
+                <ProfileInfo username={username}/>
+                <PostInfo date={date}></PostInfo>
+            </div>
+            <div className="right">
+                <DropdownMenu options={generalOptions}></DropdownMenu>
+            </div>
         </div>
-        <div className="right">
-            <DropdownMenu options={generalOptions}></DropdownMenu>
-        </div>
-    </div>
+    </UserDataContext.Provider>
     );
 }
 
-function userOwnPost(user:userSchema,postId:string){
-    for(const post of user.posts){
-        if(post._id.toString() === postId) return true;
-    }
-    return false;
+async function deletePostWrapper(post:postSchemaPopulated,user:userSchema){
+    console.log("DELETE CALLED");
+    deletePost(post,user);
+    return undefined;
+}
+
+async function modifyPostWrapper(){
+    return undefined;
 }
 
 export default PostHeader;
