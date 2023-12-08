@@ -5,7 +5,7 @@ interface props {
 }
 
 const imageLoader : ImageLoader = ({ src, width, quality }) => {
-    return `https://example.com/${src}?w=${width}&q=${quality || 75}`
+    return `${src}?w=${44}&q=${quality || 75}`
 }
 
 const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
@@ -18,7 +18,7 @@ const ProfilePicture : React.FunctionComponent<props> = ({pictureUrl}) =>{
     return (
         <div className="profile-picture" style={style}>
             {
-                pictureUrl ? <Image loader={imageLoader} src={pictureUrl} width={44} height={44} alt="profile picture" /> : <div style={style}></div>
+                pictureUrl !== "" ? <Image loader={imageLoader} src={pictureUrl} width={44} height={44} alt="profile picture" className="rounded-full" /> : <div style={style}></div>
             }
         </div>
     )
