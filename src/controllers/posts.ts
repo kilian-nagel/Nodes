@@ -67,8 +67,8 @@ export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promi
  * @param res 
 **/
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
-    const postUpdated = req.body.post;
-    try {
+    try {   
+        const postUpdated = JSON.parse(req.body);
         modifyPostFromDatabase(postUpdated);
         res.status(200).end();
     } catch(err:unknown){
