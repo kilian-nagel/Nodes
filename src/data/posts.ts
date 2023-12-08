@@ -4,11 +4,22 @@ import { parsePostContent } from "@/lib/parsing";
 import axios from "axios";
 import { sanitizeInput } from "./sanitize";
 import { getPostContent } from "@/components/postCreator/postCreator";
-import { createNewPost, isPostContentValid } from "@/lib/posts";
+import { createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
+import userSchema from "@/interfaces/user";
+
 
 interface apiResponse {
   config:Object,
   data:postSchemaPopulated[]
+}
+
+interface responseDelete {
+  success:boolean,
+  data:string
+}
+
+interface apiResponseDelete {
+  data:responseDelete
 }
 
 /**
@@ -47,5 +58,30 @@ export const addPostToDatabase = (postContent:string,uid:string)=>{
           body:post,
           method:'POST'}
           );
+  }
+}
+
+/**
+ * 
+ * @param postContent 
+ */
+export const deletePost = async (post:postSchemaPopulated,user:userSchema):Promise<undefined|responseDelete>=>{
+  const id = post._id.toString();
+
+  const config = {
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    data:id,
+  };
+
+  if(userOwnPost(post,user)){
+    const response = await axios.delete<any,apiResponseDelete>(`/api/posts`,config);
+    return response.data;
+  } else {
+    return {
+      success:false,
+      data:"vous ne pouvez pas effacer un post dont vout n'êtes pas le propriétaire"
+    }
   }
 }
