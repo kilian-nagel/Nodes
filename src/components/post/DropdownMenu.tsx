@@ -1,12 +1,7 @@
-import Link from "next/link";
-
-type option = {
-  label:string,
-  url:string,
-}
+import { IOptionMenu, OptionMenu } from "./optionMenu";
 
 interface props {
-    options : option[]
+    options:IOptionMenu[]
 }
 
 const DropdownMenu:React.FC<props> = ({ options }) => {
@@ -19,9 +14,11 @@ const DropdownMenu:React.FC<props> = ({ options }) => {
       <div className="dropdown-menu" style={style}>
         <button className="options-button">...</button>
         <ul className="options-list">
-          {options.map((option) => (
-            <li key={crypto.randomUUID()}><Link className="text option" href={option.url}>{option.label}</Link></li>
-          ))}
+          {
+            options.map(option=>{
+              return <OptionMenu key={crypto.randomUUID()} optionLabel={option.label} action={option.action}/>
+            })
+          }
         </ul>
       </div>
     );
