@@ -1,4 +1,4 @@
-import { addPostError, getPostError, modifyPostError } from "@/errors/postErrors";
+import { addPostError, deletePostError, getPostError, modifyPostError } from "@/errors/postErrors";
 import { ObjectId } from "mongodb";
 import mongoose, { Document, Schema } from "mongoose";
 import userModel from "./users";
@@ -45,4 +45,10 @@ export async function modifyPostFromDatabase(postUpdated:postDocument):Promise<u
     });
 }
 
-export let postModel = mongoose.model<postDocument>("post",post);
+export async function deleteFromDatabase(idPost:string):Promise<undefined>{
+    await postModel.deleteOne({_id:idPost}).catch((err:Error)=>{
+        throw new deletePostError(err.message);
+    })
+}
+
+const postModel = mongoose.models.post || mongoose.model<postDocument>("post",post);
