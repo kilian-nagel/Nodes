@@ -1,3 +1,5 @@
+import { postSchemaPopulated } from '@/interfaces/post';
+import userSchema from '@/interfaces/user';
 import mongoose from 'mongoose';
 
 /**
@@ -23,4 +25,14 @@ export function createNewPost(content:string,category:string,uid:string){
         source:uid,
         time:new Date(),
     }
+}
+
+/**
+ * 
+ * @param post 
+ * @param userData 
+ * @returns boolean
+ */
+export function userOwnPost(post:postSchemaPopulated,userData:userSchema):boolean{
+    return post.source._id.toString() === userData._id.toString();  
 }
