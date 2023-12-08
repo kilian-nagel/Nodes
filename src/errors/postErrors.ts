@@ -23,6 +23,12 @@ export class modifyPostError extends postError {
     }
 }
 
+export class deletePostError extends postError {
+    constructor(errorMessage:string){
+        super(errorMessage);
+    }
+}
+
 export const handlePostsErrors = (error:postError) => {
     console.error("Post controller error : "+error.message);
 }
