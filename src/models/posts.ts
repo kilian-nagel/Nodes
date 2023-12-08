@@ -15,7 +15,7 @@ const post = new Schema<postDocument>({
     _id:Schema.Types.ObjectId,
     content:String,
     category:String,
-    source:{type: Schema.Types.ObjectId, ref: 'user'},
+    source:{type: Schema.Types.ObjectId, ref: 'users'},
     time:Date
 });
 
