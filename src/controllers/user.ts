@@ -2,8 +2,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userError, handleUserErrors, getUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import userModel, { addUserToDatabase, createUser, getUserByUid, getUsersByName, modifyUserFromDatabase, userDocument } from "@/models/users";
+import userModel, { userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
+import { createUser, addUserToDatabase } from '@/models/repository/users/ADD';
+import { getUsersByName, getUserByUid } from '@/models/repository/users/GET';
+import { modifyUserFromDatabase } from '@/models/repository/users/MODIFY';
 
 /**
  * Add a new user to the database
