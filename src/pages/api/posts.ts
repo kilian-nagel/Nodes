@@ -1,4 +1,4 @@
-import { addPost, deletePost, getAllPosts, modifyPost } from "@/controllers/posts";
+import { addPost, deletePost, getPosts, modifyPost } from "@/controllers/posts";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextCors from "nextjs-cors";
 
@@ -11,7 +11,8 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
     switch (req.method) {
         case 'GET': {
-            getAllPosts(req, res);
+            // id(unique),name(plusieurs),contenu de post(plusieurs), 
+            getPosts(req, res);
             break;
         }
 

@@ -46,12 +46,26 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
  * @param req
  * @param res
 **/
-export async function getAllPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
+export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
     try {
-        const populatedPosts = await getRecentPostsFromDatabase();
-        if(populatedPosts === undefined) throw new getPostError("failed to get posts");
+        if(!(typeof req.query.query === 'string')) throw new getPostError("err");
+        if(!(typeof req.query.queryType === 'string')) throw new getPostError("err");
 
-        res.status(200).send(populatedPosts);
+        const queryType = sanitizeMongoQuery(req.query.queryType);
+        const query = sanitizeMongoQuery(req.query.query);
+
+        const queryTypesMultipleDocuments = ["none","content"];
+        const queryTypesSingleDocument = ["id","userId"];
+
+        let responseData;
+        if(queryTypesMultipleDocuments.includes(queryType)){
+            responseData = await getRequests.getPosts(query,queryType);
+        } else if(queryTypesSingleDocument.includes(queryType)){
+            responseData = await getRequests.getPost(query,queryType);
+        }
+
+        if(responseData === undefined) throw new getPostError("failed to get posts");
+        res.status(200).send(responseData);
         res.end();
     } catch(err:unknown){
         if(err instanceof postError){
