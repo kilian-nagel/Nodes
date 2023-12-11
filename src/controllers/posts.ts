@@ -2,9 +2,12 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { addPostError, getPostError, handlePostsErrors, postError } from '@/errors/postErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import { addPostToDatabase, deleteFromDatabase, getRecentPostsFromDatabase, modifyPostFromDatabase } from '@/models/posts';
 import dbConnect from '@/lib/dbConnection';
-import { getUserByUid } from '@/models/users';
+import { addPostToDatabase } from '@/models/repository/post/ADD';
+import { deleteFromDatabase } from '@/models/repository/post/DELETE';
+import { modifyPostFromDatabase } from '@/models/repository/post/MODIFY';
+import { getUserByUid } from '@/models/repository/users/GET';
+import { getRequests } from '@/models/repository/post/GET';
 
 /**
  * Add a new post to the database
