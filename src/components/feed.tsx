@@ -4,9 +4,11 @@ import * as React from 'react';
 import Post from './post/post';
 import { getPosts } from '@/data/posts';
 import { CSSProperties, useEffect, useState } from 'react';
+import { BulletList } from 'react-content-loader';
 
 const Feed:React.FunctionComponent = ()=> {
     const [posts,setPosts] = useState<postSchemaPopulated[]>([]);
+    const [loading,setLoading] = useState<boolean>(true);
 
     useEffect(()=>{ 
         let flag = true;
@@ -15,6 +17,7 @@ const Feed:React.FunctionComponent = ()=> {
             if(response && response.data){
                 if(flag){
                     setPosts(response.data);
+                    setLoading(false);
                 }
             } else {
                 throw new Error("failed to get recent posts.");
@@ -27,6 +30,12 @@ const Feed:React.FunctionComponent = ()=> {
             flag = false;
         }
     },[]);
+
+    if(loading){
+        return <div style={{flex:"1 1 0",padding:"2rem 0 0 0"}}>
+            <BulletList />
+        </div>
+    }
 
     const style = {
         gap:"var(--spacing-sm)",
