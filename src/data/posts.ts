@@ -30,7 +30,12 @@ interface apiResponseDelete {
  */
 export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
   try {
-    const posts = await axios.get<any, apiResponse>(`/api/posts?query=${query}`);
+    const posts = await axios.get<any, apiResponse>(`/api/posts`,{
+      params:{
+        "query":query,
+        "queryType":"none"
+      }
+    });
     return posts;
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
