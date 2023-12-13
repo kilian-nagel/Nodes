@@ -8,6 +8,8 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import mongoose from "mongoose";
 import { postSchemaPopulated } from "@/interfaces/post";
 import { userOwnPost } from "@/lib/posts";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { deletePost } from "@/data/posts";
 
 const l = console.log;
@@ -30,6 +32,7 @@ const UserDataContext = createContext<userSchema>({
 
 const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
     const user = useUser();
+    const router = useRouter();
     const [userData,setUserData] = useState<userSchema>({
       _id:new mongoose.Types.ObjectId(),
       uid:"",
@@ -62,11 +65,11 @@ const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
     },[user]);
     
     let generalOptions = [
-        {label:'bookmark',action:()=>modifyPostWrapper()}
+        {label:'bookmark',action:()=>modifyPostWrapper(post._id.toString(),router)}
     ];
 
     const ownOptions = [
-        {label:'modify',action:()=>modifyPostWrapper()},
+        {label:'modify',action:()=>modifyPostWrapper(post._id.toString(),router)},
         {label:'delete',action:()=>deletePostWrapper(post,userData)}
     ]
 
@@ -91,12 +94,12 @@ const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
 }
 
 async function deletePostWrapper(post:postSchemaPopulated,user:userSchema){
-    console.log("DELETE CALLED");
     deletePost(post,user);
     return undefined;
 }
 
-async function modifyPostWrapper(){
+async function modifyPostWrapper(idPost:string,routeur:AppRouterInstance){
+    routeur.push("/postEditor/"+encodeURIComponent(idPost));
     return undefined;
 }
 
