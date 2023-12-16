@@ -5,16 +5,18 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Router, { useRouter } from 'next/router';
 
 function handleClickOnPostBtn(uid:string){
+
 }
 
-function Page({ params }: { params: { postId: string } }) {
+export default function Page({ params }: { params: { idPost: string } }) {
     const {user} = useUser();
     const uid = user?.sub;
+    const router = useRouter();
 
-    console.log(params);
-    console.log(params.postId);
+    console.log(router.query);
 
     return ( 
         <main>
