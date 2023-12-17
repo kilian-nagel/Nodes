@@ -55,7 +55,7 @@ export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<
         const query = sanitizeMongoQuery(req.query.query);
 
         const queryTypesMultipleDocuments = ["none","content"];
-        const queryTypesSingleDocument = ["id","userId"];
+        const queryTypesSingleDocument = ["_id","userId"];
 
         let responseData;
         if(queryTypesMultipleDocuments.includes(queryType)){
