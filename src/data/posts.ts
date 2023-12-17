@@ -13,6 +13,11 @@ interface apiResponse {
   data:postSchemaPopulated[]
 }
 
+interface apiResponsePost {
+  config:Object,
+  data:postSchemaPopulated
+}
+
 interface responseDelete {
   success:boolean,
   data:string
@@ -37,6 +42,31 @@ export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
       }
     });
     return posts;
+  } catch (err:unknown) {
+    if (axios.isAxiosError(err)) {
+      handleAxiosErrors(err);
+    } else if(err instanceof Error){
+      throw new Error("Unknown error - " + err.message);
+    }
+  }
+};
+
+
+/**
+ * Fetch the post that match the postId
+ *  
+ * @param query 
+ * @returns an array that contains 10 posts.
+ */
+export const getPost = async (query:string):Promise<apiResponsePost|undefined>=> {
+  try {
+    const post = await axios.get<any, apiResponsePost>(`/api/posts`,{
+      params:{
+        "query":query,
+        "queryType":"_id"
+      }
+    });
+    return post;
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
       handleAxiosErrors(err);
