@@ -12,8 +12,6 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { deletePost } from "@/data/posts";
 
-const l = console.log;
-
 interface props {
     post:postSchemaPopulated,
     username:string,
@@ -53,7 +51,6 @@ const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
             if(userInfo===undefined) return;
             if(userInfo.data===null) return;
             setUserData(userInfo.data);
-            l(userInfo);
           }   
         }
     

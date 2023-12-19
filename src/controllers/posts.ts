@@ -107,7 +107,6 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
 **/
 export async function deletePost(req:NextApiRequest,res:NextApiResponse){
     let idPost = req.body;
-    console.log(idPost);
     try {
         deleteFromDatabase(idPost);
         res.status(200).end();
