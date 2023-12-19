@@ -58,11 +58,11 @@ export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
  * @param query 
  * @returns an array that contains 10 posts.
  */
-export const getPost = async (query:string):Promise<apiResponsePost|undefined>=> {
+export const getPost = async (postId:string):Promise<apiResponsePost|undefined>=> {
   try {
     const post = await axios.get<any, apiResponsePost>(`/api/posts`,{
       params:{
-        "query":query,
+        "query":postId,
         "queryType":"_id"
       }
     });
