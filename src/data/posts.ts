@@ -97,6 +97,26 @@ export const addPostToDatabase = (postContent:string,uid:string)=>{
 }
 
 /**
+ * Add a post to the database. This method parses the content of the post and check if it is valid.
+ * If the content is valid then the post is added to the database.
+ * 
+ * @param postContent
+ */
+export const modifyPost = (postContent:string,uid:string)=>{
+  const postCategory = "main"; // Temporary
+  let postContentSanitized = sanitizeInput(postContent);
+  postContentSanitized = parsePostContent(postContent);
+  const post = JSON.stringify(createNewPost(postContentSanitized,postCategory,uid));
+
+  if(isPostContentValid(postContent)){
+      fetch("/api/posts",{
+          body:post,
+          method:'PUT'}
+          );
+  }
+}
+
+/**
  * 
  * @param postContent 
  */
