@@ -13,6 +13,12 @@ function handleClickOnPostBtn(postContent:string,uid:string){
         modifyPost(postContent,uid);
     }
 }
+
+function getTextAreaContent():string{
+    const textArea = document.querySelector("textarea");
+    console.log(textArea);
+    console.log(textArea?.value);
+    return textArea?.value ? textArea.value : "";
 }
 
 export default function Page({ params }: { params: { idPost: string } }) {
