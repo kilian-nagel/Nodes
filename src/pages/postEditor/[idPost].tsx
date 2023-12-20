@@ -1,14 +1,18 @@
 
-import PostHeader from '@/components/postCreator/postCreatorHeader';
-import TextBox from '@/components/postCreator/postCreator';
+import PostHeader from '@/components/postManipulation/postCreatorHeader';
+import TextBox from '@/components/postManipulation/textBox';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Suspense } from 'react';
-import { MoonLoader } from 'react-spinners';
+import { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { getPost, modifyPost } from '@/data/posts';
+import { postSchemaPopulated } from '@/interfaces/post';
 
-function handleClickOnPostBtn(uid:string){
-
+function handleClickOnPostBtn(postContent:string,uid:string){
+    if(postContent!==""){
+        modifyPost(postContent,uid);
+    }
+}
 }
 
 export default function Page({ params }: { params: { idPost: string } }) {
