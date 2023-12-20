@@ -25,16 +25,31 @@ export default function Page({ params }: { params: { idPost: string } }) {
     const {user} = useUser();
     const uid = user?.sub;
     const router = useRouter();
+    const [postData,setPostData] = useState<postSchemaPopulated>();
 
-    console.log(router.query);
+    useEffect(()=>{
+        let flag = true;
+
+        (async()=>{
+            if(!(typeof router.query.idPost=="string")) return;
+            const data = await getPost(router.query.idPost);
+            if(data===undefined) return;
+
+            if(flag){
+                setPostData(data?.data);
+            }
+        })();
+
+        return ()=>{
+            flag = false;
+        }
+    },[]);
 
     return ( 
         <main>
             <ErrorBoundary fallback={<div>Could not load the page.</div>}>
-                <Suspense fallback={<MoonLoader/>}>
-                    <PostHeader handleClick={()=>handleClickOnPostBtn(uid ? uid : "")}/>
-                    <TextBox/>
-                </Suspense>
+                <PostHeader handleClick={()=>handleClickOnPostBtn(getTextAreaContent(),uid ? uid : "")}/>
+                <TextBox text={postData?.content ? postData.content : ""}/>
             </ErrorBoundary>
         </main>
     );
