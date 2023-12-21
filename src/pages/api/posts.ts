@@ -11,23 +11,22 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
     switch (req.method) {
         case 'GET': {
-            // id(unique),name(plusieurs),contenu de post(plusieurs), 
-            getPosts(req, res);
+            await getPosts(req, res);
             break;
         }
 
         case 'POST': {
-            addPost(req,res);
+            await addPost(req,res);
             break;
         }
 
         case 'DELETE': {
-            deletePost(req,res);
+            await deletePost(req,res);
             break;
         }
 
         case 'PUT': {
-            modifyPost(req,res);
+            await modifyPost(req,res);
             break;
         };
     }
