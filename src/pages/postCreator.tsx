@@ -1,6 +1,6 @@
 
-import PostHeader from '@/components/postCreator/postCreatorHeader';
-import TextBox, { getPostContent } from '@/components/postCreator/postCreator';
+import PostHeader from '@/components/postManipulation/postCreatorHeader';
+import TextBox, { getPostContent } from '@/components/postManipulation/postCreator';
 import { NextPage } from 'next';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';

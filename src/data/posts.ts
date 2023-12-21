@@ -3,7 +3,7 @@ import { postSchemaPopulated } from "@/interfaces/post";
 import { parsePostContent } from "@/lib/parsing";
 import axios from "axios";
 import { sanitizeInput } from "./sanitize";
-import { getPostContent } from "@/components/postCreator/postCreator";
+import { getPostContent } from "@/components/postManipulation/postCreator";
 import { createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
 import userSchema from "@/interfaces/user";
 
