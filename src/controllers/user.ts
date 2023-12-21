@@ -14,7 +14,7 @@ import { modifyUserFromDatabase } from '@/models/repository/users/MODIFY';
  * @param req
  * @param res
  */
-export async function addUser(req:NextApiRequest,res:NextApiResponse){
+export async function addUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     const uid = sanitizeMongoQuery(req.body.sub);
     const username = sanitizeMongoQuery(req.body.username); 
     try {
@@ -39,7 +39,7 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res
  */
-export async function getUsers(req:NextApiRequest,res:NextApiResponse){
+export async function getUsers(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {
         if(req.query.query === undefined || Array.isArray(req.query.query)) throw new getUserError("sub parameter incorrect");
         
@@ -63,7 +63,7 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res
  */
-export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<userDocument|null|undefined>{
+export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {
         if(req.query.sub === undefined || Array.isArray(req.query.sub)) throw new getUserError("sub parameter undefined");
 
@@ -94,7 +94,7 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<us
  * @param req
  * @param res
  */
-export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
+export async function modifyUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     const userUpdated = req.body.user;
     const uid = sanitizeMongoQuery(userUpdated.uid);
     try {
