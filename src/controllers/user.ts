@@ -1,6 +1,6 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { userError, handleUserErrors, getUserError } from '@/errors/userErrors';
+import { userError, handleUserErrors, getUserError, addUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
 import userModel, { userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
@@ -21,10 +21,9 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse):Promise<un
         const userObject = createUser(uid,username);
         const newUser = new userModel(userObject);
         addUserToDatabase(newUser,uid);
-
         res.status(201).end();
     } catch(err:unknown){
-        if (err instanceof userError){
+        if (err instanceof addUserError){
             handleUserErrors(err);
         } else if ( err instanceof Error ){
             console.error(err.message);
