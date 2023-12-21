@@ -23,8 +23,8 @@ export const getUserInfo = async (uid:string):Promise<userInfoResponse|undefined
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
       handleAxiosErrors(err);
-    } else if(err instanceof Error){
-      throw new Error("Unknown error - " + err.message);
+    } else if (err instanceof Error) {
+      console.error("Unknown error - " + err.message);
     }
     return;
   }
