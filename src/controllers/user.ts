@@ -99,6 +99,7 @@ export async function modifyUser(req:NextApiRequest,res:NextApiResponse):Promise
     const uid = sanitizeMongoQuery(userUpdated.uid);
     try {
         modifyUserFromDatabase(uid,userUpdated);
+        res.status(204).end();
     } catch(err:unknown){
         if (err instanceof userError){
             handleUserErrors(err);
