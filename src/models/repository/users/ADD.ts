@@ -9,7 +9,7 @@ export async function addUserToDatabase(user:userDocument,uid:string){
         throw new addUserError(err.message);
     });
     if(userExistsInDb!==null){
-        throw new addUserError("User already exists");
+        console.error("User already exists");
     }
     await user.save().catch((err:Error)=>{
         throw new addUserError(err.message);
