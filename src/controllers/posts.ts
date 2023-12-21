@@ -15,7 +15,7 @@ import { getRequests } from '@/models/repository/post/GET';
  * @param req contains post data , and uid of the user wich sent it.
  * @param res
 **/
-export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<void> {
+export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<undefined> {
     let postDataRaw = await JSON.parse(req.body);
     let uid = sanitizeMongoQuery(postDataRaw.source);
     try { 
@@ -46,7 +46,7 @@ export async function addPost(req:NextApiRequest,res:NextApiResponse): Promise<v
  * @param req
  * @param res
 **/
-export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<void> {
+export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<undefined> {
     try {
         if(!(typeof req.query.query === 'string')) throw new getPostError("err");
         if(!(typeof req.query.queryType === 'string')) throw new getPostError("err");
@@ -83,7 +83,7 @@ export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<
  * @param req
  * @param res 
 **/
-export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
+export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {   
         const postUpdated = JSON.parse(req.body);
         modifyPostFromDatabase(postUpdated);
@@ -105,7 +105,7 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res 
 **/
-export async function deletePost(req:NextApiRequest,res:NextApiResponse){
+export async function deletePost(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     let idPost = req.body;
     try {
         deleteFromDatabase(idPost);
