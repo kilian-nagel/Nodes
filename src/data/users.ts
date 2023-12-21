@@ -17,9 +17,10 @@ interface userInfoResponse {
  */
 export const getUserInfo = async (uid:string):Promise<userInfoResponse|undefined>=> {
   try {
-    const userInfo = await axios.get<any, userInfoResponse>(`/api/users?sub=${uid}`);
-    if (userInfo===undefined) return;
-    return userInfo;
+    const response  = await axios.get<any, userInfoResponse>(`/api/users?sub=${uid}`);
+    if (response.data) {
+      return response;
+    }
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
       handleAxiosErrors(err);
