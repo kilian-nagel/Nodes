@@ -71,6 +71,7 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<un
         const user = await getUserByUid(uid);
         if(user === undefined) throw new getUserError("failed to get user"); 
 
+        res.status(200);
         res.send(user);
         res.end();
     } catch (err:unknown){
@@ -79,9 +80,9 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<un
         } else if ( err instanceof Error ){
             console.error(err.message);
         }
+        res.status(404);
         res.send(null);
-        res.status(404).end();
-        return;
+        res.end();
     }
 }
 
