@@ -22,6 +22,7 @@
     "badwords-list": "^1.0.0",
     "clsx": "^2.0.0",
     "eslint-config-next": "^13.5.2",
+    "isomorphic-fetch": "^3.0.0",
     "mongo-sanitize": "^1.1.0",
     "mongodb": "^5.8.1",
     "mongoose": "^7.5.2",
@@ -33,10 +34,12 @@
     "react-error-boundary": "^4.0.10",
     "react-spinners": "^0.13.8",
     "sanitize-html": "^2.10.0",
+    "swr": "^2.2.4",
     "tailwind-merge": "^1.13.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/isomorphic-fetch": "^0.0.39",
     "@types/mongo-sanitize": "^1.0.1",
     "@types/sanitize-html": "^2.9.0",
     "autoprefixer": "^10.4.14",
