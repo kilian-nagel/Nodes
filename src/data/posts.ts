@@ -6,7 +6,7 @@ import { sanitizeInput } from "./sanitize";
 import { getPostContent } from "@/components/postManipulation/postCreator";
 import { createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
 import userSchema from "@/interfaces/user";
-
+import { Fetcher } from "swr";
 
 interface apiResponse {
   config:Object,
@@ -33,7 +33,7 @@ interface apiResponseDelete {
  * @param query 
  * @returns an array that contains 10 posts.
  */
-export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
+export const getPosts: Fetcher<postSchemaPopulated[],String> = async (query) => {
   try {
     const posts = await axios.get<any, apiResponse>(`/api/posts`,{
       params:{
@@ -41,13 +41,14 @@ export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
         "queryType":"none"
       }
     });
-    return posts;
+    return posts.data;
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
       handleAxiosErrors(err);
     } else if(err instanceof Error){
       throw new Error("Unknown error - " + err.message);
     }
+    return [];
   }
 };
 
