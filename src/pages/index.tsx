@@ -11,11 +11,13 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react';
 import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
 import { getUserInfo, addUser} from '@/data/users';
+import { NextPage } from 'next/types';
+
 
 library.add(faBarsStaggered);
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+const Home:NextPage = () => {
   const {user} = useUser();
   const [userData,setUserData] = useState({});
   const [style, setStyle] = useState({
@@ -30,7 +32,7 @@ export default function Home() {
       /* Si l'utilisateur avec l'uid actuelle n'existe pas cela signifie qu'il vient de crée son compte.
          Donc on demande au serveur de créer cet utilisateur.
       */
-      if(userData !== undefined && userData !== null && userData.data !== null && userData.data !== undefined){
+      if(userData === undefined || userData === null){
         const nickname = user.nickname ? user.nickname : "guest";
         const userAdded = await addUser(nickname,user.sub);
         if (userAdded) await setCurrentUserData(user,setUserData);
@@ -41,7 +43,7 @@ export default function Home() {
   },[user]);
   
   return (
-    <>
+    <div>
       <Head>
         <title>Nodes - Social Network</title>
         <meta name="description" content="Nodes - Social network" />
@@ -106,9 +108,11 @@ export default function Home() {
         </section>
       </main>
       <Footer></Footer>
-    </>
+    </div>
   )
 }
+
+export default Home;
 
 async function setCurrentUserData(user:UserProfile,setUserData:(arg0:Object)=>void){
   if (user.sub===undefined || user.sub===null) return;
