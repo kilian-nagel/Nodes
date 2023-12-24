@@ -8,9 +8,9 @@ import { useRouter } from 'next/router';
 import { getPost, modifyPost } from '@/data/posts';
 import { postSchemaPopulated } from '@/interfaces/post';
 
-function handleClickOnPostBtn(postContent:string,uid:string){
+async function handleClickOnPostBtn(postContent:string,uid:string,postId:string){
     if(postContent!==""){
-        modifyPost(postContent,uid);
+        await modifyPost(postContent,uid,postId);
     }
 }
 
@@ -46,7 +46,9 @@ export default function Page({ params }: { params: { idPost: string } }) {
     return ( 
         <main>
             <ErrorBoundary fallback={<div>Could not load the page.</div>}>
-                <PostHeader handleClick={()=>handleClickOnPostBtn(getTextAreaContent(),uid ? uid : "")}/>
+                <PostHeader handleClick={()=>{
+                        handleClickOnPostBtn(getTextAreaContent(),uid ? uid : "",postData?._id ? postData._id.toString() : "");
+                    }}/>
                 <TextBox text={postData?.content ? postData.content : ""}/>
             </ErrorBoundary>
         </main>
