@@ -103,14 +103,14 @@ export const addPostToDatabase = (postContent:string,uid:string)=>{
  * 
  * @param postContent
  */
-export const modifyPost = (postContent:string,uid:string)=>{
+export const modifyPost = async (postContent:string,uid:string,postId:string)=>{
   const postCategory = "main"; // Temporary
   let postContentSanitized = sanitizeInput(postContent);
   postContentSanitized = parsePostContent(postContent);
   const post = JSON.stringify(createNewPost(postContentSanitized,postCategory,uid));
 
   if(isPostContentValid(postContent)){
-      fetch("/api/posts",{
+      await fetch("/api/posts",{
           body:post,
           method:'PUT'}
           );
