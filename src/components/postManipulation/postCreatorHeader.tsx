@@ -1,10 +1,12 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface props {
     handleClick:Function
 }
 
 const PostHeader:React.FunctionComponent<props> = ({handleClick}) => {
+    const routeur = useRouter();
     const style = {
         display:"flex",
         maxWidth:"1250px",
@@ -18,7 +20,10 @@ const PostHeader:React.FunctionComponent<props> = ({handleClick}) => {
     return ( 
         <header id="postHeader" className='flex-spaceBetween-center' style={style}>
             <Link href="../"  style={BackButtonstyle} className="back-btn" aria-label='go back' title='go back'>back</Link>
-            <Link href="./home" className='btn-default'  onClick={()=>handleClick()} aria-label='send the post' title='send the post'>send</Link>
+            <button className='btn-default'  onClick={()=>{
+                handleClick();
+                routeur.push("/home");
+            }} aria-label='send the post' title='send the post'>send</button>
         </header>
     );
 }
