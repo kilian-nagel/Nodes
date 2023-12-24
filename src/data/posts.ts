@@ -4,7 +4,7 @@ import { parsePostContent } from "@/lib/parsing";
 import axios from "axios";
 import { sanitizeInput } from "./sanitize";
 import { getPostContent } from "@/components/postManipulation/postCreator";
-import { createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
+import { buildPost, createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
 import userSchema from "@/interfaces/user";
 import { Fetcher } from "swr";
 
@@ -107,7 +107,7 @@ export const modifyPost = async (postContent:string,uid:string,postId:string)=>{
   const postCategory = "main"; // Temporary
   let postContentSanitized = sanitizeInput(postContent);
   postContentSanitized = parsePostContent(postContent);
-  const post = JSON.stringify(createNewPost(postContentSanitized,postCategory,uid));
+  const post = JSON.stringify(buildPost(postContentSanitized,postCategory,uid,postId));
 
   if(isPostContentValid(postContent)){
       await fetch("/api/posts",{
