@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { idPost: string } }) {
 
         (async()=>{
             if(!(typeof router.query.idPost=="string")) return;
-            const data = await getPost(router.query.idPost);
+            const data = await getPost(decodeURIComponent(router.query.idPost));
             if(data===undefined) return;
 
             if(flag){
