@@ -86,7 +86,15 @@ export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {   
         const postUpdated = JSON.parse(req.body);
-        modifyPostFromDatabase(postUpdated);
+        const postData = {...postUpdated}; // copie
+        
+        let uid = sanitizeMongoQuery(postData.source);
+        const sourceUser = await getUserByUid(uid);
+        if(sourceUser===undefined) throw new addPostError("can't find source user");
+        const userObjectId = sourceUser._id;
+        postData.source = userObjectId;
+
+        modifyPostFromDatabase(postData);
         res.status(200).end();
     } catch(err:unknown){
         if(err instanceof postError){
