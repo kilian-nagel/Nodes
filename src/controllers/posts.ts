@@ -9,6 +9,16 @@ import { modifyPostFromDatabase } from '@/models/repository/post/MODIFY';
 import { getUserByUid } from '@/models/repository/users/GET';
 import { getRequests } from '@/models/repository/post/GET';
 
+interface RequestState {
+    success:boolean,
+    message:string
+}
+
+interface IResponse {
+    state:RequestState,
+    data:any
+}
+
 /**
  * Add a new post to the database
  * 
@@ -57,11 +67,19 @@ export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<
         const queryTypesMultipleDocuments = ["none","content"];
         const queryTypesSingleDocument = ["_id","userId"];
 
-        let responseData;
+        let responseData:IResponse = {
+            state:{
+                success:true,
+                message:"successful"
+            },
+            data: undefined
+        }
+
+
         if(queryTypesMultipleDocuments.includes(queryType)){
-            responseData = await getRequests.getPosts(query,queryType);
+            responseData.data = await getRequests.getPosts(query,queryType);
         } else if(queryTypesSingleDocument.includes(queryType)){
-            responseData = await getRequests.getPost(query,queryType);
+            responseData.data = await getRequests.getPost(query,queryType);
         }
 
         if(responseData === undefined) throw new getPostError("failed to get posts");
@@ -84,6 +102,11 @@ export async function getPosts(req:NextApiRequest,res:NextApiResponse): Promise<
  * @param res 
 **/
 export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
+    let responseData:RequestState = {
+        success:true,
+        message:"successful"
+    }
+
     try {   
         const postUpdated = JSON.parse(req.body);
         const postData = {...postUpdated}; // copie
@@ -95,6 +118,8 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise
         postData.source = userObjectId;
 
         modifyPostFromDatabase(postData);
+        
+        res.send(responseData);
         res.status(200).end();
     } catch(err:unknown){
         if(err instanceof postError){
@@ -102,7 +127,10 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise
         } else if(err instanceof Error) {
             console.error(err);
         }
-        console.error(err);
+        responseData.message = "failed to modify post";
+        responseData.success = false;
+
+        res.send(responseData);
         res.status(500).end();
     }
 }
@@ -115,8 +143,14 @@ export async function modifyPost(req:NextApiRequest,res:NextApiResponse):Promise
 **/
 export async function deletePost(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     let idPost = req.body;
+    let responseData:RequestState = {
+        success:true,
+        message:"successful"
+    }
+
     try {
         deleteFromDatabase(idPost);
+        res.send(responseData);
         res.status(200).end();
     } catch(err:unknown){
         if(err instanceof postError){
@@ -124,13 +158,11 @@ export async function deletePost(req:NextApiRequest,res:NextApiResponse):Promise
         } else if(err instanceof Error) {
             console.error(err);
         }
-        console.error(err);
-        const response = {
-            success:false,
-            data:"failed to delete the post"
-        }
+        responseData.success = false;
+        responseData.message = "failed to delete post";
 
-        res.send(response);
+        console.error(err);
+        res.send(responseData);
         res.status(500).end();
     }
 }

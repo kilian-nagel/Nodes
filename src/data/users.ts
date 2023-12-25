@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import { handleAxiosErrors } from "@/errors/axiosErrors";
 import sanitize from "sanitize-html";
 import userSchema from "@/interfaces/user";
+import { apiGET } from "./posts";
 
 interface userInfoResponse {
   data:null|userSchema;
@@ -15,11 +16,11 @@ interface userInfoResponse {
  * @param queryType 
  * @returns 
  */
-export const getUserInfo = async (uid:string):Promise<userInfoResponse|undefined>=> {
+export const getUserInfo = async (uid:string):Promise<userSchema|undefined>=> {
   try {
-    const response  = await axios.get<any, userInfoResponse>(`/api/users?sub=${uid}`);
-    if (response.data) {
-      return response;
+    const userInfo = await apiGET<userSchema>(`/api/users?sub=${uid}`,"GET");
+    if (userInfo) {
+      return userInfo;
     }
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
