@@ -5,10 +5,13 @@ import { Trends } from '@/components/trends';
 import { Suggestions } from '@/components/suggestions';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MenuNavbar } from '@/components/menuNavbar';
+import { Flash } from '@/components/flash';
 
 function Home() {
+
     return ( 
         <div id="home">
+            <Flash></Flash>
             <MenuNavbar></MenuNavbar>
             <main id='main'>
                 <aside className='left'>
