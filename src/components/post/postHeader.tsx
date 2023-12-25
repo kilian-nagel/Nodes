@@ -49,8 +49,7 @@ const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
           const userInfo = await getUserInfo(user.user?.sub);
           if(flag){
             if(userInfo===undefined) return;
-            if(userInfo.data===null) return;
-            setUserData(userInfo.data);
+            setUserData(userInfo);
           }   
         }
     
