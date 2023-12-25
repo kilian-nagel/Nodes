@@ -5,7 +5,6 @@ import Post from './post/post';
 import { getPosts } from '@/data/posts';
 import { CSSProperties } from 'react';
 import { BulletList } from 'react-content-loader';
-import 'isomorphic-fetch';
 import useSWR from 'swr';
 
 
