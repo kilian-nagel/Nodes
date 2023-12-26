@@ -6,10 +6,10 @@ export class FlashMessage {
 
     constructor(message:string,success:boolean){
         this.message = message;
-        if(success===true){
+        if(success){
             this.type = "success";
         } else {
-            this.type = "danger";
+            this.type = "error";
         }
     }
     
