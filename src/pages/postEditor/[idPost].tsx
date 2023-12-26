@@ -13,7 +13,7 @@ import FlashMessageHandler from '@/lib/flashMessages/flashMessageHandler';
 import { ActionType, DataType, generateErrorMessage } from '@/lib/error';
 
 async function handleClickOnPostBtn(postContent:string,uid:string,postId:string){
-    const data = await modifyPost(postContent,uid,postId);console.log(data);
+    const data = await modifyPost(postContent,uid,postId);
     let flashMessage:FlashMessage;
     if(data===undefined){
         const errorMessage = generateErrorMessage(DataType.POST,ActionType.MODIFY);
