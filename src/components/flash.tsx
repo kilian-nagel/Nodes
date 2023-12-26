@@ -1,3 +1,4 @@
+import FlashMessageHandler from '@/lib/flashMessages/flashMessageHandler';
 import React, { useEffect, useState } from 'react';
 
 export const Flash = () => {
@@ -6,13 +7,13 @@ export const Flash = () => {
     const [type, setType] = useState('');
 
     useEffect(()=>{
-        const data = localStorage.getItem("flash");
-        localStorage.removeItem("flash");
+        const flashMessage = FlashMessageHandler.getFlashMessage();
+        FlashMessageHandler.clearFlashMessage();
 
-        if(data === null) return;
+        if(flashMessage === null) return;
 
-        setType("success");
-        setMessage(data);
+        setType(flashMessage.getType());
+        setMessage(flashMessage.getMessage());
         setVisibility(true);
 
         setTimeout(()=>{
