@@ -90,7 +90,7 @@ const PostHeader:React.FunctionComponent<props> = ({username,date,post})=>{
 }
 
 async function deletePostWrapper(post:postSchemaPopulated,user:userSchema){
-    deletePost(post,user);
+    await deletePost(post,user);
     return undefined;
 }
 
