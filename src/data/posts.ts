@@ -117,8 +117,6 @@ export const modifyPost = async (postContent:string,uid:string,postId:string):Pr
   postContentSanitized = parsePostContent(postContent);
   const post = JSON.stringify(buildPost(postContentSanitized,postCategory,uid,postId));
 
-  await new Promise(r => setTimeout(r, 2000));
-
   if(isPostContentValid(postContent)){
     const reponse = await apiPOST<RequestState>("/api/posts","PUT",post);
     return;
