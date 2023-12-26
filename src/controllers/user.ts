@@ -1,9 +1,12 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { userError, handleUserErrors, getUserError } from '@/errors/userErrors';
+import { userError, handleUserErrors, getUserError, addUserError } from '@/errors/userErrors';
 import { sanitizeMongoQuery } from '@/data/sanitize';
-import userModel, { addUserToDatabase, createUser, getUserByUid, getUsersByName, modifyUserFromDatabase, userDocument } from "@/models/users";
+import userModel, { userDocument } from "@/models/users";
 import dbConnect from '@/lib/dbConnection';
+import { createUser, addUserToDatabase } from '@/models/repository/users/ADD';
+import { getUsersByName, getUserByUid } from '@/models/repository/users/GET';
+import { modifyUserFromDatabase } from '@/models/repository/users/MODIFY';
 
 /**
  * Add a new user to the database
@@ -11,17 +14,16 @@ import dbConnect from '@/lib/dbConnection';
  * @param req
  * @param res
  */
-export async function addUser(req:NextApiRequest,res:NextApiResponse){
+export async function addUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     const uid = sanitizeMongoQuery(req.body.sub);
     const username = sanitizeMongoQuery(req.body.username); 
     try {
         const userObject = createUser(uid,username);
         const newUser = new userModel(userObject);
         addUserToDatabase(newUser,uid);
-
         res.status(201).end();
     } catch(err:unknown){
-        if (err instanceof userError){
+        if (err instanceof addUserError){
             handleUserErrors(err);
         } else if ( err instanceof Error ){
             console.error(err.message);
@@ -36,7 +38,7 @@ export async function addUser(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res
  */
-export async function getUsers(req:NextApiRequest,res:NextApiResponse){
+export async function getUsers(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {
         if(req.query.query === undefined || Array.isArray(req.query.query)) throw new getUserError("sub parameter incorrect");
         
@@ -60,7 +62,7 @@ export async function getUsers(req:NextApiRequest,res:NextApiResponse){
  * @param req
  * @param res
  */
-export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<userDocument|null|undefined>{
+export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     try {
         if(req.query.sub === undefined || Array.isArray(req.query.sub)) throw new getUserError("sub parameter undefined");
 
@@ -68,6 +70,7 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<us
         const user = await getUserByUid(uid);
         if(user === undefined) throw new getUserError("failed to get user"); 
 
+        res.status(200);
         res.send(user);
         res.end();
     } catch (err:unknown){
@@ -76,9 +79,9 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<us
         } else if ( err instanceof Error ){
             console.error(err.message);
         }
+        res.status(404);
         res.send(null);
-        res.status(404).end();
-        return;
+        res.end();
     }
 }
 
@@ -91,11 +94,12 @@ export async function getUser(req:NextApiRequest,res:NextApiResponse):Promise<us
  * @param req
  * @param res
  */
-export async function modifyUser(req:NextApiRequest,res:NextApiResponse){
+export async function modifyUser(req:NextApiRequest,res:NextApiResponse):Promise<undefined>{
     const userUpdated = req.body.user;
     const uid = sanitizeMongoQuery(userUpdated.uid);
     try {
         modifyUserFromDatabase(uid,userUpdated);
+        res.status(204).end();
     } catch(err:unknown){
         if (err instanceof userError){
             handleUserErrors(err);

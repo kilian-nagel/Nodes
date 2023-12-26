@@ -4,11 +4,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     switch(req.method){
         case 'GET':{
-            getUser(req,res);
+            await getUser(req,res);
             break;
         }
         case 'POST':{
-            addUser(req,res);
+            await addUser(req,res);
             break;
         }
     }

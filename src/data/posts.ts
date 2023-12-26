@@ -3,14 +3,32 @@ import { postSchemaPopulated } from "@/interfaces/post";
 import { parsePostContent } from "@/lib/parsing";
 import axios from "axios";
 import { sanitizeInput } from "./sanitize";
-import { getPostContent } from "@/components/postCreator/postCreator";
-import { createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
+import { getPostContent } from "@/components/postManipulation/postCreator";
+import { buildPost, createNewPost, isPostContentValid, userOwnPost } from "@/lib/posts";
 import userSchema from "@/interfaces/user";
+import { Fetcher } from "swr";
+import fetch from "isomorphic-unfetch";
 
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE';
 
-interface apiResponse {
-  config:Object,
-  data:postSchemaPopulated[]
+export function apiGET<T>(url: string,httpMethod:HttpMethod): Promise<T> {
+  return fetch(url,{method:httpMethod})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.json() as Promise<T>
+    })
+}
+
+export function apiPOST<T>(url: string,httpMethod:HttpMethod,data:any): Promise<T> {
+  return fetch(url,{body:data,method:httpMethod})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.json() as Promise<T>
+    })
 }
 
 interface responseDelete {
@@ -18,9 +36,18 @@ interface responseDelete {
   data:string
 }
 
-interface apiResponseDelete {
-  data:responseDelete
+interface RequestState {
+  success:boolean,
+  message:string
 }
+
+interface IResponse<T> {
+  state:RequestState,
+  data:T
+} 
+
+type responseGetPosts = IResponse<postSchemaPopulated[]>;
+type responseGetPost = IResponse<postSchemaPopulated>;
 
 /**
  * Fetch recent posts that contain the query passed in argument
@@ -28,10 +55,30 @@ interface apiResponseDelete {
  * @param query 
  * @returns an array that contains 10 posts.
  */
-export const getPosts = async (query:string):Promise<apiResponse|undefined>=> {
+export const getPosts: Fetcher<postSchemaPopulated[],String> = async (query) => {
   try {
-    const posts = await axios.get<any, apiResponse>(`/api/posts?query=${query}`);
-    return posts;
+    const dataApi = await apiGET<responseGetPosts>("api/posts?query=&queryType=none","GET");
+    return dataApi.data;
+  } catch (err:unknown) {
+    if (axios.isAxiosError(err)) {
+      handleAxiosErrors(err);
+    } else if(err instanceof Error){
+      throw new Error("Unknown error - " + err.message);
+    }
+    return [];
+  }
+};
+
+/**
+ * Fetch the post that match the postId
+ *  
+ * @param query 
+ * @returns an array that contains 10 posts.
+ */
+export const getPost = async (postId:string):Promise<postSchemaPopulated|undefined>=> {
+  try {
+    const post = await apiGET<responseGetPost>(`/api/posts?query=${postId}&queryType=_id`,"GET");
+    return post.data;
   } catch (err:unknown) {
     if (axios.isAxiosError(err)) {
       handleAxiosErrors(err);
@@ -54,10 +101,30 @@ export const addPostToDatabase = (postContent:string,uid:string)=>{
   const post = JSON.stringify(createNewPost(postContentSanitized,postCategory,uid));
 
   if(isPostContentValid(postContent)){
-      fetch("/api/posts",{
-          body:post,
-          method:'POST'}
-          );
+    apiPOST("/api/posts","POST",post);
+  }
+}
+
+/**
+ * Add a post to the database. This method parses the content of the post and check if it is valid.
+ * If the content is valid then the post is added to the database.
+ * 
+ * @param postContent
+ */
+export const modifyPost = async (postContent:string,uid:string,postId:string):Promise<RequestState|undefined>=>{
+  const postCategory = "main"; // Temporary
+  let postContentSanitized = sanitizeInput(postContent);
+  postContentSanitized = parsePostContent(postContent);
+  const post = JSON.stringify(buildPost(postContentSanitized,postCategory,uid,postId));
+
+  if(isPostContentValid(postContent)){
+    const reponse = await apiPOST<RequestState>("/api/posts","PUT",post);
+    return reponse;
+  }
+
+  return {
+    message:"post content is invalid",
+    success:false
   }
 }
 
@@ -68,16 +135,9 @@ export const addPostToDatabase = (postContent:string,uid:string)=>{
 export const deletePost = async (post:postSchemaPopulated,user:userSchema):Promise<undefined|responseDelete>=>{
   const id = post._id.toString();
 
-  const config = {
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-    data:id,
-  };
-
   if(userOwnPost(post,user)){
-    const response = await axios.delete<any,apiResponseDelete>(`/api/posts`,config);
-    return response.data;
+    apiPOST("/api/posts","DELETE",id);
+    return;
   } else {
     return {
       success:false,

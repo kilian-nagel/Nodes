@@ -28,6 +28,22 @@ export function createNewPost(content:string,category:string,uid:string){
 }
 
 /**
+ * Create a new post using arguments that describe the post and an identifier to check who sent the post.
+ * 
+ * @param content 
+ * @param category 
+ */
+export function buildPost(content:string,category:string,uid:string,postId:string){
+    return {
+        _id:new mongoose.Types.ObjectId(postId),
+        content:content,
+        category:category,
+        source:uid,
+        time:new Date(),
+    }
+}
+
+/**
  * 
  * @param post 
  * @param userData 
