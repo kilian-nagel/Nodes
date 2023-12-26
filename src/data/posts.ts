@@ -119,7 +119,7 @@ export const modifyPost = async (postContent:string,uid:string,postId:string):Pr
 
   if(isPostContentValid(postContent)){
     const reponse = await apiPOST<RequestState>("/api/posts","PUT",post);
-    return;
+    return reponse;
   }
 
   return {
