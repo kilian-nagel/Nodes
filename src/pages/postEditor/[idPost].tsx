@@ -7,11 +7,22 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import { getPost, modifyPost } from '@/data/posts';
 import { postSchemaPopulated } from '@/interfaces/post';
+import { FlashMessage } from '@/lib/flashMessages/flashMessage';
+import { FlashMessageFactory } from '@/lib/flashMessages/flashMessageFactory';
+import FlashMessageHandler from '@/lib/flashMessages/flashMessageHandler';
+import { ActionType, DataType, generateErrorMessage } from '@/lib/error';
 
 async function handleClickOnPostBtn(postContent:string,uid:string,postId:string){
-    if(postContent!==""){
-        await modifyPost(postContent,uid,postId);
+    const data = await modifyPost(postContent,uid,postId);console.log(data);
+    let flashMessage:FlashMessage;
+    if(data===undefined){
+        const errorMessage = generateErrorMessage(DataType.POST,ActionType.MODIFY);
+        flashMessage = FlashMessageFactory.createFlashMessage(errorMessage,false);
+        FlashMessageHandler.addFlashMessage(flashMessage);
+        return;
     }
+    flashMessage = FlashMessageFactory.createFlashMessage(data.message,data.success);
+    FlashMessageHandler.addFlashMessage(flashMessage);
 }
 
 function getTextAreaContent():string{
@@ -20,11 +31,12 @@ function getTextAreaContent():string{
 }
 
 export default function Page({ params }: { params: { idPost: string } }) {
+    const routeur = useRouter();
     const {user} = useUser();
     const uid = user?.sub;
     const router = useRouter();
     const [postData,setPostData] = useState<postSchemaPopulated>();
-
+    
     useEffect(()=>{
         let flag = true;
 
@@ -34,7 +46,7 @@ export default function Page({ params }: { params: { idPost: string } }) {
             if(data===undefined) return;
 
             if(flag){
-                setPostData(data?.data);
+                setPostData(data);
             }
         })();
 
@@ -43,11 +55,13 @@ export default function Page({ params }: { params: { idPost: string } }) {
         }
     },[]);
 
+
     return ( 
         <main>
             <ErrorBoundary fallback={<div>Could not load the page.</div>}>
-                <PostHeader handleClick={()=>{
-                        handleClickOnPostBtn(getTextAreaContent(),uid ? uid : "",postData?._id ? postData._id.toString() : "");
+                <PostHeader handleClick={async ()=>{
+                        await handleClickOnPostBtn(getTextAreaContent(),uid ? uid : "",postData?._id ? postData._id.toString() : "");
+                        routeur.push("/home");
                     }}/>
                 <TextBox text={postData?.content ? postData.content : ""}/>
             </ErrorBoundary>
