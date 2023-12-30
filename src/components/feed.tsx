@@ -5,6 +5,7 @@ import Post from './post/post';
 import { getPosts } from '@/data/posts';
 import { CSSProperties } from 'react';
 import { BulletList } from 'react-content-loader';
+import { v4 as uuidv4 } from 'uuid';
 import useSWR from 'swr';
 
 
@@ -47,7 +48,7 @@ const Feed:React.FunctionComponent = ()=> {
                 data.map((post)=>{
                     if(post){
                         return <Post postContent={post.content} category={post.category} post={post}
-                        time={post.time} username={post.source.username} key={crypto.randomUUID()} pictureUrl={post.source.picture}/>
+                        time={post.time} username={post.source.username} key={uuidv4()} pictureUrl={post.source.picture}/>
                     }
                 }): "error"
             }
